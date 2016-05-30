@@ -22,6 +22,7 @@ import UIKit
     var originY:  CGFloat = 0
     var keyboardFirstTime = 0
     var minKeyHeight:  CGFloat = 0
+    var keyboardShown = 0
     
     var walkthroughSeen = 0
     
@@ -30,6 +31,8 @@ import UIKit
         self.loginDetails?.password.delegate = self
         
         super.viewDidLoad()
+        // Do any additional setup after loading the view.
+        
         self.width = view.bounds.width
         self.height = view.bounds.height
         self.originY = self.view.frame.origin.y
@@ -46,8 +49,6 @@ import UIKit
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name:UIKeyboardWillShowNotification, object: self.view.window)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name:UIKeyboardWillHideNotification, object: self.view.window)
-        
-                // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
@@ -125,12 +126,16 @@ import UIKit
     }
     
     func keyboardWillHide(sender: NSNotification) {
-        let userInfo: [NSObject : AnyObject] = sender.userInfo!
-        let keyboardSize: CGSize = userInfo[UIKeyboardFrameBeginUserInfoKey]!.CGRectValue.size
-        self.view.frame.origin.y += keyboardSize.height
+        if self.keyboardShown == 1 {
+            let userInfo: [NSObject : AnyObject] = sender.userInfo!
+            let keyboardSize: CGSize = userInfo[UIKeyboardFrameBeginUserInfoKey]!.CGRectValue.size
+            self.view.frame.origin.y += keyboardSize.height
+            self.keyboardShown = 0
+        }
     }
     
     func keyboardWillShow(sender: NSNotification) {
+        self.keyboardShown = 1
         let userInfo: [NSObject : AnyObject] = sender.userInfo!
         let keyboardSize: CGSize = userInfo[UIKeyboardFrameBeginUserInfoKey]!.CGRectValue.size
         let offset: CGSize = userInfo[UIKeyboardFrameEndUserInfoKey]!.CGRectValue.size
@@ -139,12 +144,18 @@ import UIKit
             self.keyboardFirstTime = 1
             self.minKeyHeight = offset.height
         }
-        print(keyboardSize)
-        print(offset)
+//        print(keyboardSize)
+//        print(offset)
+//        print(self.view.frame.origin.y)
+        print("<<<>>>")
+        print(offset.height)
+        print(self.minKeyHeight)
         print(self.view.frame.origin.y)
+        print("<<<>>>")
+        
         
         UIView.animateWithDuration(0.1, animations: { () -> Void in
-            self.view.frame.origin.y = self.originY - max(self.minKeyHeight,offset.height)
+            self.view.frame.origin.y = min(self.view.frame.origin.y,self.originY - max(self.minKeyHeight,offset.height))
         })
 
         

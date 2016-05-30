@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "29C39D6F131F082A564338107D7027FD2E3867F7",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "D7972F9593E7DFEB7935DDF6E99BC8C3E8CC017A" : 0,
+    "29C39D6F131F082A564338107D7027FD2E3867F7" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "0742894E-216A-4514-B58E-E72B1E487F44",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "D7972F9593E7DFEB7935DDF6E99BC8C3E8CC017A" : "Calmlee\/sendbird-ios-framework\/",
+    "29C39D6F131F082A564338107D7027FD2E3867F7" : "Calmlee\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Calmlee",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Calmlee.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/ericandrewmeadows\/pregnancy_stress_app.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "29C39D6F131F082A564338107D7027FD2E3867F7"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/smilefam\/sendbird-ios-framework.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "D7972F9593E7DFEB7935DDF6E99BC8C3E8CC017A"
+    }
+  ]
+}

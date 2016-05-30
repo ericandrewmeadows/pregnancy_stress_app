@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="sGa-sM-q7c">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Calmlee Meter-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Calmlee" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Calmlee" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -58,13 +58,6 @@
                                     <outlet property="stressIsWrong" destination="THv-97-FjO" id="0wT-fK-PMN"/>
                                 </connections>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Lu8-C1-wHK">
-                                <rect key="frame" x="40" y="389" width="240" height="112"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="20"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="RB6-Fq-lPb">
                                 <rect key="frame" x="8" y="41" width="46" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -80,44 +73,340 @@
                                 <rect key="frame" x="97" y="20" width="126" height="60"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="3Rk-cO-7KL">
-                                <rect key="frame" x="28" y="509" width="33" height="28"/>
+                            <view contentMode="scaleToFill" id="kAz-Ou-kpe" customClass="NavigationBar" customModule="Calmlee" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="507" width="320" height="61"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" backgroundImage="calmleeMeter_pageIcon"/>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Nl3-Pi-xvp">
-                                <rect key="frame" x="97" y="509" width="31" height="31"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="3Rk-cO-7KL">
+                                        <rect key="frame" x="27" y="17" width="33" height="28"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <state key="normal" image="calmleeMeter_pageIcon_deselected"/>
+                                        <connections>
+                                            <action selector="goto_calmleeMeter:" destination="kAz-Ou-kpe" eventType="touchUpInside" id="jMG-IM-69N"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Nl3-Pi-xvp">
+                                        <rect key="frame" x="111" y="15" width="31" height="31"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <state key="normal" image="meditation_pageIcon_deselected"/>
+                                        <connections>
+                                            <action selector="goto_meditation:" destination="kAz-Ou-kpe" eventType="touchUpInside" id="r2n-G2-kIG"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="4S8-d9-Se8">
+                                        <rect key="frame" x="182" y="17" width="33" height="29"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <state key="normal" image="historicalGraph_pageIcon_deselected"/>
+                                        <connections>
+                                            <action selector="goto_historicalGraph:" destination="kAz-Ou-kpe" eventType="touchUpInside" id="arc-mG-zk1"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ylx-f2-jw2">
+                                        <rect key="frame" x="259" y="15" width="33" height="33"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <state key="normal" image="messaging_pageIcon_deselected"/>
+                                        <connections>
+                                            <action selector="goto_messaging:" destination="kAz-Ou-kpe" eventType="touchUpInside" id="8oK-yU-Xde"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="homePage">
+                                        <integer key="value" value="0"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <outlet property="cM_button" destination="3Rk-cO-7KL" id="kHc-fE-omi"/>
+                                    <outlet property="calmleeMeter" destination="BYZ-38-t0r" id="hmm-FX-bzL"/>
+                                    <outlet property="hG_button" destination="4S8-d9-Se8" id="FH6-UF-THg"/>
+                                    <outlet property="med_button" destination="Nl3-Pi-xvp" id="bIs-X0-WPk"/>
+                                    <outlet property="mes_button" destination="ylx-f2-jw2" id="arg-YE-mr3"/>
+                                </connections>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Lu8-C1-wHK">
+                                <rect key="frame" x="40" y="387" width="240" height="112"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" backgroundImage="meditation_pageIcon"/>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="4S8-d9-Se8">
-                                <rect key="frame" x="177" y="509" width="33" height="29"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" backgroundImage="historicalGraph_pageIcon"/>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="ylx-f2-jw2">
-                                <rect key="frame" x="262" y="509" width="33" height="33"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" backgroundImage="messaging_pageIcon"/>
-                            </button>
+                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="20"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="bfe-6A-eJO"/>
                     <connections>
-                        <outlet property="cM_button" destination="3Rk-cO-7KL" id="2wX-XG-NPN"/>
                         <outlet property="calmleeLogo" destination="C1A-w7-n9W" id="pdc-Ri-CCm"/>
                         <outlet property="calmleeQuip" destination="Lu8-C1-wHK" id="r9V-fk-LcQ"/>
-                        <outlet property="hG_button" destination="4S8-d9-Se8" id="xgI-SB-wMs"/>
-                        <outlet property="med_button" destination="Nl3-Pi-xvp" id="bPJ-7r-YtS"/>
                         <outlet property="menuButton" destination="RB6-Fq-lPb" id="sxT-zP-Pd7"/>
-                        <outlet property="mes_button" destination="ylx-f2-jw2" id="Qp2-Se-A1X"/>
+                        <outlet property="navigationBar" destination="kAz-Ou-kpe" id="c4n-8X-Tos"/>
                         <outlet property="stressMeter" destination="6V4-2r-lGH" id="uo2-1O-k31"/>
+                        <segue destination="nMt-5g-ijB" kind="modal" identifier="goto_historicalGraph" animates="NO" id="lzR-F4-6dD"/>
+                        <segue destination="4Zv-hf-4hN" kind="modal" identifier="goto_messaging" animates="NO" id="n2g-IT-n6W"/>
+                        <segue destination="3Fb-Ho-5vy" kind="modal" identifier="goto_meditation" animates="NO" id="Sdr-OK-Xi4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="123" y="372"/>
+        </scene>
+        <!--Historical Graph vc-->
+        <scene sceneID="FcG-fT-M8P">
+            <objects>
+                <viewController id="nMt-5g-ijB" customClass="HistoricalGraphViewController" customModule="Calmlee" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="KaM-5E-gL6">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" id="tqT-e5-1ux" customClass="NavigationBar" customModule="Calmlee" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="507" width="320" height="61"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Yv0-VI-v89">
+                                        <rect key="frame" x="27" y="17" width="33" height="28"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <state key="normal" image="calmleeMeter_pageIcon_deselected"/>
+                                        <connections>
+                                            <action selector="goto_calmleeMeter:" destination="tqT-e5-1ux" eventType="touchUpInside" id="yxU-n6-n76"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="2XZ-MU-be0">
+                                        <rect key="frame" x="111" y="15" width="31" height="31"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <state key="normal" image="meditation_pageIcon_deselected"/>
+                                        <connections>
+                                            <action selector="goto_meditation:" destination="tqT-e5-1ux" eventType="touchUpInside" id="1VO-GC-0u7"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="mCq-Pp-fx9">
+                                        <rect key="frame" x="182" y="17" width="33" height="29"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <state key="normal" image="historicalGraph_pageIcon_deselected"/>
+                                        <connections>
+                                            <action selector="goto_historicalGraph:" destination="tqT-e5-1ux" eventType="touchUpInside" id="bPH-U8-3zc"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="cLm-1U-AUs">
+                                        <rect key="frame" x="259" y="15" width="33" height="33"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <state key="normal" image="messaging_pageIcon_deselected"/>
+                                        <connections>
+                                            <action selector="goto_messaging:" destination="tqT-e5-1ux" eventType="touchUpInside" id="DYK-XG-b9r"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="homePage">
+                                        <integer key="value" value="0"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <outlet property="cM_button" destination="Yv0-VI-v89" id="XZy-Tr-Q7j"/>
+                                    <outlet property="calmleeMeter" destination="BYZ-38-t0r" id="7I8-nJ-Aj3"/>
+                                    <outlet property="hG_button" destination="mCq-Pp-fx9" id="xw1-sV-IwO"/>
+                                    <outlet property="historicalGraph_vc" destination="nMt-5g-ijB" id="LtY-IF-Fmg"/>
+                                    <outlet property="med_button" destination="2XZ-MU-be0" id="egT-ms-D2Y"/>
+                                    <outlet property="mes_button" destination="cLm-1U-AUs" id="lnG-gA-g5J"/>
+                                </connections>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Historical Graph" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Jym-z9-8MA">
+                                <rect key="frame" x="98" y="273" width="124" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="navigationBar" destination="tqT-e5-1ux" id="rFG-68-QaF"/>
+                        <segue destination="BYZ-38-t0r" kind="modal" identifier="goto_calmleeMeter" animates="NO" id="REe-v2-6b8"/>
+                        <segue destination="4Zv-hf-4hN" kind="modal" identifier="goto_messaging" animates="NO" id="wnY-CP-IJh"/>
+                        <segue destination="3Fb-Ho-5vy" kind="modal" identifier="goto_meditation" animates="NO" id="rqo-a0-Wfa"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ebv-wR-VkH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="123" y="1005"/>
+        </scene>
+        <!--Messaging vc-->
+        <scene sceneID="OO4-gT-YB2">
+            <objects>
+                <viewController id="4Zv-hf-4hN" customClass="MessagingViewController" customModule="Calmlee" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="MFf-4r-cbr">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" id="FnY-aT-kBt" customClass="NavigationBar" customModule="Calmlee" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="507" width="320" height="61"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Ph1-eQ-1FQ">
+                                        <rect key="frame" x="27" y="17" width="33" height="28"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <state key="normal" image="calmleeMeter_pageIcon_deselected"/>
+                                        <connections>
+                                            <action selector="goto_calmleeMeter:" destination="FnY-aT-kBt" eventType="touchUpInside" id="6Px-No-QCU"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="fre-Fi-bVE">
+                                        <rect key="frame" x="111" y="15" width="31" height="31"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <state key="normal" image="meditation_pageIcon_deselected"/>
+                                        <connections>
+                                            <action selector="goto_meditation:" destination="FnY-aT-kBt" eventType="touchUpInside" id="uHm-tK-613"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="2EC-Zx-qr1">
+                                        <rect key="frame" x="182" y="17" width="33" height="29"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <state key="normal" image="historicalGraph_pageIcon_deselected"/>
+                                        <connections>
+                                            <action selector="goto_historicalGraph:" destination="FnY-aT-kBt" eventType="touchUpInside" id="9Rx-xP-9rd"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="odu-zY-4is">
+                                        <rect key="frame" x="259" y="15" width="33" height="33"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <state key="normal" image="messaging_pageIcon_deselected"/>
+                                        <connections>
+                                            <action selector="goto_messaging:" destination="FnY-aT-kBt" eventType="touchUpInside" id="ozW-9F-sFt"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="homePage">
+                                        <integer key="value" value="3"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <outlet property="cM_button" destination="Ph1-eQ-1FQ" id="lFT-ZB-TO9"/>
+                                    <outlet property="hG_button" destination="2EC-Zx-qr1" id="NqR-Z2-xFj"/>
+                                    <outlet property="med_button" destination="fre-Fi-bVE" id="aNP-pp-NE0"/>
+                                    <outlet property="mes_button" destination="odu-zY-4is" id="6Fx-R5-v45"/>
+                                    <outlet property="messaging_vc" destination="4Zv-hf-4hN" id="KEH-AX-wGG"/>
+                                </connections>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Messaging" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="4zS-uH-JHS">
+                                <rect key="frame" x="119" y="273" width="83" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="navigationBar" destination="FnY-aT-kBt" id="dqe-VJ-3GZ"/>
+                        <segue destination="nMt-5g-ijB" kind="modal" identifier="goto_historicalGraph" animates="NO" id="DyE-zK-cUT"/>
+                        <segue destination="BYZ-38-t0r" kind="modal" identifier="goto_calmleeMeter" animates="NO" id="9pD-tf-zsx"/>
+                        <segue destination="3Fb-Ho-5vy" kind="modal" identifier="goto_meditation" animates="NO" id="gYa-dR-9BO"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="d1B-Wy-KDa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="123" y="1634"/>
+        </scene>
+        <!--Meditation vc-->
+        <scene sceneID="rmR-Rl-fgj">
+            <objects>
+                <viewController id="3Fb-Ho-5vy" customClass="MeditationViewController" customModule="Calmlee" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="RSa-qA-xKZ">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" id="Pcw-lI-g0T" customClass="NavigationBar" customModule="Calmlee" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="507" width="320" height="61"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Hsj-dZ-ebN">
+                                        <rect key="frame" x="27" y="17" width="33" height="28"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <state key="normal" image="calmleeMeter_pageIcon_deselected"/>
+                                        <connections>
+                                            <action selector="goto_calmleeMeter:" destination="Pcw-lI-g0T" eventType="touchUpInside" id="SHj-pU-gKW"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="W3N-TQ-Qxs">
+                                        <rect key="frame" x="111" y="15" width="31" height="31"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <state key="normal" image="meditation_pageIcon_deselected"/>
+                                        <connections>
+                                            <action selector="goto_meditation:" destination="Pcw-lI-g0T" eventType="touchUpInside" id="ZBx-Pz-EtC"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="IfE-NN-Ycq">
+                                        <rect key="frame" x="182" y="17" width="33" height="29"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <state key="normal" image="historicalGraph_pageIcon_deselected"/>
+                                        <connections>
+                                            <action selector="goto_historicalGraph:" destination="Pcw-lI-g0T" eventType="touchUpInside" id="wnO-Xh-58s"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="zyx-uB-Oou">
+                                        <rect key="frame" x="259" y="15" width="33" height="33"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <state key="normal" image="messaging_pageIcon_deselected"/>
+                                        <connections>
+                                            <action selector="goto_messaging:" destination="Pcw-lI-g0T" eventType="touchUpInside" id="D1z-PR-0nz"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="homePage">
+                                        <integer key="value" value="0"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <outlet property="cM_button" destination="Hsj-dZ-ebN" id="4sK-SX-lzQ"/>
+                                    <outlet property="calmleeMeter" destination="BYZ-38-t0r" id="qvh-H3-bKg"/>
+                                    <outlet property="hG_button" destination="IfE-NN-Ycq" id="R0a-lo-SNI"/>
+                                    <outlet property="med_button" destination="W3N-TQ-Qxs" id="ra7-hu-P1Y"/>
+                                    <outlet property="meditation_vc" destination="3Fb-Ho-5vy" id="MkW-vv-6oR"/>
+                                    <outlet property="mes_button" destination="zyx-uB-Oou" id="jI1-Nx-ZZk"/>
+                                </connections>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Meditation" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="PcJ-h5-gXk">
+                                <rect key="frame" x="119" y="273" width="82" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="navigationBar" destination="Pcw-lI-g0T" id="nwU-TS-8JA"/>
+                        <segue destination="4Zv-hf-4hN" kind="modal" identifier="goto_messaging" animates="NO" id="4Do-M0-6Vv"/>
+                        <segue destination="nMt-5g-ijB" kind="modal" identifier="goto_historicalGraph" animates="NO" id="Eca-2g-Kg5"/>
+                        <segue destination="BYZ-38-t0r" kind="modal" identifier="goto_calmleeMeter" animates="NO" id="AeR-Ro-Zfn"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vs5-XS-ZNi" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="123" y="-257"/>
         </scene>
         <!--Login View-->
         <scene sceneID="fsa-Pr-yr4">
@@ -281,13 +570,16 @@
         <image name="BandIcon" width="225" height="180"/>
         <image name="Logo" width="194" height="81"/>
         <image name="WalkthroughForwardArrow" width="69" height="63"/>
-        <image name="calmleeMeter_pageIcon" width="105" height="87"/>
-        <image name="historicalGraph_pageIcon" width="99" height="87"/>
-        <image name="meditation_pageIcon" width="90" height="90"/>
-        <image name="messaging_pageIcon" width="99" height="99"/>
+        <image name="calmleeMeter_pageIcon_deselected" width="105" height="87"/>
+        <image name="historicalGraph_pageIcon_deselected" width="99" height="87"/>
+        <image name="meditation_pageIcon_deselected" width="90" height="90"/>
+        <image name="messaging_pageIcon_deselected" width="99" height="99"/>
         <image name="warningIcon" width="72" height="64"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Cti-Jb-GXu"/>
+        <segue reference="n2g-IT-n6W"/>
+        <segue reference="REe-v2-6b8"/>
+        <segue reference="lzR-F4-6dD"/>
+        <segue reference="Sdr-OK-Xi4"/>
     </inferredMetricsTieBreakers>
 </document>

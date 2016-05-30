@@ -1,0 +1,76 @@
+//
+//  ViewController.swift
+//  Calmlee
+//
+//  Created by Eric Meadows on 5/22/16.
+//  Copyright © 2016 Calmlee. All rights reserved.
+//
+
+import UIKit
+
+class ViewController: UIViewController, MSBClientManagerDelegate {
+    
+    var width:  CGFloat = 0
+    var height:  CGFloat = 0
+    
+    @IBOutlet weak var stressMeter: StressMeter?
+    @IBOutlet weak var calmleeLogo: UIImageView?
+    @IBOutlet weak var calmleeQuip: UILabel?
+    weak var client: MSBClient?
+    
+    // Mark - Client Manager Delegates
+    func clientManager(clientManager: MSBClientManager!, clientDidConnect client: MSBClient!) {
+        //self.output("Band connected.")
+    }
+    
+    func clientManager(clientManager: MSBClientManager!, clientDidDisconnect client: MSBClient!) {
+        //self.output("Band disconnected.")
+    }
+    
+    func clientManager(clientManager: MSBClientManager!, client: MSBClient!, didFailToConnectWithError error: NSError!) {
+        //self.output("Failed to connect to Band.")
+        //self.output(error.description)
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view, typically from a nib.
+        self.width = self.view.frame.size.width
+        self.height = self.view.frame.size.height
+        
+        var newFrame:  CGRect = CGRectMake(self.width/6,
+                                           self.height/2-self.width/3,
+                                           self.width*2/3,
+                                           self.width*2/3);
+
+        self.stressMeter?.frame = newFrame
+        
+        newFrame = CGRectMake(0, self.height / 30, self.width, self.height / 10)
+        self.calmleeLogo?.frame = newFrame
+        
+        newFrame = CGRectMake(self.width * 0.1,
+                              self.height/2+self.width/3,
+                              self.width * 0.8,
+                              self.height / 4)
+        self.calmleeQuip?.frame = newFrame
+        
+        MSBClientManager.sharedManager().delegate = self
+        if let client = MSBClientManager.sharedManager().attachedClients().first as? MSBClient {
+            self.client = client
+            MSBClientManager.sharedManager().connectClient(self.client)
+            // Attempting to connect
+            self.calmleeQuip?.text = "Oh hello!  Nice to see you again.\n\nI'm just starting up here..."
+        } else {
+            self.calmleeQuip?.text = "Uh oh!  I'm blind without your Microsoft Band!\n\nPlease connect one so I can detect your stress."
+            // change meter icon to a frown
+        }
+        
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+
+
+}

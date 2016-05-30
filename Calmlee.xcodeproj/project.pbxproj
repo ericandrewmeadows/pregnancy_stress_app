@@ -23,6 +23,10 @@
 		538AEDA01CF6793000E4A29D /* LoginCommunications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 538AED9F1CF6793000E4A29D /* LoginCommunications.swift */; };
 		53B7F91E1CF78237001E07C1 /* WalkthroughViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53B7F91D1CF78237001E07C1 /* WalkthroughViewController.swift */; };
 		53B7F9201CF8D797001E07C1 /* WalkthroughQuipSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53B7F91F1CF8D797001E07C1 /* WalkthroughQuipSection.swift */; };
+		53B7F9221CFB8E79001E07C1 /* NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53B7F9211CFB8E79001E07C1 /* NavigationBar.swift */; };
+		53B7F9251CFBB2BD001E07C1 /* MeditationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53B7F9241CFBB2BD001E07C1 /* MeditationViewController.swift */; };
+		53B7F92D1CFBB3C7001E07C1 /* MessagingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53B7F92C1CFBB3C7001E07C1 /* MessagingViewController.swift */; };
+		53B7F92F1CFBB3EA001E07C1 /* HistoricalGraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53B7F92E1CFBB3EA001E07C1 /* HistoricalGraphViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +70,10 @@
 		538AED9F1CF6793000E4A29D /* LoginCommunications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginCommunications.swift; sourceTree = "<group>"; };
 		53B7F91D1CF78237001E07C1 /* WalkthroughViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WalkthroughViewController.swift; sourceTree = "<group>"; };
 		53B7F91F1CF8D797001E07C1 /* WalkthroughQuipSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WalkthroughQuipSection.swift; sourceTree = "<group>"; };
+		53B7F9211CFB8E79001E07C1 /* NavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationBar.swift; sourceTree = "<group>"; };
+		53B7F9241CFBB2BD001E07C1 /* MeditationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeditationViewController.swift; sourceTree = "<group>"; };
+		53B7F92C1CFBB3C7001E07C1 /* MessagingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagingViewController.swift; sourceTree = "<group>"; };
+		53B7F92E1CFBB3EA001E07C1 /* HistoricalGraphViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoricalGraphViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,20 +127,19 @@
 		5331CD691CF21B8900B77A5F /* Calmlee */ = {
 			isa = PBXGroup;
 			children = (
-				5331CD9F1CF265E800B77A5F /* BandSensorSwift-Bridging-Header.h */,
 				5331CD6A1CF21B8900B77A5F /* AppDelegate.swift */,
-				5331CD6C1CF21B8900B77A5F /* ViewController.swift */,
 				5331CD6E1CF21B8900B77A5F /* Main.storyboard */,
 				5331CD711CF21B8900B77A5F /* Assets.xcassets */,
 				5331CD731CF21B8900B77A5F /* LaunchScreen.storyboard */,
 				5331CD761CF21B8900B77A5F /* Info.plist */,
-				5331CD981CF21D6B00B77A5F /* StressMeter.swift */,
-				5331CDA41CF37D8200B77A5F /* SensorComms.swift */,
-				538AED9B1CF61A7D00E4A29D /* LoginView.swift */,
-				538AED9D1CF61E9500E4A29D /* LoginDetails.swift */,
-				538AED9F1CF6793000E4A29D /* LoginCommunications.swift */,
-				53B7F91D1CF78237001E07C1 /* WalkthroughViewController.swift */,
-				53B7F91F1CF8D797001E07C1 /* WalkthroughQuipSection.swift */,
+				53B7F9211CFB8E79001E07C1 /* NavigationBar.swift */,
+				53B7F92B1CFBB3B4001E07C1 /* Messaging */,
+				53B7F92A1CFBB3AB001E07C1 /* HistoricalGraph */,
+				53B7F9291CFBB322001E07C1 /* Sensors and Neural Network */,
+				53B7F9281CFBB306001E07C1 /* CalmleeMeter */,
+				53B7F9271CFBB2F3001E07C1 /* LoginRegistration */,
+				53B7F9261CFBB2DC001E07C1 /* Walkthrough */,
+				53B7F9231CFBB292001E07C1 /* Meditation */,
 			);
 			path = Calmlee;
 			sourceTree = "<group>";
@@ -162,6 +169,67 @@
 				5331CDA01CF2666900B77A5F /* CoreBluetooth.framework */,
 			);
 			name = Framework;
+			sourceTree = "<group>";
+		};
+		53B7F9231CFBB292001E07C1 /* Meditation */ = {
+			isa = PBXGroup;
+			children = (
+				53B7F9241CFBB2BD001E07C1 /* MeditationViewController.swift */,
+			);
+			name = Meditation;
+			sourceTree = "<group>";
+		};
+		53B7F9261CFBB2DC001E07C1 /* Walkthrough */ = {
+			isa = PBXGroup;
+			children = (
+				53B7F91D1CF78237001E07C1 /* WalkthroughViewController.swift */,
+				53B7F91F1CF8D797001E07C1 /* WalkthroughQuipSection.swift */,
+			);
+			name = Walkthrough;
+			sourceTree = "<group>";
+		};
+		53B7F9271CFBB2F3001E07C1 /* LoginRegistration */ = {
+			isa = PBXGroup;
+			children = (
+				538AED9B1CF61A7D00E4A29D /* LoginView.swift */,
+				538AED9D1CF61E9500E4A29D /* LoginDetails.swift */,
+				538AED9F1CF6793000E4A29D /* LoginCommunications.swift */,
+			);
+			name = LoginRegistration;
+			sourceTree = "<group>";
+		};
+		53B7F9281CFBB306001E07C1 /* CalmleeMeter */ = {
+			isa = PBXGroup;
+			children = (
+				5331CD981CF21D6B00B77A5F /* StressMeter.swift */,
+				5331CD6C1CF21B8900B77A5F /* ViewController.swift */,
+			);
+			name = CalmleeMeter;
+			sourceTree = "<group>";
+		};
+		53B7F9291CFBB322001E07C1 /* Sensors and Neural Network */ = {
+			isa = PBXGroup;
+			children = (
+				5331CD9F1CF265E800B77A5F /* BandSensorSwift-Bridging-Header.h */,
+				5331CDA41CF37D8200B77A5F /* SensorComms.swift */,
+			);
+			name = "Sensors and Neural Network";
+			sourceTree = "<group>";
+		};
+		53B7F92A1CFBB3AB001E07C1 /* HistoricalGraph */ = {
+			isa = PBXGroup;
+			children = (
+				53B7F92E1CFBB3EA001E07C1 /* HistoricalGraphViewController.swift */,
+			);
+			name = HistoricalGraph;
+			sourceTree = "<group>";
+		};
+		53B7F92B1CFBB3B4001E07C1 /* Messaging */ = {
+			isa = PBXGroup;
+			children = (
+				53B7F92C1CFBB3C7001E07C1 /* MessagingViewController.swift */,
+			);
+			name = Messaging;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -303,13 +371,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				53B7F92F1CFBB3EA001E07C1 /* HistoricalGraphViewController.swift in Sources */,
 				538AED9E1CF61E9500E4A29D /* LoginDetails.swift in Sources */,
 				53B7F91E1CF78237001E07C1 /* WalkthroughViewController.swift in Sources */,
 				5331CD6D1CF21B8900B77A5F /* ViewController.swift in Sources */,
 				5331CDA51CF37D8200B77A5F /* SensorComms.swift in Sources */,
 				5331CD991CF21D6B00B77A5F /* StressMeter.swift in Sources */,
+				53B7F92D1CFBB3C7001E07C1 /* MessagingViewController.swift in Sources */,
+				53B7F9221CFB8E79001E07C1 /* NavigationBar.swift in Sources */,
 				538AED9C1CF61A7D00E4A29D /* LoginView.swift in Sources */,
 				53B7F9201CF8D797001E07C1 /* WalkthroughQuipSection.swift in Sources */,
+				53B7F9251CFBB2BD001E07C1 /* MeditationViewController.swift in Sources */,
 				538AEDA01CF6793000E4A29D /* LoginCommunications.swift in Sources */,
 				5331CD6B1CF21B8900B77A5F /* AppDelegate.swift in Sources */,
 			);
@@ -458,6 +530,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/sendbird-ios-framework",
 				);
 				INFOPLIST_FILE = Calmlee/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -476,6 +549,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/sendbird-ios-framework",
 				);
 				INFOPLIST_FILE = Calmlee/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

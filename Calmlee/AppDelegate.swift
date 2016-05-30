@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SendBirdSDK
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -20,6 +21,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Sensor.startTesting()
         
         Sensor!.determineBandDisconnect()
+        
+        let APP_ID: String = "2857873A-3D5C-46AB-8681-E2C8EB52EA7E"
+        SendBird.initAppId(APP_ID)
+
         return true
     }
 

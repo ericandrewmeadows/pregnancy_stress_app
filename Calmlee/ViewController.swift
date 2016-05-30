@@ -23,9 +23,10 @@ class ViewController: UIViewController {
 //    let deviceToken = delegate.deviceToken
     
     @IBOutlet weak var stressMeter: StressMeter?
+    @IBOutlet weak var navigationBar: NavigationBar?
     @IBOutlet weak var calmleeLogo: UIImageView?
     @IBOutlet weak var calmleeQuip: UILabel?
-    @IBOutlet weak var menuButton:  UIButton?
+    @IBOutlet weak var menuButton:  UIButton!
     weak var sensorInfo:  sensorComms!
     
     var width:  CGFloat = 0
@@ -65,12 +66,6 @@ class ViewController: UIViewController {
     var timer = NSTimer()
     
     // Navigation elements
-    // Buttons
-    @IBOutlet weak var cM_button:   UIButton?
-    @IBOutlet weak var med_button:  UIButton?
-    @IBOutlet weak var mes_button:  UIButton?
-    @IBOutlet weak var hG_button:   UIButton?
-    
     // Background Images
     var cM_desel:   UIImage = UIImage(named: "calmleeMeter_pageIcon_deselected")!
     var cM_sel:     UIImage = UIImage(named: "calmleeMeter_pageIcon_selected")!
@@ -104,14 +99,26 @@ class ViewController: UIViewController {
         newFrame = CGRectMake(self.width * 0.1,
                               self.height/2+self.width/3,
                               self.width * 0.8,
-                              self.height / 4)
+                              self.height * 9 / 10 - (self.height/2+self.width/3))
         self.calmleeQuip?.frame = newFrame
         
+        // NavigationBar subview
+        newFrame = CGRectMake(0,
+                              self.height * 0.9,
+                              self.width,
+                              self.height * 0.1)
+        self.navigationBar?.frame = newFrame
+        self.navigationBar!.homePage = 0
+        
         // Button images
-        self.cM_button!.setImage(self.cM_sel, forState: .Normal)
-        self.med_button!.setImage(self.med_desel, forState: .Normal)
-        self.mes_button!.setImage(self.mes_desel, forState: .Normal)
-        self.hG_button!.setImage(self.hG_desel, forState: .Normal)
+        self.navigationBar!.cM_button.setImage(self.cM_sel, forState: .Normal)
+        self.navigationBar!.cM_button.setImage(self.cM_desel, forState: .Highlighted)
+        self.navigationBar!.med_button.setImage(self.med_desel, forState: .Normal)
+        self.navigationBar!.med_button.setImage(self.med_sel, forState: .Highlighted)
+        self.navigationBar!.mes_button.setImage(self.mes_desel, forState: .Normal)
+        self.navigationBar!.mes_button.setImage(self.mes_sel, forState: .Highlighted)
+        self.navigationBar!.hG_button.setImage(self.hG_desel, forState: .Normal)
+        self.navigationBar!.hG_button.setImage(self.hG_sel, forState: .Highlighted)
         
         let actualStress = delegate!.Sensor.calmleeScore
         stressMeter?.stressIndex = actualStress
