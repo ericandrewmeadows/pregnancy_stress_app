@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import SendBird
+//import SendBird
 
 class MessagingViewController: UIViewController {
     
