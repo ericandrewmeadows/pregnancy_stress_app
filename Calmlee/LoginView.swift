@@ -144,32 +144,9 @@ import UIKit
             self.keyboardFirstTime = 1
             self.minKeyHeight = offset.height
         }
-//        print(keyboardSize)
-//        print(offset)
-//        print(self.view.frame.origin.y)
-        print("<<<>>>")
-        print(offset.height)
-        print(self.minKeyHeight)
-        print(self.view.frame.origin.y)
-        print("<<<>>>")
-        
-        
         UIView.animateWithDuration(0.1, animations: { () -> Void in
             self.view.frame.origin.y = min(self.view.frame.origin.y,self.originY - max(self.minKeyHeight,offset.height))
         })
-
-        
-//        if keyboardSize.height == offset.height {
-//            UIView.animateWithDuration(0.1, animations: { () -> Void in
-//                print("A")
-//                self.view.frame.origin.y = self.originY - keyboardSize.height
-//            })
-//        } else {
-//            UIView.animateWithDuration(0.1, animations: { () -> Void in
-//                print("B")
-//                self.view.frame.origin.y = self.originY - offset.height
-//            })
-//        }
     }
 
     

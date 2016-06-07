@@ -70,11 +70,6 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
     }
     
     func startTesting() { //I NEED TO RESET ARRAYS here!
-        // Placeholder
-        //        self.runButton.alpha = 0.1
-        //        UIView.animateWithDuration(2) {
-        //            self.runButton.alpha = 1
-        //        }
         let delay: NSTimeInterval = NSTimeInterval(2) // Time until connection retry
         if let client = self.client {
             if client.isDeviceConnected == false {

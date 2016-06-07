@@ -50,6 +50,7 @@ class NavigationBar: UIView {
     // Frame sizes
     var width:  CGFloat = 0
     var height:  CGFloat = 0
+    let lineSpace_scaling: CGFloat = 1 / 8
     
     /*
      Pages:
@@ -118,7 +119,7 @@ class NavigationBar: UIView {
         let button_leftAnchor = width * 1 / 6
         let button_spacing = width * 2 / 9
         
-        let line_topAnchor = height / 8
+        let line_topAnchor = height * self.lineSpace_scaling
         
         var newFrame = CGRectMake(button_leftAnchor + button_spacing * 0 - button_h * 33 / 56,
                                   button_topAnchor,

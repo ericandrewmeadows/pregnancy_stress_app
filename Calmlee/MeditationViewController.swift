@@ -35,7 +35,7 @@ class MeditationViewController: UIViewController {
         self.height = self.view.frame.size.height
         
         // NavigationBar subview
-        var newFrame = CGRectMake(0,
+        let newFrame = CGRectMake(0,
                                   self.height * 0.9,
                                   self.width,
                                   self.height * 0.1)
