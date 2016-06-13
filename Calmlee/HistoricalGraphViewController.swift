@@ -10,6 +10,8 @@ import UIKit
 
 class HistoricalGraphViewController: UIViewController {
     
+    let delegate = UIApplication.sharedApplication().delegate as? AppDelegate
+    
     @IBOutlet weak var navigationBar:  NavigationBar?
     
     var width:  CGFloat = 0
@@ -26,6 +28,13 @@ class HistoricalGraphViewController: UIViewController {
     var hG_desel:   UIImage = UIImage(named: "historicalGraph_pageIcon_deselected")!
     var hG_sel:     UIImage = UIImage(named: "historicalGraph_pageIcon_selected")!
     
+    @IBOutlet weak var menuButton:  UIButton!
+    @IBAction func goto_menu(sender: AnyObject) {
+        delegate!.previousPage = self.navigationBar!.homePage
+        print(delegate!.previousPage)
+        self.performSegueWithIdentifier("goto_menu", sender: nil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -41,6 +50,16 @@ class HistoricalGraphViewController: UIViewController {
                                   self.height * 0.1)
         self.navigationBar?.frame = newFrame
         self.navigationBar!.homePage = 2
+        
+        // Menu Button
+        newFrame = CGRectMake(self.width / 30, self.height / 15, self.width / 10, self.width / 10)
+        self.menuButton?.frame = newFrame
+        self.menuButton!.titleLabel?.adjustsFontSizeToFitWidth = true
+        
+        newFrame = CGRectMake(self.width / 30, self.height / 15, self.width / 10, self.width / 10)
+        self.menuButton?.frame = newFrame
+        self.menuButton!.titleLabel?.adjustsFontSizeToFitWidth = true
+
         
         // Button images
         self.navigationBar!.cM_button.setImage(self.cM_desel, forState: .Normal)

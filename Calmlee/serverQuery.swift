@@ -16,21 +16,73 @@ class serverQuery:  NSObject, NSURLSessionDataDelegate {
     
     var data : NSMutableData = NSMutableData()
     weak var delegate: serverQueryProtocol!
+    let defaults = NSUserDefaults.standardUserDefaults()
+    var returnVal = false
     
-    func getQuery() {
+    func getQuery(username: String) -> Bool {
         
-//        let semaphore = dispatch_semaphore_create(0);
+        let semaphore = dispatch_semaphore_create(0);
         
         let url:  NSURL = NSURL(string: "https://io.calmlee.com/fetch_firstName.php")!
-        var session: NSURLSession!
-        let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
         
+        let request = NSMutableURLRequest(URL:url)
+        request.HTTPMethod = "POST"
         
-        session = NSURLSession(configuration: configuration, delegate: self, delegateQueue: nil)
+        let postString = "username=\(username)"
+        request.HTTPBody = postString.dataUsingEncoding(NSUTF8StringEncoding)
         
-        let task = session.dataTaskWithURL(url)
+//        print(postString)
+        
+        let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
+            (data,response,error) in
+            
+            if error != nil {
+                print("error = \(error)")
+            }
+            
+//            print("response = \(response)")
+            
+            let responseString = NSString(data: data!, encoding: NSUTF8StringEncoding)
+            print("=====")
+            print(responseString!)
+            print("=====")
+            if responseString! != "0 results" {
+//            print("\(responseString!)")
+                
+                let fieldsArr = responseString!.componentsSeparatedByString("\n")
+                for items in fieldsArr {
+                    let fieldAndValue = items.componentsSeparatedByString(" ")
+                    let fieldName = fieldAndValue[0].stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()).stringByReplacingOccurrencesOfString(":", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
+                    let fieldValue = fieldAndValue[1].stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+                    if (fieldValue.characters.count > 0) && (username == self.defaults.stringForKey("username")) {
+                        self.defaults.setValue(fieldValue, forKey: fieldName)
+                    }
+                }
+                print(self.defaults.stringForKey("firstName"))
+                print(self.defaults.stringForKey("lastName"))
+                print(self.defaults.stringForKey("email"))
+                print(self.defaults.stringForKey("dueDate"))
+                print(self.defaults.stringForKey("female"))
+//                let stringArr = responseString!.componentsSeparatedByString(":")
+//                let nameBr = stringArr[1].componentsSeparatedByString("<")
+//                let name = nameBr[0].stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+//                if (name.characters.count > 0) && (username == self.defaults.stringForKey("username")) {
+//                    self.defaults.setValue(name, forKey: "firstName")
+//                }
+                self.returnVal = true
+            }
+            else {
+                self.returnVal = false
+            }
+            dispatch_semaphore_signal(semaphore);
+        }
         
         task.resume()
+        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+        print("-----")
+        print(self.returnVal)
+        print("-----")
+        return self.returnVal
 
     }
     
@@ -62,7 +114,7 @@ class serverQuery:  NSObject, NSURLSessionDataDelegate {
         }
         
         var jsonElement: NSDictionary = NSDictionary()
-        let locations: NSMutableArray = NSMutableArray()
+        let informations: NSMutableArray = NSMutableArray()
         
         for item in jsonResult
         {
@@ -79,13 +131,13 @@ class serverQuery:  NSObject, NSURLSessionDataDelegate {
                 
             }
             
-            locations.addObject(information)
+            informations.addObject(information)
             
         }
         
         dispatch_async(dispatch_get_main_queue(), { () -> Void in
             
-            self.delegate.itemsDownloaded(locations)
+            self.delegate.itemsDownloaded(informations)
             
         })
     }

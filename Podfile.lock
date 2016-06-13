@@ -14,19 +14,19 @@ PODS:
   - AFNetworking/Serialization (3.1.0)
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
-  - LayerKit (0.21.0)
-  - SendBirdSDK (2.2.7)
+  - SendBirdSDK (2.2.10)
+  - SwiftCSV (0.3.2)
 
 DEPENDENCIES:
   - AFNetworking
-  - LayerKit
   - SendBirdSDK
+  - SwiftCSV
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
-  LayerKit: 1c1d3efd7dd1eb432230bd56253ab3ef36a25637
-  SendBirdSDK: fe36b53ad37a20ef318568f63343d753fea3ee64
+  SendBirdSDK: 0fc74ebb52533f3817c2694bd1b0f1d7bd9e6107
+  SwiftCSV: 8b64b738fc54567d229acb17ce6d584e0dd27560
 
-PODFILE CHECKSUM: 8ae4440361859a6e09621e830d7f9e35af892e75
+PODFILE CHECKSUM: 7686601cdb5ceb31a5169cdc96916b71a9b5a0dd
 
 COCOAPODS: 1.0.0

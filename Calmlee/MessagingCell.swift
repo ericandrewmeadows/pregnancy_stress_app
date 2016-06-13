@@ -32,12 +32,15 @@ class MessagingCell: UITableViewCell {
 //        self.messageView.frame = CGRectMake(0, 0, self.bounds.width, self.bounds.height)
 //    }
     var entire_uiview = UIScreen.mainScreen().bounds
+    let defaults = NSUserDefaults.standardUserDefaults()
     
     var width:  CGFloat = 0.0
     var height:  CGFloat = 0.0
     
     let chatFont = UIFont(name: "Avenir-Book", size: 14.0)
     let nameFont = UIFont(name: "Avenir-Book", size: 12.0)
+    
+    let messageWidth:  CGFloat = 0.60
 
     @IBOutlet weak var senderLabel:  UILabel!
     @IBOutlet weak var timeLabel:  UILabel!
@@ -61,7 +64,21 @@ class MessagingCell: UITableViewCell {
         label.font = font
         label.text = text
         
-        return (label.intrinsicContentSize().height)
+        //        return (label.intrinsicContentSize().height)
+        label.sizeToFit()
+        return (label.frame.height)
+    }
+    
+    func widthForView(text:String, font:UIFont, width:CGFloat) -> CGFloat{
+        let label:UILabel = UILabel(frame: CGRectMake(0, 0, width, CGFloat.max))
+        label.numberOfLines = 0
+        label.lineBreakMode = NSLineBreakMode.ByWordWrapping
+        label.font = font
+        label.text = text
+        
+        //        return (label.intrinsicContentSize().height)
+        label.sizeToFit()
+        return (label.frame.width)
     }
     
     override func drawRect(rect: CGRect) {
@@ -74,42 +91,73 @@ class MessagingCell: UITableViewCell {
                                               font: self.nameFont!,
                                               width: self.width * 0.6)
         
-        let senderWidth =  self.width
-        var newFrame = CGRectMake(self.width * 0.15, 0,
+        let senderWidth =  self.entire_uiview.width * 0.85
+        var newFrame = CGRectMake(self.entire_uiview.width * 0.15, 0,
                                   senderWidth, senderHeight)
         self.senderLabel.textColor = UIColor.init(red: 157/255, green: 157/255, blue: 157/255, alpha: 1.0)
         self.senderLabel.frame = newFrame
         self.senderLabel.font = self.nameFont
-        self.senderLabel.sizeToFit()
+//        self.senderLabel.sizeToFit()
         self.senderLabel.layer.zPosition = 1
         
         // Chat Text
-        let messageWidth = self.entire_uiview.width * 0.8
+        let defaultWidth = self.entire_uiview.width * self.messageWidth
         let messageHeight = self.heightForView(self.message.text!,
                                                font: self.chatFont!,
-                                               width: messageWidth)
-        newFrame = CGRectMake(self.width * 0.15, senderHeight + self.entire_uiview.height / 50,
-                              messageWidth, messageHeight)
-        self.message.frame = newFrame
-        self.message.font = self.chatFont
-        self.message.sizeToFit()
-        self.message.layer.zPosition = 1
-        self.message.textColor = UIColor.whiteColor()
-        self.message.textAlignment = .Left
+                                               width: defaultWidth)
+        let messageWidth = self.widthForView(self.message.text!,
+                                             font: self.chatFont!,
+                                             width: defaultWidth)
+
+        self.message!.font = self.chatFont
+        if self.hiddenEmailField.text == self.defaults.stringForKey("username") {
+            self.message!.textAlignment = .Right
+            newFrame = CGRectMake(self.width * 0.90 - messageWidth, self.entire_uiview.height / 50,
+                                  messageWidth, messageHeight)
+            self.message!.frame = newFrame
+        }
+        else {
+            self.message!.textAlignment = .Left
+            newFrame = CGRectMake(self.width * 0.15, senderHeight + self.entire_uiview.height / 50,
+                                  messageWidth, messageHeight)
+            self.message!.frame = newFrame
+        }
+        self.message!.sizeToFit()
+        self.message!.layer.zPosition = 1
         
         // Chat Bubble
-        let bubbleHeight = self.message.bounds.height + 2 * self.entire_uiview.height / 50
-        let rectangle = CGRect(x: self.width * 0.1,
-                               y: senderHeight,
-                               width: self.message.bounds.width + 2 * self.width * 0.05,
-                               height: bubbleHeight)
-        let path = UIBezierPath(roundedRect: rectangle,
-                                topLeftRadius: min(self.entire_uiview.height * 0.05, bubbleHeight * 0.45),
-                                topRightRadius: min(self.entire_uiview.height * 0.05, bubbleHeight * 0.45),
-                                bottomRightRadius: min(self.entire_uiview.height * 0.05, bubbleHeight * 0.45),
-                                bottomLeftRadius: min(self.entire_uiview.height * 0.005, bubbleHeight / 10))
-        UIColor.init(red: 126/255, green: 91/255, blue: 119/255, alpha: 1.0).setFill()
-        path.fill()
+        if self.hiddenEmailField.text == self.defaults.stringForKey("username") {
+            self.senderLabel.hidden = true
+            self.message!.textColor = UIColor.whiteColor()
+            let bubbleHeight = self.message.bounds.height + 2 * self.entire_uiview.height / 50
+            let rectangle = CGRect(x: self.width * 0.95 - (self.message.bounds.width + 2 * self.width * 0.05),
+                                   y: 0,
+                                   width: self.message.bounds.width + 2 * self.width * 0.05,
+                                   height: bubbleHeight)
+            let path = UIBezierPath(roundedRect: rectangle,
+                                    topLeftRadius: min(self.entire_uiview.height * 0.05, bubbleHeight * 0.45),
+                                    topRightRadius: min(self.entire_uiview.height * 0.05, bubbleHeight * 0.45),
+                                    bottomRightRadius: min(self.entire_uiview.height * 0.005, bubbleHeight / 10),
+                                    bottomLeftRadius: min(self.entire_uiview.height * 0.05, bubbleHeight * 0.45))
+            UIColor.init(red: 126/255, green: 91/255, blue: 119/255, alpha: 1.0).setFill()
+            path.fill()
+        }
+        else {
+            self.senderLabel.hidden = false
+            self.message!.textColor = UIColor.blackColor()
+            let bubbleHeight = self.message.bounds.height + 2 * self.entire_uiview.height / 50
+            let rectangle = CGRect(x: self.width * 0.1,
+                                   y: senderHeight,
+                                   width: self.message.bounds.width + 2 * self.width * 0.05,
+                                   height: bubbleHeight)
+            let path = UIBezierPath(roundedRect: rectangle,
+                                    topLeftRadius: min(self.entire_uiview.height * 0.05, bubbleHeight * 0.45),
+                                    topRightRadius: min(self.entire_uiview.height * 0.05, bubbleHeight * 0.45),
+                                    bottomRightRadius: min(self.entire_uiview.height * 0.05, bubbleHeight * 0.45),
+                                    bottomLeftRadius: min(self.entire_uiview.height * 0.005, bubbleHeight / 10))
+            UIColor.init(red: 231/255, green: 231/255, blue: 235/255, alpha: 1.0).setFill()
+            path.fill()
+        }
         
         // Layout configuration
         self.layoutIfNeeded()

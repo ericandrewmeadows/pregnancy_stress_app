@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		348F0AD667A5532ADB4D0040 /* Pods_CalmleeUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F608CB24E5C5DD4AA882FD84 /* Pods_CalmleeUITests.framework */; };
-		53209F501CFF69C7002FCE41 /* TestMessagingPicture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53209F4F1CFF69C7002FCE41 /* TestMessagingPicture.swift */; };
 		5331CD6B1CF21B8900B77A5F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5331CD6A1CF21B8900B77A5F /* AppDelegate.swift */; };
 		5331CD6D1CF21B8900B77A5F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5331CD6C1CF21B8900B77A5F /* ViewController.swift */; };
 		5331CD701CF21B8900B77A5F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5331CD6E1CF21B8900B77A5F /* Main.storyboard */; };
@@ -20,6 +19,14 @@
 		5331CDA11CF2666900B77A5F /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5331CDA01CF2666900B77A5F /* CoreBluetooth.framework */; };
 		5331CDA31CF2669800B77A5F /* MicrosoftBandKit_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5331CDA21CF2669800B77A5F /* MicrosoftBandKit_iOS.framework */; };
 		5331CDA51CF37D8200B77A5F /* SensorComms.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5331CDA41CF37D8200B77A5F /* SensorComms.swift */; };
+		5336CFE41D0A0E7D00231B4A /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5336CFE31D0A0E7D00231B4A /* Notifications.swift */; };
+		5336CFE61D0A1B6500231B4A /* stressCSV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5336CFE51D0A1B6500231B4A /* stressCSV.swift */; };
+		5336CFE91D0B73DD00231B4A /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5336CFE81D0B73DD00231B4A /* MenuViewController.swift */; };
+		5336CFEB1D0B77F500231B4A /* ProfileInMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5336CFEA1D0B77F500231B4A /* ProfileInMenuView.swift */; };
+		535089BA1D07637200A15090 /* AFNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 535089B91D07637200A15090 /* AFNetworking.framework */; };
+		537D38771D0CCD0600749B05 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537D38761D0CCD0600749B05 /* SettingsViewController.swift */; };
+		537D38791D0D34BF00749B05 /* GenderRadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537D38781D0D34BF00749B05 /* GenderRadioButton.swift */; };
+		537D387B1D0E069A00749B05 /* RoundedRectangleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537D387A1D0E069A00749B05 /* RoundedRectangleButton.swift */; };
 		538AED9C1CF61A7D00E4A29D /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 538AED9B1CF61A7D00E4A29D /* LoginView.swift */; };
 		538AED9E1CF61E9500E4A29D /* LoginDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 538AED9D1CF61E9500E4A29D /* LoginDetails.swift */; };
 		538AEDA01CF6793000E4A29D /* LoginCommunications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 538AED9F1CF6793000E4A29D /* LoginCommunications.swift */; };
@@ -84,7 +91,6 @@
 		1B7F40200B2C0F42D0AF9AB1 /* Pods-Calmlee.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Calmlee.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Calmlee/Pods-Calmlee.debug.xcconfig"; sourceTree = "<group>"; };
 		27CD907F9785FED0647EF6BB /* Pods_Calmlee.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Calmlee.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4E036FF324ECA65F0B3F0F6E /* Pods-CalmleeUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CalmleeUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CalmleeUITests/Pods-CalmleeUITests.release.xcconfig"; sourceTree = "<group>"; };
-		53209F4F1CFF69C7002FCE41 /* TestMessagingPicture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestMessagingPicture.swift; sourceTree = "<group>"; };
 		5331CD671CF21B8900B77A5F /* Calmlee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Calmlee.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5331CD6A1CF21B8900B77A5F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5331CD6C1CF21B8900B77A5F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -103,6 +109,14 @@
 		5331CDA01CF2666900B77A5F /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreBluetooth.framework; sourceTree = DEVELOPER_DIR; };
 		5331CDA21CF2669800B77A5F /* MicrosoftBandKit_iOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MicrosoftBandKit_iOS.framework; sourceTree = "<group>"; };
 		5331CDA41CF37D8200B77A5F /* SensorComms.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; fileEncoding = 4; path = SensorComms.swift; sourceTree = "<group>"; };
+		5336CFE31D0A0E7D00231B4A /* Notifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
+		5336CFE51D0A1B6500231B4A /* stressCSV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = stressCSV.swift; sourceTree = "<group>"; };
+		5336CFE81D0B73DD00231B4A /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
+		5336CFEA1D0B77F500231B4A /* ProfileInMenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileInMenuView.swift; sourceTree = "<group>"; };
+		535089B91D07637200A15090 /* AFNetworking.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AFNetworking.framework; sourceTree = "<group>"; };
+		537D38761D0CCD0600749B05 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		537D38781D0D34BF00749B05 /* GenderRadioButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenderRadioButton.swift; sourceTree = "<group>"; };
+		537D387A1D0E069A00749B05 /* RoundedRectangleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedRectangleButton.swift; sourceTree = "<group>"; };
 		538AED9B1CF61A7D00E4A29D /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		538AED9D1CF61E9500E4A29D /* LoginDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginDetails.swift; sourceTree = "<group>"; };
 		538AED9F1CF6793000E4A29D /* LoginCommunications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginCommunications.swift; sourceTree = "<group>"; };
@@ -154,6 +168,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5331CDA11CF2666900B77A5F /* CoreBluetooth.framework in Frameworks */,
+				535089BA1D07637200A15090 /* AFNetworking.framework in Frameworks */,
 				5331CDA31CF2669800B77A5F /* MicrosoftBandKit_iOS.framework in Frameworks */,
 				E8FA3F7FD4D6BE1FF0862186 /* Pods_Calmlee.framework in Frameworks */,
 			);
@@ -208,19 +223,20 @@
 		5331CD691CF21B8900B77A5F /* Calmlee */ = {
 			isa = PBXGroup;
 			children = (
-				53EF96C31D063EB20037A404 /* MySQL */,
 				5331CD6A1CF21B8900B77A5F /* AppDelegate.swift */,
 				5331CD6E1CF21B8900B77A5F /* Main.storyboard */,
 				5331CD711CF21B8900B77A5F /* Assets.xcassets */,
 				5331CD761CF21B8900B77A5F /* Info.plist */,
 				53B7F9211CFB8E79001E07C1 /* NavigationBar.swift */,
-				53B7F92B1CFBB3B4001E07C1 /* Messaging */,
-				53B7F92A1CFBB3AB001E07C1 /* HistoricalGraph */,
-				53B7F9291CFBB322001E07C1 /* Sensors and Neural Network */,
 				53B7F9281CFBB306001E07C1 /* CalmleeMeter */,
+				53B7F92A1CFBB3AB001E07C1 /* HistoricalGraph */,
 				53B7F9271CFBB2F3001E07C1 /* LoginRegistration */,
-				53B7F9261CFBB2DC001E07C1 /* Walkthrough */,
 				53B7F9231CFBB292001E07C1 /* Meditation */,
+				53B7F92B1CFBB3B4001E07C1 /* Messaging */,
+				53EF96C31D063EB20037A404 /* MySQL */,
+				5336CFE71D0B73AB00231B4A /* Menu and Settings */,
+				53B7F9291CFBB322001E07C1 /* Sensors and Neural Network */,
+				53B7F9261CFBB2DC001E07C1 /* Walkthrough */,
 			);
 			path = Calmlee;
 			sourceTree = "<group>";
@@ -250,6 +266,18 @@
 				5331CDA01CF2666900B77A5F /* CoreBluetooth.framework */,
 			);
 			name = Framework;
+			sourceTree = "<group>";
+		};
+		5336CFE71D0B73AB00231B4A /* Menu and Settings */ = {
+			isa = PBXGroup;
+			children = (
+				5336CFE81D0B73DD00231B4A /* MenuViewController.swift */,
+				5336CFEA1D0B77F500231B4A /* ProfileInMenuView.swift */,
+				537D38761D0CCD0600749B05 /* SettingsViewController.swift */,
+				537D38781D0D34BF00749B05 /* GenderRadioButton.swift */,
+				537D387A1D0E069A00749B05 /* RoundedRectangleButton.swift */,
+			);
+			name = "Menu and Settings";
 			sourceTree = "<group>";
 		};
 		539B8D601CFE3E7800B93F85 /* SendBird */ = {
@@ -324,6 +352,8 @@
 			children = (
 				5331CD9F1CF265E800B77A5F /* BandSensorSwift-Bridging-Header.h */,
 				5331CDA41CF37D8200B77A5F /* SensorComms.swift */,
+				5336CFE31D0A0E7D00231B4A /* Notifications.swift */,
+				5336CFE51D0A1B6500231B4A /* stressCSV.swift */,
 			);
 			name = "Sensors and Neural Network";
 			sourceTree = "<group>";
@@ -340,7 +370,6 @@
 			isa = PBXGroup;
 			children = (
 				53B7F92C1CFBB3C7001E07C1 /* MessagingViewController.swift */,
-				53209F4F1CFF69C7002FCE41 /* TestMessagingPicture.swift */,
 				53EF96BB1D009AC80037A404 /* MessagingCell.swift */,
 			);
 			name = Messaging;
@@ -371,6 +400,7 @@
 		F753660665F02B1FBE5A676B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				535089B91D07637200A15090 /* AFNetworking.framework */,
 				27CD907F9785FED0647EF6BB /* Pods_Calmlee.framework */,
 				BE4EF6D7DEC82342A2648CC6 /* Pods_CalmleeTests.framework */,
 				F608CB24E5C5DD4AA882FD84 /* Pods_CalmleeUITests.framework */,
@@ -657,7 +687,10 @@
 				539B8D5A1CFE3E1A00B93F85 /* MessagingMessageTableViewCell.swift in Sources */,
 				539B8D3D1CFE3DEA00B93F85 /* BroadcastMessageTableViewCell.swift in Sources */,
 				539B8D431CFE3DEA00B93F85 /* IndicatorView.swift in Sources */,
+				537D387B1D0E069A00749B05 /* RoundedRectangleButton.swift in Sources */,
 				539B8D5F1CFE3E1A00B93F85 /* MessagingTableViewController.swift in Sources */,
+				537D38771D0CCD0600749B05 /* SettingsViewController.swift in Sources */,
+				5336CFE41D0A0E7D00231B4A /* Notifications.swift in Sources */,
 				538AED9E1CF61E9500E4A29D /* LoginDetails.swift in Sources */,
 				53B7F91E1CF78237001E07C1 /* WalkthroughViewController.swift in Sources */,
 				539B8D541CFE3E1A00B93F85 /* MessageInputView.swift in Sources */,
@@ -675,8 +708,11 @@
 				53EF96C71D06418D0037A404 /* userInfo.swift in Sources */,
 				539B8D331CFE3DC000B93F85 /* ChattingTableViewController.swift in Sources */,
 				53B7F9221CFB8E79001E07C1 /* NavigationBar.swift in Sources */,
+				5336CFEB1D0B77F500231B4A /* ProfileInMenuView.swift in Sources */,
+				5336CFE61D0A1B6500231B4A /* stressCSV.swift in Sources */,
 				539B8D5B1CFE3E1A00B93F85 /* MessagingMyFileLinkTableViewCell.swift in Sources */,
 				539B8D5C1CFE3E1A00B93F85 /* MessagingMyMessageTableViewCell.swift in Sources */,
+				5336CFE91D0B73DD00231B4A /* MenuViewController.swift in Sources */,
 				539B8D581CFE3E1A00B93F85 /* MessagingFileMessageTableViewCell.swift in Sources */,
 				539B8D5E1CFE3E1A00B93F85 /* TypingNowView.swift in Sources */,
 				539B8D551CFE3E1A00B93F85 /* MessagingBroadcastMessageTableViewCell.swift in Sources */,
@@ -686,8 +722,8 @@
 				539B8D5D1CFE3E1A00B93F85 /* MessagingSystemMessageTableViewCell.swift in Sources */,
 				53B7F9201CF8D797001E07C1 /* WalkthroughQuipSection.swift in Sources */,
 				539B8D441CFE3DEA00B93F85 /* MessageTableViewCell.swift in Sources */,
-				53209F501CFF69C7002FCE41 /* TestMessagingPicture.swift in Sources */,
 				53B7F9251CFBB2BD001E07C1 /* MeditationViewController.swift in Sources */,
+				537D38791D0D34BF00749B05 /* GenderRadioButton.swift in Sources */,
 				538AEDA01CF6793000E4A29D /* LoginCommunications.swift in Sources */,
 				5331CD6B1CF21B8900B77A5F /* AppDelegate.swift in Sources */,
 				539B8D571CFE3E1A00B93F85 /* MessagingFileLinkTableViewCell.swift in Sources */,

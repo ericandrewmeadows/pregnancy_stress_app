@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import SwiftCSV
 
 infix operator ** { associativity left precedence 170 }
 
@@ -17,6 +18,12 @@ func ** (num: CGFloat, power: CGFloat) -> CGFloat{
 
 class sensorComms: NSObject, MSBClientManagerDelegate {
     
+    // User defaults
+    let defaults = NSUserDefaults.standardUserDefaults()
+
+    // Notifications Function
+    let app_notifications = notifications()
+
     // View parameters
     var window: UIWindow!
     weak var mainView: ViewController! = ViewController()
@@ -34,11 +41,25 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
     // Stress variables
     var stressIndex:  CGFloat = 0.0
     var stressSlope_limit:  CGFloat = 2.0
-    var timeBetweenUpdates:  Double = 0.1 // Time in seconds
+    var timeBetweenUpdates:  Double = 0.1 // Time between NN runs
+    var timeBetweenStressUpdates:  Double = 60.0 // Time between updates of self.cumulativeStressPath file
     var lastUpdateTime = NSDate().timeIntervalSince1970
+    var lastCumulativeUpdateTime = NSDate().timeIntervalSince1970
+    var lastCumulativeUpdateTime_major = NSDate().timeIntervalSince1970
+//    var writeToStressFile_lastTime = NSDate().timeIntervalSince1970
+//    var timeBetween_writesTo_stressFile:  Double = 60.0 // Time between writes to cumulative stress file
+    var cumulativeStressTime:  CGFloat = 0.0
+    var cumulativeStressTime_interim:  CGFloat = 0.0
+    var cumulativeStressPeriod:  CGFloat = 24*60*60 // 1-Day running stress time
     var calmleeScore:  CGFloat = 100.0 //  Initialization
     var dailyCalmleeScore:  CGFloat = 0.0 //  Test
     var measurementsRecorded:  CGFloat = 0.0
+    
+    // Cumulative Stress variables
+    var cStress_time:  [CGFloat] = []
+    var cStress_stress_t:  [CGFloat] = []
+    var cStress_time_toWrite:  [CGFloat] = []
+    var cStress_stress_t_toWrite:  [CGFloat] = []
     
     // Sensor variables
     var firstTime = 1
@@ -52,11 +73,128 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
     
     // Logging variables
     var headerWritten = 0
+    var stressHeaderWritten = 0
     var quitTesting = 0
     var destinationPath: String! = NSTemporaryDirectory() + "tempSensorDump.txt"
+    var cumulativeStressPath: String! = NSTemporaryDirectory() + "cumulativeStress.txt"
+    var sentSuccessfully = false
+    let stressCSV_class = stressCSV()
+    
+    // Notification variables
+    var extremeStress_notified = false
+    var calm_min = 50
+    var calm_extreme = 20 // If Calmlee score is under this value, it will send a notification
+    var last_extremeStress: Double = 0.0
+    var last_longDurationStress = NSDate().timeIntervalSince1970
+    var currentlyStresed = false
+    var stressStart = NSDate().timeIntervalSince1970
+    var longDurationStress_notificationCount = 0
     
     // Timer elements
     var timer = NSTimer()
+    
+    // Norification Functions
+    /*
+    Log identifier 99
+        - 0: Recorded as stressed, but user not stressed
+        - 1: Recorded as not Stressed, but user stressed
+     */
+    @IBAction func reportIncorrectStress(sender:  AnyObject?) {
+        let seconds = NSDate().timeIntervalSince1970
+        let milliseconds = seconds * 1000.0
+        if self.stressIndex > CGFloat(100 - self.calm_min) {
+            self.logToFile(String(format: "50, %0.4f, 0\n",milliseconds))
+            print("incorrectly reported as stressed")
+        }
+        else {
+            self.logToFile(String(format: "50, %0.4f, 1\n",milliseconds))
+            print("incorrectly reported as not stressed")
+        }
+    }
+    
+    func scheduleLocalNotification() {
+        // Create reminder by setting a local notification
+        let localNotification = UILocalNotification() // Creating an instance of the notification.
+        localNotification.alertTitle = "Extreme Stress"
+        localNotification.alertBody = "Calmlee detected an unusually high level of stress."
+        localNotification.alertAction = "calm down"
+        localNotification.fireDate = NSDate()//.dateByAddingTimeInterval(0) // 5 minutes(60 sec * 5) from now
+        localNotification.timeZone = NSTimeZone.defaultTimeZone()
+        localNotification.soundName = UILocalNotificationDefaultSoundName // Use the default notification tone/ specify a file in the application bundle
+        localNotification.applicationIconBadgeNumber = 1 // Badge number to set on the application Icon.
+        localNotification.category = "extremeStress" // Category to use the specified actions
+        UIApplication.sharedApplication().scheduleLocalNotification(localNotification) // Scheduling the notification.
+    }
+    
+    // Cumulative Stress functions
+    func readStressFile() {
+        if (NSFileManager.defaultManager().fileExistsAtPath(self.cumulativeStressPath)) {
+            var fileContent = try? NSString(contentsOfFile: self.cumulativeStressPath,
+                                            encoding: NSUTF8StringEncoding)
+            let fileData = fileContent?.componentsSeparatedByString("\n")
+            var time = NSDate().timeIntervalSince1970
+            print(fileData![0])
+            var loggingString = ""
+            if (fileData![0] != "time,stressTime") {
+                loggingString = "time,stressTime\n" + String(fileContent)
+                let os:  NSOutputStream = NSOutputStream(toFileAtPath: self.cumulativeStressPath,
+                                                         append: false)!
+                os.open()
+                os.write(loggingString, maxLength: loggingString.lengthOfBytesUsingEncoding(NSUTF8StringEncoding))
+                os.close()
+            }
+            else {
+                loggingString = fileContent! as String
+            }
+            // My loading method
+//            var cStress_time:[CGFloat] = []
+//            var cStress_t:[CGFloat] = []
+//            (cStress_time,cStress_t) = self.stressCSV_class.convertCSV(loggingString)
+
+            // SwiftCSV method
+            time = NSDate().timeIntervalSince1970
+            let csv = try? CSV.init(name: self.cumulativeStressPath)
+            self.cStress_time = (csv!.columns["time"]!).map {
+                CGFloat(($0 as NSString).doubleValue)
+            }
+            
+            self.cStress_stress_t = (csv!.columns["stressTime"]!).map {
+                CGFloat(($0 as NSString).doubleValue)
+            }
+            print(NSDate().timeIntervalSince1970 - time)
+        }
+        else {
+            self.writeStressFile(0,initialize: true)
+        }
+    }
+    
+    func dot_cumulativeStress(a: [CGFloat], b_val: CGFloat, c: [CGFloat]) -> CGFloat {
+        let b = [CGFloat](count: a.count, repeatedValue: b_val)
+        let stressValid = zip(a, b).map{ (CGFloat($0 >= $1)) }
+        return zip(stressValid,c).map{ (CGFloat($0*$1)) }.reduce(0, combine: +)
+    }
+    
+    func writeStressFile(closing: Int, initialize: Bool) {
+        print("writing")
+        var loggingString:  String
+        let os:  NSOutputStream = NSOutputStream(toFileAtPath: self.cumulativeStressPath,
+                                                 append: initialize == false)!
+        os.open()
+        if (initialize == true) || (self.cStress_stress_t_toWrite.count == 0) {
+            loggingString = "time,stressTime\n"
+        }
+        else {
+            loggingString = ""
+            // _toWrite specified for appending to files only the most-recent data, not the entire set
+            for index in 0...(self.cStress_stress_t_toWrite.count - 1) {
+                loggingString += String(format: "%0.20f,%0.2f\n",
+                                        self.cStress_time_toWrite[index],
+                                        self.cStress_stress_t_toWrite[index])
+            }
+        }
+        os.write(loggingString, maxLength: loggingString.lengthOfBytesUsingEncoding(NSUTF8StringEncoding))
+        os.close()
+    }
     
     func start() {
         MSBClientManager.sharedManager().delegate = self
@@ -156,13 +294,17 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
      */
     func clientManager(clientManager: MSBClientManager!, clientDidConnect client: MSBClient!) {
         //self.output("Band connected.")
+        print("Connection")
     }
     func clientManager(clientManager: MSBClientManager!, clientDidDisconnect client: MSBClient!) {
         //self.output("Band disconnected.")
+        print("Disconnection")
     }
     func clientManager(clientManager: MSBClientManager!, client: MSBClient!, didFailToConnectWithError error: NSError!) {
         //self.output("Failed to connect to Band.")
         //self.output(error.description)
+        print("Error")
+        print(error.description)
     }
     
     // Fetch Band Contact readings
@@ -402,20 +544,69 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
             relayedStress = min(100,relayedStress)
             relayedStress = 100-relayedStress
             
+            let time = NSDate().timeIntervalSince1970
             if !(relayedStress.isNaN) {
                 self.measurementsRecorded += 1
-                self.dailyCalmleeScore += relayedStress
+//                self.dailyCalmleeScore += relayedStress
+                if relayedStress < 50 {
+                    self.cumulativeStressTime_interim += CGFloat(time - self.lastCumulativeUpdateTime)
+                }
+                self.lastCumulativeUpdateTime = time
             }
             else {
                 relayedStress = 100;
             }
             
-            let time = NSDate().timeIntervalSince1970
+            // Notifications for Long Duration Stress
+            if (relayedStress < CGFloat(self.calm_min)) {
+                if self.currentlyStresed == false {
+                    self.currentlyStresed = true
+                    self.stressStart = NSDate().timeIntervalSince1970
+                }
+                else {
+                    let currentWarning_notificationCount = Int(floor((time - self.stressStart) / self.defaults.doubleForKey("intervalSecondsInStress_toWarn")))
+                    if currentWarning_notificationCount != self.longDurationStress_notificationCount {
+                        let stressTime_minutes = Int(floor((time - self.stressStart) / 60))
+                        self.app_notifications.longDurationStress.alertBody = "Calmlee detected that you have been stressed for \(stressTime_minutes) minutes."
+                        UIApplication.sharedApplication().scheduleLocalNotification(self.app_notifications.longDurationStress)
+                        self.longDurationStress_notificationCount = currentWarning_notificationCount
+                    }
+                }
+            }
+            else {
+                self.currentlyStresed = false
+            }
+            
+            // Notifications for Extreme Stress
+            if (relayedStress < CGFloat(self.calm_extreme)) &&
+                (time - self.last_extremeStress > self.defaults.doubleForKey("secondsBetween_extremeStress")) {
+                UIApplication.sharedApplication().scheduleLocalNotification(self.app_notifications.extremeStress)
+                self.extremeStress_notified = true
+                self.last_extremeStress = NSDate().timeIntervalSince1970
+            }
+            
+            // Update of Stress Meter
             if ((time - self.lastUpdateTime) > self.timeBetweenUpdates) {
                 self.lastUpdateTime = NSDate().timeIntervalSince1970
                 stressMeter?.stressIndex = relayedStress
                 stressMeter?.stressIndex_number.text = String(format: "%0.0f",relayedStress)
                 self.calmleeScore = relayedStress
+                self.cStress_time.append(CGFloat(time))
+                self.cStress_stress_t.append(self.cumulativeStressTime_interim)
+                self.cStress_time_toWrite.append(CGFloat(time))
+                self.cStress_stress_t_toWrite.append(self.cumulativeStressTime_interim)
+                self.cumulativeStressTime_interim = 0
+            }
+            if ((time - self.lastCumulativeUpdateTime_major) > self.timeBetweenStressUpdates) {
+                self.lastCumulativeUpdateTime_major = time
+                self.cumulativeStressTime = self.dot_cumulativeStress(
+                    self.cStress_time,
+                    b_val: CGFloat(time) - self.cumulativeStressPeriod,
+                    c: self.cStress_stress_t)
+                self.dailyCalmleeScore = self.cumulativeStressTime
+                self.writeStressFile(0,initialize: false)
+                self.cStress_stress_t_toWrite = []
+                self.cStress_time_toWrite = []
             }
             
             self.lastGSR = self.currentGSR
@@ -496,12 +687,19 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
                                                                             print(error.description)
                                                                         }
                                                                         
+                                                                        self.sentSuccessfully = true
+                                                                        
                                                                         dispatch_semaphore_signal(semaphore);
 
         })
         task.resume()
         self.quitTesting = 1
-        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+        dispatch_semaphore_wait(semaphore, 4*(NSEC_PER_SEC));
+//        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+        if sentSuccessfully {
+            let fileManager = NSFileManager.defaultManager()
+            try! fileManager.removeItemAtPath(self.destinationPath)
+        }
     }
     
     func generateBoundaryString() -> String {

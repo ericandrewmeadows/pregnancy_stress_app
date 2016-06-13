@@ -10,7 +10,9 @@ import UIKit
 
 class MeditationViewController: UIViewController {
     
-    @IBOutlet weak var navigationBar:  NavigationBar?
+    let delegate = UIApplication.sharedApplication().delegate as? AppDelegate
+
+    @IBOutlet var navigationBar:  NavigationBar? =  NavigationBar()
     
     var width:  CGFloat = 0
     var height:  CGFloat = 0
@@ -26,20 +28,38 @@ class MeditationViewController: UIViewController {
     var hG_desel:   UIImage = UIImage(named: "historicalGraph_pageIcon_deselected")!
     var hG_sel:     UIImage = UIImage(named: "historicalGraph_pageIcon_selected")!
     
+    @IBOutlet weak var menuButton:  UIButton!
+    @IBAction func goto_menu(sender: AnyObject) {
+        delegate!.previousPage = self.navigationBar!.homePage
+        print(delegate!.previousPage)
+        self.performSegueWithIdentifier("goto_menu", sender: nil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        
         self.width = self.view.frame.size.width
         self.height = self.view.frame.size.height
         
         // NavigationBar subview
-        let newFrame = CGRectMake(0,
+        var newFrame = CGRectMake(0,
                                   self.height * 0.9,
                                   self.width,
                                   self.height * 0.1)
         self.navigationBar?.frame = newFrame
+        
+        // Menu Button
+        newFrame = CGRectMake(self.width / 30, self.height / 15, self.width / 10, self.width / 10)
+        self.menuButton?.frame = newFrame
+        self.menuButton!.titleLabel?.adjustsFontSizeToFitWidth = true
+        
+        if let _ = self.navigationBar {
+            print("navigationBar_exists")
+        }
+        else {
+            self.navigationBar = NavigationBar.init(frame: newFrame)
+        }
         self.navigationBar!.homePage = 1
         
         // Button images

@@ -76,6 +76,12 @@ class ViewController: UIViewController {
     var hG_desel:   UIImage = UIImage(named: "historicalGraph_pageIcon_deselected")!
     var hG_sel:     UIImage = UIImage(named: "historicalGraph_pageIcon_selected")!
     
+    @IBAction func goto_menu(sender: AnyObject) {
+        delegate!.previousPage = self.navigationBar!.homePage
+        print(delegate!.previousPage)
+        self.performSegueWithIdentifier("goto_menu", sender: nil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -146,7 +152,7 @@ class ViewController: UIViewController {
             self.lastUpdateTime = NSDate().timeIntervalSince1970
             stressMeter?.stressIndex = actualStress
             stressMeter?.stressIndex_number.text = String(format: "%0.0f",actualStress)
-            stressMeter?.stressIndex_today = delegate!.Sensor.dailyCalmleeScore / delegate!.Sensor.measurementsRecorded
+            stressMeter?.stressIndex_today = delegate!.Sensor.dailyCalmleeScore// Old for average / delegate!.Sensor.measurementsRecorded
             updateCalmleeQuip(actualStress)
         }
     }

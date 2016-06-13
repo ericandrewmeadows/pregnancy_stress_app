@@ -14,18 +14,64 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var Sensor: sensorComms! = sensorComms()
+    let app_notifications = notifications()
+    var previousPage: Int = 0
+    let sQ = serverQuery()
+    let defaults = NSUserDefaults.standardUserDefaults()
+    let nav = UINavigationController()
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        
+        // Reads historical stress from existing storage.  Async due to read-time.
+        let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+        dispatch_async(dispatch_get_global_queue(priority, 0)) {self.Sensor.readStressFile()
+        }
         Sensor.start()
         Sensor.startTesting()
         
         Sensor!.determineBandDisconnect()
         
+        // Consider moving this  around because of the time to initialize
         let APP_ID: String = "2857873A-3D5C-46AB-8681-E2C8EB52EA7E"
         SendBird.initAppId(APP_ID)
-
+        
+        if let settings = UIApplication.sharedApplication().currentUserNotificationSettings()
+        {
+            print(settings.types.contains(.Alert))
+            print(settings.types.contains(.Badge))
+            print(settings.types.contains(.Sound))
+        }
+        
         return true
+    }
+    
+    func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forLocalNotification notification: UILocalNotification, completionHandler: () -> Void) {
+        print(notification.category)
+        switch identifier! {
+            
+            
+            
+            
+            
+            
+        case "Meditate":
+            
+            print("Opening to Meditation")
+            
+            // Currently everything is initializing with below, but it is not in the call heirarchy!
+            let mainStoryboardIpad : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let gotoMeditation : UIViewController = mainStoryboardIpad.instantiateViewControllerWithIdentifier("MeditationPage") as UIViewController
+            self.window?.rootViewController = gotoMeditation
+            self.window?.makeKeyAndVisible()
+            
+        case "Incorrect":
+            print("Incorrect selected")
+            Sensor.reportIncorrectStress(nil)
+        default:
+            print("Meditate selected")
+        }
+        completionHandler()
     }
 
     func applicationWillResignActive(application: UIApplication) {
@@ -55,9 +101,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          We should send notifications to users that are terminating their app in this manner.
         */
         
-        Sensor!.stop_bandDisconnectUpdates()
+        Sensor!.writeStressFile(1,initialize: false)
+        try Sensor!.stop_bandDisconnectUpdates()
         Sensor!.sendFile()
     }
 
 }
 
+extension UIViewController {
+    var lastPresentedViewController: UIViewController {
+        guard let presentedViewController = presentedViewController else { return self }
+        return presentedViewController.lastPresentedViewController
+    }
+}

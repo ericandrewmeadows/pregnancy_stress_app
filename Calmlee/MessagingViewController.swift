@@ -11,12 +11,14 @@ import SendBirdSDK
 
 class MessagingViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    let delegate = UIApplication.sharedApplication().delegate as? AppDelegate
+
     @IBOutlet weak var navigationBar:  NavigationBar?
-    
-    var loginView:  LoginView?
-    // remove later!!
+    @IBOutlet weak var calmleeLogo: UIImageView?
     let defaults = NSUserDefaults.standardUserDefaults()
     let sQ = serverQuery()
+    
+    var loginView = LoginView()
     
     var width:  CGFloat = 0
     var height:  CGFloat = 0
@@ -75,6 +77,13 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     
+    @IBOutlet weak var menuButton:  UIButton!
+    @IBAction func goto_menu(sender: AnyObject) {
+        delegate!.previousPage = self.navigationBar!.homePage
+        print(delegate!.previousPage)
+        self.performSegueWithIdentifier("goto_menu", sender: nil)
+    }
+    
     // Profile Image
 //    @IBOutlet weak var changePicture_btn: UIButton!
 //    @IBOutlet weak var imageView: UIImageView!
@@ -98,10 +107,14 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
         self.messageTableView.dataSource = self
         self.messageTableView.delegate = self
         self.messageTableView.frame = CGRectMake(0,
-                                                 self.height * 0.1,
+                                                 self.height * 0.105,
                                                  self.width,
                                                  topEdge - self.height * 0.1)
         self.messageTableView.flashScrollIndicators()
+        
+        let statusBarHeight = UIApplication.sharedApplication().statusBarFrame.size.height
+        var newFrame = CGRectMake(0, statusBarHeight, self.width, self.height / 10 - statusBarHeight)
+        self.calmleeLogo?.frame = newFrame
         
         // Add messages to messagesArray
         self.messagesArray.append("Test 1")
@@ -120,10 +133,7 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
         // Login to SendBird
         //        let id = SendBird.deviceUniqueID()
         SendBird.sharedInstance().taskQueue.cancelAllOperations()
-        self.defaults.setObject("eric@calmlee.com", forKey: "username")
-        print(sQ.getQuery())
-        // Acquire First Name
-        SendBird.loginWithUserId(loginView?.getUsername(), andUserName: "Oliver") // UserId is retained over
+        SendBird.loginWithUserId(self.defaults.stringForKey("username")!, andUserName: self.defaults.stringForKey("firstName")!) // UserId is retained over
         SendBird.joinChannel(self.channelUrl) // Set a channel to join cycles when disconnect is issued; key section is guestId
         
 //        SendBird.loginWithUserName("Jamie", andUserImageUrl: "https://sendbird-upload.s3-ap-northeast-1.amazonaws.com/9768c729191246c7b04369de63ec1f96.jpg")
@@ -185,12 +195,17 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
         
 
         // NavigationBar subview
-        var newFrame = CGRectMake(0,
-                                  scalingFromTop * self.height,
-                                  self.width,
-                                  (1 - scalingFromTop) * self.height)
+        newFrame = CGRectMake(0,
+                              scalingFromTop * self.height,
+                              self.width,
+                              (1 - scalingFromTop) * self.height)
         self.navigationBar?.frame = newFrame
         self.navigationBar!.homePage = 3
+        
+        // Menu Button
+        newFrame = CGRectMake(self.width / 30, self.height / 15, self.width / 10, self.width / 10)
+        self.menuButton?.frame = newFrame
+        self.menuButton!.titleLabel?.adjustsFontSizeToFitWidth = true
         
         // Button images
         self.navigationBar!.cM_button.setImage(self.cM_desel, forState: .Normal)
@@ -299,8 +314,13 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
                  - Chat text (height)
                  - Sender text (height)
                 */
-                var height = cell.heightForView(msgString, font: cell.chatFont!, width: self.width * 0.85)
-                height += cell.heightForView(sndString, font: cell.nameFont!, width: self.width * 0.7)
+                var height = cell.heightForView(msgString, font: cell.chatFont!, width: self.width * cell.messageWidth)
+                if message.sender.guestId == self.defaults.stringForKey("username") {
+                    height += 1
+                }
+                else {
+                    height += cell.heightForView(sndString, font: cell.nameFont!, width: self.width * 0.7)
+                }
                 height += 2 * self.height / 50
                 return height
             }
@@ -352,6 +372,10 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
         else {
             return 0
         }
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        self.messageTableView?.reloadData()
     }
     
     func SendBird_init() {

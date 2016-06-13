@@ -9,7 +9,7 @@
 import UIKit
 import Darwin
 
-let max_dailyStress:  CGFloat = 100.0
+let max_dailyStress:  CGFloat = 60*60 // Time in seconds
 /* Maximum set of hours stress can happen.  Above this, it will be set to the maximum.  This will show up on the plot as well */
 let π:CGFloat = CGFloat(M_PI)
 var stressIndex_p:  CGFloat = 0.00
@@ -34,7 +34,17 @@ let stressThreshold:  CGFloat = 0.60
             }
             if (stressIndex_today <=  max_dailyStress) && (stressIndex_today > -0.01) {
                 //the view needs to be refreshed
-                dailyStress_time?.text = String(format: "%0.1f",stressIndex_today)
+//                dailyStress_time?.text = String(format: "%0.1f",stressIndex_today)
+                
+                let stressIndex_hours = floor(stressIndex_today / (60*60))
+                let stressIndex_minutes = floor((stressIndex_today - stressIndex_hours * (60*60))/60)
+                
+                if stressIndex_minutes < 10 {
+                    dailyStress_time?.text = String(format: "%0.0f:0%0.0f",stressIndex_hours,stressIndex_minutes)
+                }
+                else {
+                    dailyStress_time?.text = String(format: "%0.0f:%0.0f",stressIndex_hours,stressIndex_minutes)
+                }
                 setNeedsDisplay()
             }
         }

@@ -32,10 +32,10 @@ class NavigationBar: UIView {
     
     // Navigation elements
     // Buttons
-    @IBOutlet weak var cM_button:   UIButton!
-    @IBOutlet weak var med_button:  UIButton!
-    @IBOutlet weak var mes_button:  UIButton!
-    @IBOutlet weak var hG_button:   UIButton!
+    @IBOutlet var cM_button:   UIButton! = UIButton()
+    @IBOutlet var med_button:  UIButton! = UIButton()
+    @IBOutlet var mes_button:  UIButton! = UIButton()
+    @IBOutlet var hG_button:   UIButton! = UIButton()
     
     // Background Images
     var cM_desel:   UIImage = UIImage(named: "calmleeMeter_pageIcon_deselected")!

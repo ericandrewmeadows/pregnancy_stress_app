@@ -13,6 +13,8 @@ import UIKit
     @IBOutlet weak var calmleeLogo: UIImageView?
     @IBOutlet weak var loginDetails: LoginDetails?
     weak var loginInfo:  loginCommunications?
+    let sQ = serverQuery()
+    
     let defaults = NSUserDefaults.standardUserDefaults()
     var userName = String()
     var passWord = String()
@@ -81,10 +83,22 @@ import UIKit
     }
     
     @IBAction func loginSubmit(sender: AnyObject?) {
+        var proceed = false
         self.defaults.setObject(loginDetails!.username.text, forKey: "username")
+        if (self.defaults.objectForKey("username") != nil) {
+            print("checking")
+            proceed = sQ.getQuery(self.defaults.stringForKey("username")!)
+            print(self.defaults.stringForKey("username")!)
+            print(proceed)
+            print("OK")
+        }
         self.defaults.setObject(loginDetails!.password.text, forKey: "password")
         self.userName = getUsername()
         self.passWord = getPassword()
+        print(proceed)
+        if proceed {
+            self.goTo_calmleeScore(nil)
+        }
     }
     
     @IBAction func forgotPassword(sender:  UIButton!) {
@@ -113,7 +127,6 @@ import UIKit
         if (theTextField == self.loginDetails?.password) {
             theTextField.resignFirstResponder()
             self.loginSubmit(self)
-            self.goTo_calmleeScore(self)
         } else if (theTextField == self.loginDetails?.username) {
             self.loginDetails?.password.becomeFirstResponder()
         }
@@ -144,8 +157,17 @@ import UIKit
             self.keyboardFirstTime = 1
             self.minKeyHeight = offset.height
         }
+//        print("minKeyHeight:  \(self.minKeyHeight)")
+//        print("offsetHeight:  \(offset.height)")
+//        print("originHeight:  \(self.view.frame.origin.y)")
+//        print("othersHeight:  \(self.originY - max(self.minKeyHeight,offset.height))")
         UIView.animateWithDuration(0.1, animations: { () -> Void in
-            self.view.frame.origin.y = min(self.view.frame.origin.y,self.originY - max(self.minKeyHeight,offset.height))
+            if self.view.frame.origin.y < 0 {
+                self.view.frame.origin.y = self.originY - max(self.minKeyHeight,offset.height)
+            }
+            else {
+                self.view.frame.origin.y = min(self.view.frame.origin.y,self.originY - max(self.minKeyHeight,offset.height))
+            }
         })
     }
 
