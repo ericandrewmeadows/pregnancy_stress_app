@@ -25,7 +25,7 @@ class AudioMeter: UIView {
         }
     }
     
-    @IBOutlet var playPauseButton:  UIButton?
+    @IBOutlet var playPauseButton:  UIButton! = UIButton()
     var playButton:   UIImage = UIImage(named: "playButton")!
     var pauseButton:  UIImage = UIImage(named: "pauseButton")!
 
@@ -59,15 +59,6 @@ class AudioMeter: UIView {
             
         } catch {
             print("Error getting the audio file")
-        }
-    }
-    
-    @IBAction func playPauseAudio(sender: AnyObject?) {
-        if delegate!.aM.isPlaying {
-            self.audioPlayer!.pause()
-        }
-        else {
-            self.audioPlayer!.play()
         }
     }
 

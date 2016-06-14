@@ -44,6 +44,7 @@ class MeditationViewController: UIViewController {
     var isPlaying = false
     var timer:NSTimer! = NSTimer.init()
     var playTimer = NSTimer()
+    var updateTimer = NSTimer()
     
     func loadAudio() {
         // Play audio file
@@ -84,6 +85,23 @@ class MeditationViewController: UIViewController {
         else {
             print("DNE")
         }
+    }
+    
+    @IBAction func playPauseAudio(sender: AnyObject?) {
+        if delegate!.aM.audioPlayer != nil {
+            print("exists")
+            if delegate!.aM.isPlaying == false {
+                delegate!.aM.audioPlayer!.play()
+                delegate!.aM.isPlaying == true
+                self.updateTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: "updateAudioProgressView", userInfo: nil, repeats: true)
+            }
+            else {
+                delegate!.aM.audioPlayer!.play()
+                delegate!.aM.isPlaying = false
+                updateTimer.invalidate()
+            }
+        }
+
     }
     
     func updateAudioProgressView() {
@@ -140,11 +158,11 @@ class MeditationViewController: UIViewController {
 //        delegate?.aM.frame = newFrame
 //        self.loadAudio()
         
-        self.playTimer = NSTimer.scheduledTimerWithTimeInterval(1.0,
-                                                                target: self,
-                                                                selector: #selector(self.playAudioPlayer),
-                                                                userInfo: nil,
-                                                                repeats: true)
+//        self.playTimer = NSTimer.scheduledTimerWithTimeInterval(1.0,
+//                                                                target: self,
+//                                                                selector: #selector(self.playAudioPlayer),
+//                                                                userInfo: nil,
+//                                                                repeats: true)
     }
     
     override func didReceiveMemoryWarning() {
