@@ -336,6 +336,20 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
                 })
             }
             
+            // Fetch Band Contact readings
+            try! client.sensorManager.startBandContactUpdatesToQueue(nil, withHandler: {
+                (bandContactData:  MSBSensorBandContactData!, error:  NSError!) in
+                switch bandContactData.wornState {
+                case MSBSensorBandContactState.NotWorn:
+                    print("NOT worn")
+                case MSBSensorBandContactState.Worn:
+                    print("worn")
+                case MSBSensorBandContactState.Unknown:
+                    print("UNK")
+                default:
+                    print("uhoh")
+                }})
+            
             // Fetch Barometer readings
             try! client.sensorManager.startBarometerUpdatesToQueue(nil, withHandler:  {
                 (barometerData:  MSBSensorBarometerData!, error:  NSError!) in
@@ -474,6 +488,7 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
     
     func stopSensors() {
         if let client = self.client {
+            try! client.sensorManager.stopBandContactUpdatesErrorRef()
             try! client.sensorManager.stopBarometerUpdatesErrorRef()
             try! client.sensorManager.stopDistanceUpdatesErrorRef()
             try! client.sensorManager.stopGSRUpdatesErrorRef()
