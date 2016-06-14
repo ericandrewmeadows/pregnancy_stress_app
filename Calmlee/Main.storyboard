@@ -1,7 +1,1045 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="mtR-ns-gdC">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6204"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
-    <scenes/>
+    <scenes>
+        <!--Calmlee Meter-->
+        <scene sceneID="cUl-kF-Png">
+            <objects>
+                <viewController id="KTs-D7-NvN" customClass="ViewController" customModule="Calmlee" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="1XW-Ay-vLW">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" id="fqZ-5h-tqu" customClass="StressMeter" customModule="Calmlee" customModuleProvider="target">
+                                <rect key="frame" x="40" y="127" width="240" height="237"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Ohr-SO-Izj">
+                                        <rect key="frame" x="99" y="108" width="42" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="40"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ii9-rc-HZf">
+                                        <rect key="frame" x="21" y="208" width="42" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="10"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="z6q-pm-MOi">
+                                        <rect key="frame" x="110" y="128" width="72" height="64"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" backgroundImage="warningIcon"/>
+                                        <connections>
+                                            <action selector="sendData:" destination="KTs-D7-NvN" eventType="touchUpInside" id="agr-3u-ZDe"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="stressMeter_background">
+                                        <color key="value" red="0.81960784310000001" green="0.81960784310000001" blue="0.81960784310000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="stressIndex">
+                                        <real key="value" value="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="stressIndex_today">
+                                        <real key="value" value="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <outlet property="dailyStress_time" destination="ii9-rc-HZf" id="fKu-Ss-uZc"/>
+                                    <outlet property="stressIndex_number" destination="Ohr-SO-Izj" id="L6f-bE-ZOp"/>
+                                    <outlet property="stressIsWrong" destination="z6q-pm-MOi" id="gxO-9W-S4E"/>
+                                </connections>
+                            </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo" id="Wjr-pO-5gd">
+                                <rect key="frame" x="97" y="20" width="126" height="60"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <view contentMode="scaleToFill" id="X54-bV-mgj" customClass="NavigationBar" customModule="Calmlee" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="507" width="320" height="61"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Vlh-Rr-AIj">
+                                        <rect key="frame" x="27" y="17" width="33" height="28"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" image="calmleeMeter_pageIcon_deselected"/>
+                                        <connections>
+                                            <action selector="goto_calmleeMeter:" destination="X54-bV-mgj" eventType="touchUpInside" id="xiR-De-yjy"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="eTC-2s-JTc">
+                                        <rect key="frame" x="111" y="15" width="31" height="31"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" image="meditation_pageIcon_deselected"/>
+                                        <connections>
+                                            <action selector="goto_meditation:" destination="X54-bV-mgj" eventType="touchUpInside" id="iLM-Jl-VA3"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="gkH-HA-BUV">
+                                        <rect key="frame" x="182" y="17" width="33" height="29"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" image="historicalGraph_pageIcon_deselected"/>
+                                        <connections>
+                                            <action selector="goto_historicalGraph:" destination="X54-bV-mgj" eventType="touchUpInside" id="UWP-is-LUV"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="250-PK-DkE">
+                                        <rect key="frame" x="259" y="15" width="33" height="33"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" image="messaging_pageIcon_deselected"/>
+                                        <connections>
+                                            <action selector="goto_messaging:" destination="X54-bV-mgj" eventType="touchUpInside" id="ema-XV-1Sy"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="homePage">
+                                        <integer key="value" value="0"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <outlet property="cM_button" destination="Vlh-Rr-AIj" id="KSs-fz-am8"/>
+                                    <outlet property="calmleeMeter" destination="KTs-D7-NvN" id="TWd-Uc-qb6"/>
+                                    <outlet property="hG_button" destination="gkH-HA-BUV" id="lmm-5Y-w1J"/>
+                                    <outlet property="med_button" destination="eTC-2s-JTc" id="OxN-5e-BfG"/>
+                                    <outlet property="mes_button" destination="250-PK-DkE" id="DMG-1f-QrF"/>
+                                </connections>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="GZZ-OG-vdp">
+                                <rect key="frame" x="40" y="387" width="240" height="112"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="20"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="agR-8X-GSH">
+                                <rect key="frame" x="8" y="41" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="40"/>
+                                <state key="normal" title="≡">
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="0.14999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="goto_menu:" destination="KTs-D7-NvN" eventType="touchUpInside" id="RQQ-9E-lwo"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="XL6-9h-LzB"/>
+                    <connections>
+                        <outlet property="calmleeLogo" destination="Wjr-pO-5gd" id="xjq-0j-yUb"/>
+                        <outlet property="calmleeQuip" destination="GZZ-OG-vdp" id="Nku-Bv-qRO"/>
+                        <outlet property="menuButton" destination="agR-8X-GSH" id="7hp-mC-X3M"/>
+                        <outlet property="navigationBar" destination="X54-bV-mgj" id="d4H-kV-rJe"/>
+                        <outlet property="stressMeter" destination="fqZ-5h-tqu" id="4wm-aF-m0m"/>
+                        <segue destination="x1s-Ka-1iZ" kind="modal" identifier="goto_historicalGraph" animates="NO" id="znj-tc-EOv"/>
+                        <segue destination="kWN-da-N7a" kind="modal" identifier="goto_meditation" animates="NO" id="KqU-Tf-MAB"/>
+                        <segue destination="shC-Qi-OMd" kind="modal" identifier="goto_messaging" animates="NO" id="U5d-zC-yyI"/>
+                        <segue destination="E03-5I-Xuz" kind="modal" identifier="goto_menu" animates="NO" id="pVd-vO-wz6"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rNU-PI-tDB" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="65.599999999999994" y="352.15999999999997"/>
+        </scene>
+        <!--Historical Graph vc-->
+        <scene sceneID="tQV-t1-kEZ">
+            <objects>
+                <viewController id="x1s-Ka-1iZ" customClass="HistoricalGraphViewController" customModule="Calmlee" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Ym0-Ev-xza">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" id="MDN-ca-kqO" customClass="NavigationBar" customModule="Calmlee" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="507" width="320" height="61"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="MS3-Kb-cLS">
+                                        <rect key="frame" x="27" y="17" width="33" height="28"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" image="calmleeMeter_pageIcon_deselected"/>
+                                        <connections>
+                                            <action selector="goto_calmleeMeter:" destination="MDN-ca-kqO" eventType="touchUpInside" id="I5f-sY-a0k"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="f4A-ac-zpV">
+                                        <rect key="frame" x="111" y="15" width="31" height="31"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" image="meditation_pageIcon_deselected"/>
+                                        <connections>
+                                            <action selector="goto_meditation:" destination="MDN-ca-kqO" eventType="touchUpInside" id="IYz-ML-kH5"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="OXT-Xm-t4b">
+                                        <rect key="frame" x="182" y="17" width="33" height="29"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" image="historicalGraph_pageIcon_deselected"/>
+                                        <connections>
+                                            <action selector="goto_historicalGraph:" destination="MDN-ca-kqO" eventType="touchUpInside" id="47S-n4-cIl"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="aYe-iU-IgG">
+                                        <rect key="frame" x="259" y="15" width="33" height="33"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" image="messaging_pageIcon_deselected"/>
+                                        <connections>
+                                            <action selector="goto_messaging:" destination="MDN-ca-kqO" eventType="touchUpInside" id="sUe-C4-LbU"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="homePage">
+                                        <integer key="value" value="0"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <outlet property="cM_button" destination="MS3-Kb-cLS" id="gEq-6Z-KYk"/>
+                                    <outlet property="calmleeMeter" destination="KTs-D7-NvN" id="0GQ-Qv-Td2"/>
+                                    <outlet property="hG_button" destination="OXT-Xm-t4b" id="f6R-jv-IDe"/>
+                                    <outlet property="historicalGraph_vc" destination="x1s-Ka-1iZ" id="9Hq-TP-qkB"/>
+                                    <outlet property="med_button" destination="f4A-ac-zpV" id="szD-gV-Yfp"/>
+                                    <outlet property="mes_button" destination="aYe-iU-IgG" id="0Px-UI-vmh"/>
+                                </connections>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Historical Graph" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="t6K-4s-Q0y">
+                                <rect key="frame" x="98" y="273" width="124" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Mqc-uI-LsC">
+                                <rect key="frame" x="20" y="20" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="40"/>
+                                <state key="normal" title="≡">
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="0.14999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="goto_menu:" destination="x1s-Ka-1iZ" eventType="touchUpInside" id="raa-5a-HH3"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </view>
+                    <connections>
+                        <outlet property="menuButton" destination="Mqc-uI-LsC" id="4cD-nD-DZs"/>
+                        <outlet property="navigationBar" destination="MDN-ca-kqO" id="UNZ-dl-4ij"/>
+                        <segue destination="KTs-D7-NvN" kind="modal" identifier="goto_calmleeMeter" animates="NO" id="mk2-Uc-6M5"/>
+                        <segue destination="kWN-da-N7a" kind="modal" identifier="goto_meditation" animates="NO" id="99C-Ug-Gc5"/>
+                        <segue destination="shC-Qi-OMd" kind="modal" identifier="goto_messaging" animates="NO" id="DuW-Nf-yCj"/>
+                        <segue destination="E03-5I-Xuz" kind="modal" identifier="goto_menu" animates="NO" id="bSv-3Z-fdS"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="o65-Et-vV9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="65.599999999999994" y="1034.7066666666667"/>
+        </scene>
+        <!--Messaging vc-->
+        <scene sceneID="W2k-wm-dx4">
+            <objects>
+                <viewController id="shC-Qi-OMd" customClass="MessagingViewController" customModule="Calmlee" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="zuS-U0-TPF">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" id="uvS-Om-Ok3" customClass="NavigationBar" customModule="Calmlee" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="507" width="320" height="61"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="efS-M0-uBq">
+                                        <rect key="frame" x="27" y="17" width="33" height="28"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" image="calmleeMeter_pageIcon_deselected"/>
+                                        <connections>
+                                            <action selector="goto_calmleeMeter:" destination="uvS-Om-Ok3" eventType="touchUpInside" id="R7b-5Y-31j"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="aoK-vp-oyd">
+                                        <rect key="frame" x="111" y="15" width="31" height="31"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" image="meditation_pageIcon_deselected"/>
+                                        <connections>
+                                            <action selector="goto_meditation:" destination="uvS-Om-Ok3" eventType="touchUpInside" id="iPk-Ze-SQo"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="uyw-Lb-7uG">
+                                        <rect key="frame" x="182" y="17" width="33" height="29"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" image="historicalGraph_pageIcon_deselected"/>
+                                        <connections>
+                                            <action selector="goto_historicalGraph:" destination="uvS-Om-Ok3" eventType="touchUpInside" id="UW1-Fh-5Tv"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="uXG-sT-h74">
+                                        <rect key="frame" x="259" y="15" width="33" height="33"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" image="messaging_pageIcon_deselected"/>
+                                        <connections>
+                                            <action selector="goto_messaging:" destination="uvS-Om-Ok3" eventType="touchUpInside" id="3co-h9-fkA"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="homePage">
+                                        <integer key="value" value="3"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <outlet property="cM_button" destination="efS-M0-uBq" id="ckb-PL-Kwm"/>
+                                    <outlet property="hG_button" destination="uyw-Lb-7uG" id="2Go-YM-aMV"/>
+                                    <outlet property="med_button" destination="aoK-vp-oyd" id="8yk-6v-1VC"/>
+                                    <outlet property="mes_button" destination="uXG-sT-h74" id="OHv-OI-Iun"/>
+                                    <outlet property="messaging_vc" destination="shC-Qi-OMd" id="zQY-hP-ZtU"/>
+                                </connections>
+                            </view>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="121" sectionHeaderHeight="28" sectionFooterHeight="28" id="af4-ny-MYk">
+                                <rect key="frame" x="40" y="49" width="240" height="385"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <gestureRecognizers/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationWidth="0.0" reuseIdentifier="MessageCell" editingAccessoryType="disclosureIndicator" rowHeight="121" id="NEI-PP-lPZ" customClass="MessagingCell" customModule="Calmlee" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="240" height="121"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="NEI-PP-lPZ" id="0dh-zR-UEi">
+                                            <rect key="frame" x="0.0" y="0.0" width="240" height="121"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UN_field" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0Yx-IU-eK8">
+                                                    <rect key="frame" x="48" y="27" width="44" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="10"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="uih-aB-izg">
+                                                    <rect key="frame" x="8" y="60" width="36" height="34"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="WES-01-DDB">
+                                                    <rect key="frame" x="48" y="45" width="192" height="64"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="T_field" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="2fU-iW-Mip">
+                                                    <rect key="frame" x="95" y="22" width="50" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="12"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hidden Email Field" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8ow-II-oRD">
+                                                    <rect key="frame" x="190" y="92" width="42" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="4"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="hiddenEmailField" destination="8ow-II-oRD" id="yOc-WC-Lpj"/>
+                                            <outlet property="message" destination="WES-01-DDB" id="7fT-yy-Vh6"/>
+                                            <outlet property="profilePicture" destination="uih-aB-izg" id="6Mj-YC-2wq"/>
+                                            <outlet property="senderLabel" destination="0Yx-IU-eK8" id="skC-9P-DBL"/>
+                                            <outlet property="timeLabel" destination="2fU-iW-Mip" id="FYH-dY-Guh"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="lyo-DS-HYu" appends="YES" id="cjH-qV-Hn9"/>
+                                </connections>
+                            </tableView>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" id="vcT-oB-foq">
+                                <rect key="frame" x="0.0" y="442" width="313" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="shC-Qi-OMd" id="RTw-pL-keC"/>
+                                </connections>
+                            </textField>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo" id="LMT-Dt-D2o">
+                                <rect key="frame" x="118" y="0.0" width="84" height="41"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="T7H-Fh-sLs">
+                                <rect key="frame" x="9" y="6" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="40"/>
+                                <state key="normal" title="≡">
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="0.14999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="goto_menu:" destination="shC-Qi-OMd" eventType="touchUpInside" id="DHW-00-ohK"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <gestureRecognizers/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="lyo-DS-HYu" appends="YES" id="KXg-TO-Kcf"/>
+                        </connections>
+                    </view>
+                    <connections>
+                        <outlet property="calmleeLogo" destination="LMT-Dt-D2o" id="0o6-1N-af0"/>
+                        <outlet property="menuButton" destination="T7H-Fh-sLs" id="0Jm-Xm-D2e"/>
+                        <outlet property="messageTableView" destination="af4-ny-MYk" id="CG4-2a-MNZ"/>
+                        <outlet property="messageToSend" destination="vcT-oB-foq" id="d51-0c-Y5S"/>
+                        <outlet property="navigationBar" destination="uvS-Om-Ok3" id="mS7-kr-OZZ"/>
+                        <segue destination="KTs-D7-NvN" kind="modal" identifier="goto_calmleeMeter" animates="NO" id="fIZ-dQ-l7U"/>
+                        <segue destination="x1s-Ka-1iZ" kind="modal" identifier="goto_historicalGraph" animates="NO" id="vbA-wz-vPb"/>
+                        <segue destination="kWN-da-N7a" kind="modal" identifier="goto_meditation" animates="NO" id="pR1-t5-bxJ"/>
+                        <segue destination="E03-5I-Xuz" kind="modal" identifier="goto_menu" animates="NO" id="Wpe-4a-ebi"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="W99-5q-kZK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="lyo-DS-HYu">
+                    <connections>
+                        <action selector="handleLongPress:" destination="shC-Qi-OMd" id="RGm-Xm-hlO"/>
+                    </connections>
+                </pongPressGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="65.599999999999994" y="1681.28"/>
+        </scene>
+        <!--Menu View Controller-->
+        <scene sceneID="OHa-sR-d8B">
+            <objects>
+                <viewController id="E03-5I-Xuz" customClass="MenuViewController" customModule="Calmlee" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="TsZ-lV-nKr">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" id="Gzf-X2-I7B" customClass="ProfileInMenuView" customModule="Calmlee" customModuleProvider="target">
+                                <rect key="frame" x="40" y="61" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="kFG-KA-QXZ">
+                                        <rect key="frame" x="147" y="90" width="85" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="ViewButton">
+                                            <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="goto_profile:" destination="Gzf-X2-I7B" eventType="touchUpInside" id="ubj-pY-B4T"/>
+                                            <action selector="goto_settings:" destination="E03-5I-Xuz" eventType="touchUpInside" id="SQy-7m-RT9"/>
+                                        </connections>
+                                    </button>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="gsJ-aU-FOh">
+                                        <rect key="frame" x="17" y="39" width="60" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" red="0.49122868240000001" green="0.67696218360000004" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Fym-vh-aRm">
+                                        <rect key="frame" x="90" y="39" width="130" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="25"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="BbZ-fh-j7X">
+                                        <rect key="frame" x="90" y="68" width="130" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="13"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                <connections>
+                                    <outlet property="emailLabel" destination="BbZ-fh-j7X" id="Lr1-U0-TTf"/>
+                                    <outlet property="nameLabel" destination="Fym-vh-aRm" id="euM-rn-cjE"/>
+                                    <outlet property="profileButton" destination="kFG-KA-QXZ" id="2lL-XY-7aP"/>
+                                    <outlet property="profilePicture" destination="gsJ-aU-FOh" id="JyT-EI-sjL"/>
+                                </connections>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="u2a-AA-NWr">
+                                <rect key="frame" x="50" y="215" width="41" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Home">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="goto_calmleeScore:" destination="E03-5I-Xuz" eventType="touchUpInside" id="E3B-oB-dh9"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="DuK-LB-4Y2">
+                                <rect key="frame" x="50" y="253" width="57" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Settings">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="goto_settings:" destination="E03-5I-Xuz" eventType="touchUpInside" id="q12-Ae-fe8"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="IZt-VG-b49">
+                                <rect key="frame" x="50" y="291" width="48" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Logout">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="goto_login:" destination="E03-5I-Xuz" eventType="touchUpInside" id="leD-9r-C6q"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="kPg-Wk-Opq">
+                                <rect key="frame" x="99" y="451" width="123" height="63"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="WalkthroughBackwardArrow"/>
+                                <connections>
+                                    <action selector="goTo_nextQuip:" destination="3E1-Nz-5fe" eventType="touchUpInside" id="NSs-aV-jRD"/>
+                                    <action selector="go_back:" destination="E03-5I-Xuz" eventType="touchUpInside" id="Lq7-Z4-6yE"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.4941176471" green="0.35686274509999999" blue="0.46666666670000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                    </view>
+                    <connections>
+                        <outlet property="backButton" destination="kPg-Wk-Opq" id="rv2-DW-KIN"/>
+                        <outlet property="homeButton" destination="u2a-AA-NWr" id="fak-C3-lRF"/>
+                        <outlet property="logoutButton" destination="IZt-VG-b49" id="dCq-3b-VDa"/>
+                        <outlet property="profileInfoView" destination="Gzf-X2-I7B" id="PcM-22-58K"/>
+                        <outlet property="settingsButton" destination="DuK-LB-4Y2" id="RdX-dq-tBa"/>
+                        <segue destination="KTs-D7-NvN" kind="modal" identifier="goto_calmleeScore" animates="NO" id="iBD-S6-pCH"/>
+                        <segue destination="mtR-ns-gdC" kind="modal" identifier="goto_login" animates="NO" id="z2o-Jw-mu3"/>
+                        <segue destination="k0e-Lj-NFW" kind="modal" identifier="goto_settings" animates="NO" id="kEJ-Hb-BNI"/>
+                        <segue destination="kWN-da-N7a" kind="modal" identifier="goto_meditation" animates="NO" id="cKQ-YO-cl7"/>
+                        <segue destination="shC-Qi-OMd" kind="modal" identifier="goto_messaging" animates="NO" id="kmv-Wi-yB1"/>
+                        <segue destination="x1s-Ka-1iZ" kind="modal" identifier="goto_historicalGraph" animates="NO" id="cLU-fq-ihi"/>
+                        <segue destination="KTs-D7-NvN" kind="modal" identifier="goto_calmleeScore" animates="NO" id="gwa-9t-pnx"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ycd-C5-bzo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="65.599999999999994" y="-869.03999999999996"/>
+        </scene>
+        <!--Settings View Controller-->
+        <scene sceneID="RAV-0o-iO3">
+            <objects>
+                <viewController id="k0e-Lj-NFW" customClass="SettingsViewController" customModule="Calmlee" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="C2R-vd-Iy4">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" id="RcM-Iq-wvq">
+                                <rect key="frame" x="20" y="148" width="280" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FULLNAME" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="alr-HJ-3tx">
+                                <rect key="frame" x="20" y="137" width="55" height="13"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                <color key="textColor" red="0.1137254902" green="0.1137254902" blue="0.14901960780000001" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" id="Lhi-qS-VrR">
+                                <rect key="frame" x="20" y="204" width="280" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EMAIL" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="lyz-Lk-UhJ">
+                                <rect key="frame" x="20" y="192" width="42" height="13"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                <color key="textColor" red="0.1137254902" green="0.1137254902" blue="0.14901960780000001" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" id="nXe-nx-5No">
+                                <rect key="frame" x="20" y="266" width="280" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PASSWORD" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ZYG-jX-LHu">
+                                <rect key="frame" x="20" y="253" width="58" height="13"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                <color key="textColor" red="0.1137254902" green="0.1137254902" blue="0.14901960780000001" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" id="Xin-K0-bXq">
+                                <rect key="frame" x="20" y="325" width="280" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DUE DATE" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="h6V-SO-6kh">
+                                <rect key="frame" x="20" y="310" width="50" height="13"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                <color key="textColor" red="0.1137254902" green="0.1137254902" blue="0.14901960780000001" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GENDER" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="JOQ-7K-drs">
+                                <rect key="frame" x="20" y="388" width="47" height="13"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                <color key="textColor" red="0.1137254902" green="0.1137254902" blue="0.14901960780000001" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NOTIFICATIONS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="uio-Hm-AVI">
+                                <rect key="frame" x="20" y="462" width="78" height="13"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                <color key="textColor" red="0.1137254902" green="0.1137254902" blue="0.14901960780000001" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="equ-BR-37p" customClass="GenderRadioButton" customModule="Calmlee" customModuleProvider="target">
+                                <rect key="frame" x="156" y="394" width="10" height="10"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="buttonChosen" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="switchGender:" destination="k0e-Lj-NFW" eventType="touchUpInside" id="wbq-8v-TnR"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="4w5-PC-r7f" customClass="GenderRadioButton" customModule="Calmlee" customModuleProvider="target">
+                                <rect key="frame" x="247" y="394" width="10" height="10"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="buttonChosen" value="NO"/>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="switchGender:" destination="k0e-Lj-NFW" eventType="touchUpInside" id="kGt-Cp-aAR"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Female" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="dVL-Kg-qwH">
+                                <rect key="frame" x="172" y="388" width="50" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Male" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Lri-7C-L9O">
+                                <rect key="frame" x="264" y="388" width="36" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="5oG-dB-GUo">
+                                <rect key="frame" x="236" y="453" width="51" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="onTintColor" red="0.4941176471" green="0.35686274509999999" blue="0.46666666670000001" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="thumbTintColor" red="0.4941176471" green="0.35686274509999999" blue="0.46666666670000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </switch>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="O32-y8-5bT">
+                                <rect key="frame" x="126" y="28" width="90" height="90"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.49122868240000001" green="0.67696218360000004" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="4sh-bc-mwo">
+                                <rect key="frame" x="22" y="28" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="40"/>
+                                <state key="normal" title="≡">
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="0.14999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="goto_menu:" destination="k0e-Lj-NFW" eventType="touchUpInside" id="qiK-ev-2sS"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" id="3KV-VD-SCd" customClass="RoundedRectangleButton" customModule="Calmlee" customModuleProvider="target">
+                                <rect key="frame" x="67" y="483" width="63" height="56"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal">
+                                    <string key="title">10
+mins</string>
+                                </state>
+                                <connections>
+                                    <action selector="set_intervalSecondsInStress_toWarn:" destination="k0e-Lj-NFW" eventType="touchUpInside" id="ouX-MF-nel"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" id="fUC-tC-jXf" customClass="RoundedRectangleButton" customModule="Calmlee" customModuleProvider="target">
+                                <rect key="frame" x="140" y="483" width="63" height="56"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal">
+                                    <string key="title">15
+mins</string>
+                                </state>
+                                <connections>
+                                    <action selector="set_intervalSecondsInStress_toWarn:" destination="k0e-Lj-NFW" eventType="touchUpInside" id="3Kv-ko-MfE"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" id="ve1-Cd-Zkn" customClass="RoundedRectangleButton" customModule="Calmlee" customModuleProvider="target">
+                                <rect key="frame" x="211" y="483" width="63" height="56"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal">
+                                    <string key="title">30
+mins</string>
+                                </state>
+                                <connections>
+                                    <action selector="set_intervalSecondsInStress_toWarn:" destination="k0e-Lj-NFW" eventType="touchUpInside" id="ir3-m6-bWe"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="hR3-F9-aJh">
+                                <rect key="frame" x="270" y="31" width="25" height="23"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="Home button"/>
+                                <connections>
+                                    <action selector="goto_calmleeScore:" destination="k0e-Lj-NFW" eventType="touchUpInside" id="bfn-xS-TQI"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </view>
+                    <connections>
+                        <outlet property="dueDate_label" destination="h6V-SO-6kh" id="Ea9-kM-agD"/>
+                        <outlet property="dueDate_textField" destination="Xin-K0-bXq" id="LXh-q8-uhB"/>
+                        <outlet property="email_label" destination="lyz-Lk-UhJ" id="kOp-cN-yHY"/>
+                        <outlet property="email_textField" destination="Lhi-qS-VrR" id="FCZ-AY-J1c"/>
+                        <outlet property="femaleButton" destination="equ-BR-37p" id="KSn-9P-t9M"/>
+                        <outlet property="femaleLabel" destination="dVL-Kg-qwH" id="F2Z-CJ-iD0"/>
+                        <outlet property="fullName_label" destination="alr-HJ-3tx" id="Jc0-g7-ElA"/>
+                        <outlet property="fullName_textField" destination="RcM-Iq-wvq" id="sFS-cx-mfz"/>
+                        <outlet property="gender_label" destination="JOQ-7K-drs" id="Jrk-s5-iib"/>
+                        <outlet property="homeButton" destination="hR3-F9-aJh" id="cId-oh-lgO"/>
+                        <outlet property="maleButton" destination="4w5-PC-r7f" id="tqG-fy-MBJ"/>
+                        <outlet property="maleLabel" destination="Lri-7C-L9O" id="VT1-i9-eRs"/>
+                        <outlet property="menuButton" destination="4sh-bc-mwo" id="nnd-Om-aCW"/>
+                        <outlet property="minutes10_button" destination="3KV-VD-SCd" id="caq-7V-2qn"/>
+                        <outlet property="minutes15_button" destination="fUC-tC-jXf" id="jb0-qi-fFH"/>
+                        <outlet property="minutes30_button" destination="ve1-Cd-Zkn" id="y54-hV-JuY"/>
+                        <outlet property="notificationsLabel" destination="uio-Hm-AVI" id="9Wc-t8-MiZ"/>
+                        <outlet property="notificationsSwitch" destination="5oG-dB-GUo" id="pKm-Um-7av"/>
+                        <outlet property="password_label" destination="ZYG-jX-LHu" id="emK-bb-11z"/>
+                        <outlet property="password_textField" destination="nXe-nx-5No" id="NkY-Zr-gP8"/>
+                        <outlet property="profilePicture" destination="O32-y8-5bT" id="MfU-nB-nrc"/>
+                        <segue destination="E03-5I-Xuz" kind="modal" identifier="goto_menu" animates="NO" id="SnA-9B-Hmy"/>
+                        <segue destination="KTs-D7-NvN" kind="modal" identifier="goto_calmleeScore" animates="NO" id="j4b-e0-Izy"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="U23-5p-PXd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="464" y="-869.03999999999996"/>
+        </scene>
+        <!--Meditation vc-->
+        <scene sceneID="gLo-cx-HyU">
+            <objects>
+                <viewController storyboardIdentifier="MeditationPage" id="kWN-da-N7a" customClass="MeditationViewController" customModule="Calmlee" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="veO-Ii-8ks">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" id="KU6-O8-0GW" customClass="NavigationBar" customModule="Calmlee" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="507" width="320" height="61"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="5O7-JJ-3Oq">
+                                        <rect key="frame" x="27" y="17" width="33" height="28"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" image="calmleeMeter_pageIcon_deselected"/>
+                                        <connections>
+                                            <action selector="goto_calmleeMeter:" destination="KU6-O8-0GW" eventType="touchUpInside" id="p88-bF-ZyN"/>
+                                            <action selector="pauseAudioPlayer" destination="kWN-da-N7a" eventType="touchUpInside" id="kTl-xA-zjp"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="GrB-P7-UuY">
+                                        <rect key="frame" x="111" y="15" width="31" height="31"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" image="meditation_pageIcon_deselected"/>
+                                        <connections>
+                                            <action selector="goto_meditation:" destination="KU6-O8-0GW" eventType="touchUpInside" id="Yxd-Hz-sOv"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="jDZ-Sf-svp">
+                                        <rect key="frame" x="182" y="17" width="33" height="29"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" image="historicalGraph_pageIcon_deselected"/>
+                                        <connections>
+                                            <action selector="goto_historicalGraph:" destination="KU6-O8-0GW" eventType="touchUpInside" id="BZJ-mh-A9d"/>
+                                            <action selector="pauseAudioPlayer" destination="kWN-da-N7a" eventType="touchUpInside" id="6az-kq-ohC"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="2Hx-c3-62a">
+                                        <rect key="frame" x="259" y="15" width="33" height="33"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" image="messaging_pageIcon_deselected"/>
+                                        <connections>
+                                            <action selector="goto_messaging:" destination="KU6-O8-0GW" eventType="touchUpInside" id="TPC-t9-n1G"/>
+                                            <action selector="pauseAudioPlayer" destination="kWN-da-N7a" eventType="touchUpInside" id="dtM-O0-nkZ"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="homePage">
+                                        <integer key="value" value="0"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <outlet property="cM_button" destination="5O7-JJ-3Oq" id="Mcm-yY-eCH"/>
+                                    <outlet property="calmleeMeter" destination="KTs-D7-NvN" id="wpZ-Lq-o1s"/>
+                                    <outlet property="hG_button" destination="jDZ-Sf-svp" id="I4h-cY-Qpz"/>
+                                    <outlet property="med_button" destination="GrB-P7-UuY" id="cdN-Fs-Okb"/>
+                                    <outlet property="meditation_vc" destination="kWN-da-N7a" id="XxG-1G-KcY"/>
+                                    <outlet property="mes_button" destination="2Hx-c3-62a" id="vyL-Ic-S1y"/>
+                                </connections>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Meditation" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bf2-Fp-zea">
+                                <rect key="frame" x="119" y="101" width="82" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="wZ1-vu-WDY">
+                                <rect key="frame" x="20" y="20" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="40"/>
+                                <state key="normal" title="≡">
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="0.14999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="goto_menu:" destination="kWN-da-N7a" eventType="touchUpInside" id="hLI-HG-QCt"/>
+                                    <action selector="pauseAudioPlayer" destination="kWN-da-N7a" eventType="touchUpInside" id="2ht-3H-qtD"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" id="r4G-RN-jNq" customClass="AudioMeter" customModule="Calmlee" customModuleProvider="target">
+                                <rect key="frame" x="40" y="157" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </view>
+                    <connections>
+                        <outlet property="audioMeter" destination="r4G-RN-jNq" id="8Uv-uU-idT"/>
+                        <outlet property="menuButton" destination="wZ1-vu-WDY" id="mRy-fm-R7b"/>
+                        <outlet property="navigationBar" destination="KU6-O8-0GW" id="1EE-Tg-hJV"/>
+                        <segue destination="x1s-Ka-1iZ" kind="modal" identifier="goto_historicalGraph" animates="NO" id="9hP-Ua-RRU"/>
+                        <segue destination="KTs-D7-NvN" kind="modal" identifier="goto_calmleeMeter" animates="NO" id="lGP-YS-nFX"/>
+                        <segue destination="shC-Qi-OMd" kind="modal" identifier="goto_messaging" animates="NO" id="5tf-Jq-c8G"/>
+                        <segue destination="E03-5I-Xuz" kind="modal" identifier="goto_menu" animates="NO" id="SqM-Jm-HkB"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UZV-v5-kBs" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="65.599999999999994" y="-243.29333333333332"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="krk-cD-Sx8">
+            <objects>
+                <navigationController id="NJO-eh-ezo" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="JNs-TN-CKs">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="owX-VA-SpL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-702.93333333333328" y="39.759999999999998"/>
+        </scene>
+        <!--Login View-->
+        <scene sceneID="4m9-t9-nYf">
+            <objects>
+                <viewController id="mtR-ns-gdC" customClass="LoginView" customModule="Calmlee" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="j5o-go-8nD">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo" id="l4W-FJ-yFS">
+                                <rect key="frame" x="97" y="121" width="126" height="60"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <view contentMode="scaleToFill" id="vsX-iB-dSJ" customClass="LoginDetails" customModule="Calmlee" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="267" width="320" height="301"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" id="i2a-s4-KHU">
+                                        <rect key="frame" x="20" y="31" width="280" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="mtR-ns-gdC" id="P5w-6g-45x"/>
+                                        </connections>
+                                    </textField>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PASSWORD" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="n6q-56-Y7Y">
+                                        <rect key="frame" x="20" y="57" width="280" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="10"/>
+                                        <color key="textColor" red="0.1137254902" green="0.1137254902" blue="0.14901960780000001" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="lzj-n7-2Ro">
+                                        <rect key="frame" x="197" y="86" width="103" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="12"/>
+                                        <state key="normal" title="Forgot Password">
+                                            <color key="titleColor" red="0.1137254902" green="0.1137254902" blue="0.14901960780000001" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="forgotPassword:" destination="mtR-ns-gdC" eventType="touchUpInside" id="MaU-EL-qCl"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="8sw-gk-u9r">
+                                        <rect key="frame" x="20" y="143" width="280" height="43"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" red="0.4941176471" green="0.35686274509999999" blue="0.46666666670000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="15"/>
+                                        <state key="normal" title="Sign In">
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="loginSubmit:" destination="mtR-ns-gdC" eventType="touchUpInside" id="cyJ-Xx-h9g"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="USERNAME" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="hdr-Du-fZB">
+                                        <rect key="frame" x="20" y="8" width="280" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="10"/>
+                                        <color key="textColor" red="0.1137254902" green="0.1137254902" blue="0.14901960780000001" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="17" id="cnd-Kl-tvl">
+                                        <rect key="frame" x="20" y="86" width="280" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="next" secureTextEntry="YES"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="mtR-ns-gdC" id="TTA-iL-niz"/>
+                                        </connections>
+                                    </textField>
+                                </subviews>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <connections>
+                                    <outlet property="forgotPassword" destination="lzj-n7-2Ro" id="2mJ-6s-XKW"/>
+                                    <outlet property="password" destination="cnd-Kl-tvl" id="6F9-9X-R4g"/>
+                                    <outlet property="password_label" destination="n6q-56-Y7Y" id="6TD-eh-en3"/>
+                                    <outlet property="submit" destination="8sw-gk-u9r" id="MFa-54-WqR"/>
+                                    <outlet property="username" destination="i2a-s4-KHU" id="vOO-vj-cwm"/>
+                                    <outlet property="username_label" destination="hdr-Du-fZB" id="LD5-KW-Ogd"/>
+                                </connections>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </view>
+                    <connections>
+                        <outlet property="calmleeLogo" destination="l4W-FJ-yFS" id="uwC-L1-Cvz"/>
+                        <outlet property="loginDetails" destination="vsX-iB-dSJ" id="vxa-MA-EYI"/>
+                        <segue destination="KTs-D7-NvN" kind="modal" identifier="goto_calmleeScore" modalTransitionStyle="partialCurl" id="aG1-dV-L2l"/>
+                        <segue destination="3E1-Nz-5fe" kind="modal" identifier="goto_walkthrough" id="sjI-hs-8Vc"/>
+                        <segue destination="kWN-da-N7a" kind="modal" identifier="goto_meditation" id="vSg-AY-Yw6"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4tm-ed-eW2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-309" y="352"/>
+        </scene>
+        <!--Walkthrough View Controller-->
+        <scene sceneID="eYA-sh-GUm">
+            <objects>
+                <viewController id="3E1-Nz-5fe" customClass="WalkthroughViewController" customModule="Calmlee" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="bhB-vk-g3s">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BandIcon" id="UQf-lp-pQ0">
+                                <rect key="frame" x="123" y="152" width="75" height="60"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <view contentMode="scaleToFill" id="32R-vG-bst" customClass="WalkthroughQuipSection" customModule="Calmlee" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="278" width="320" height="290"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="QFc-Ng-08H">
+                                        <rect key="frame" x="99" y="195" width="123" height="63"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" image="WalkthroughForwardArrow"/>
+                                        <connections>
+                                            <action selector="goTo_nextQuip:" destination="3E1-Nz-5fe" eventType="touchUpInside" id="Xnr-yd-rw2"/>
+                                        </connections>
+                                    </button>
+                                    <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" editable="NO" text="Walkthrough instructions go here" textAlignment="center" id="PeX-sQ-Z8M">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="149"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="20"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                </subviews>
+                                <color key="backgroundColor" red="0.4941176471" green="0.35686274509999999" blue="0.46666666670000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <connections>
+                                    <outlet property="walkthroughNext" destination="QFc-Ng-08H" id="xOh-hJ-nPb"/>
+                                    <outlet property="walkthroughQuip" destination="PeX-sQ-Z8M" id="kxh-FR-bcp"/>
+                                    <outlet property="walkthroughViewController" destination="3E1-Nz-5fe" id="2ko-ac-Puz"/>
+                                </connections>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Page Prog" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hOC-sJ-HED">
+                                <rect key="frame" x="121" y="20" width="79" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </view>
+                    <connections>
+                        <outlet property="pageProgress" destination="hOC-sJ-HED" id="PjL-wE-V37"/>
+                        <outlet property="walkthroughImage" destination="UQf-lp-pQ0" id="X3P-lW-SOv"/>
+                        <outlet property="walkthroughQuipSection" destination="32R-vG-bst" id="2ht-ZO-CX7"/>
+                        <segue destination="KTs-D7-NvN" kind="modal" identifier="goto_calmleeScore" modalTransitionStyle="partialCurl" id="GQI-Lk-gJ9"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ivn-eS-ude" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-308.80000000000001" y="1034.7066666666667"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="BandIcon" width="225" height="180"/>
+        <image name="Home button" width="73" height="68"/>
+        <image name="Logo" width="194" height="81"/>
+        <image name="WalkthroughBackwardArrow" width="69" height="63"/>
+        <image name="WalkthroughForwardArrow" width="69" height="63"/>
+        <image name="calmleeMeter_pageIcon_deselected" width="105" height="87"/>
+        <image name="historicalGraph_pageIcon_deselected" width="99" height="87"/>
+        <image name="meditation_pageIcon_deselected" width="90" height="90"/>
+        <image name="messaging_pageIcon_deselected" width="99" height="99"/>
+        <image name="warningIcon" width="72" height="64"/>
+    </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="SqM-Jm-HkB"/>
+        <segue reference="vSg-AY-Yw6"/>
+        <segue reference="9hP-Ua-RRU"/>
+        <segue reference="5tf-Jq-c8G"/>
+        <segue reference="aG1-dV-L2l"/>
+    </inferredMetricsTieBreakers>
 </document>
