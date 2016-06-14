@@ -839,11 +839,15 @@ mins</string>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="0.012027450607902735" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
+                                            <action selector="playPauseAudio:" destination="kWN-da-N7a" eventType="touchUpInside" id="AvT-QD-dD9"/>
                                             <action selector="playPauseAudio:" destination="r4G-RN-jNq" eventType="touchUpInside" id="e2X-b2-W0A"/>
                                         </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <connections>
+                                    <outlet property="playPauseButton" destination="hJm-fC-Npv" id="h0s-fu-fNV"/>
+                                </connections>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
