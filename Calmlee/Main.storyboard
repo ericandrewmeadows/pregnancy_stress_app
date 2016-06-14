@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="mtR-ns-gdC">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="kWN-da-N7a">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -815,13 +815,6 @@ mins</string>
                                     <outlet property="mes_button" destination="2Hx-c3-62a" id="vyL-Ic-S1y"/>
                                 </connections>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Meditation" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bf2-Fp-zea">
-                                <rect key="frame" x="119" y="101" width="82" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="wZ1-vu-WDY">
                                 <rect key="frame" x="20" y="20" width="46" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -852,6 +845,13 @@ mins</string>
                                     <outlet property="playPauseButton" destination="hJm-fC-Npv" id="h0s-fu-fNV"/>
                                 </connections>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bf2-Fp-zea">
+                                <rect key="frame" x="119" y="354" width="82" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
@@ -859,6 +859,7 @@ mins</string>
                         <outlet property="audioMeter" destination="r4G-RN-jNq" id="8Uv-uU-idT"/>
                         <outlet property="menuButton" destination="wZ1-vu-WDY" id="mRy-fm-R7b"/>
                         <outlet property="navigationBar" destination="KU6-O8-0GW" id="1EE-Tg-hJV"/>
+                        <outlet property="timeLabel" destination="bf2-Fp-zea" id="u36-zC-2g2"/>
                         <segue destination="x1s-Ka-1iZ" kind="modal" identifier="goto_historicalGraph" animates="NO" id="9hP-Ua-RRU"/>
                         <segue destination="KTs-D7-NvN" kind="modal" identifier="goto_calmleeMeter" animates="NO" id="lGP-YS-nFX"/>
                         <segue destination="shC-Qi-OMd" kind="modal" identifier="goto_messaging" animates="NO" id="5tf-Jq-c8G"/>
@@ -1053,10 +1054,10 @@ mins</string>
         <image name="warningIcon" width="72" height="64"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="vbA-wz-vPb"/>
-        <segue reference="DuW-Nf-yCj"/>
+        <segue reference="9hP-Ua-RRU"/>
         <segue reference="pR1-t5-bxJ"/>
-        <segue reference="Wpe-4a-ebi"/>
-        <segue reference="aG1-dV-L2l"/>
+        <segue reference="5tf-Jq-c8G"/>
+        <segue reference="lGP-YS-nFX"/>
+        <segue reference="SqM-Jm-HkB"/>
     </inferredMetricsTieBreakers>
 </document>

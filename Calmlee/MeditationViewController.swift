@@ -45,6 +45,7 @@ class MeditationViewController: UIViewController {
     var timer:NSTimer! = NSTimer.init()
     var playTimer = NSTimer()
     var updateTimer = NSTimer()
+    @IBOutlet var timeLabel:  UILabel?
     
     func loadAudio() {
         // Play audio file
@@ -109,6 +110,18 @@ class MeditationViewController: UIViewController {
 //        print(delegate!.aM.audioPlayer!.currentTime)
 //        print(self.audioMeter!.audioTrackProgress)
         self.audioMeter!.audioTrackProgress = CGFloat(delegate!.aM.audioPlayer!.currentTime)
+        let minutes = floor(self.audioMeter!.audioTrackProgress / 60)
+        let seconds = round(self.audioMeter!.audioTrackProgress - minutes * 60)
+        let previousText = self.timeLabel?.text
+        if seconds < 10 {
+            self.timeLabel?.text = String(format:"%d:0%d",Int(minutes),Int(seconds))
+        }
+        else {
+            self.timeLabel?.text = String(format:"%d:%d",Int(minutes),Int(seconds))
+        }
+        if previousText != self.timeLabel?.text {
+            self.timeLabel?.setNeedsDisplay()
+        }
     }
     
     override func viewDidLoad() {
@@ -160,14 +173,12 @@ class MeditationViewController: UIViewController {
                               self.width*5/6);
         
         self.audioMeter?.frame = newFrame
-//        delegate?.aM.frame = newFrame
-//        self.loadAudio()
         
-//        self.playTimer = NSTimer.scheduledTimerWithTimeInterval(1.0,
-//                                                                target: self,
-//                                                                selector: #selector(self.playAudioPlayer),
-//                                                                userInfo: nil,
-//                                                                repeats: true)
+        self.timeLabel!.font = UIFont(name: "Avenir Book", size: entire_uiview.height * 9 / 200)!
+        self.timeLabel!.textColor = UIColor.init(red: 29/255, green: 29/255, blue: 38/255, alpha: 0.25)
+        newFrame = CGRectMake(0, entire_uiview.height * 7 / 10,
+                              entire_uiview.width, entire_uiview.height * 9 / 200)
+        self.timeLabel!.frame = newFrame
     }
     
     override func didReceiveMemoryWarning() {
