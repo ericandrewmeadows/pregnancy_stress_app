@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-import SwiftCSV
+//import SwiftCSV
 
 infix operator ** { associativity left precedence 170 }
 
@@ -176,28 +176,28 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
                     loggingString = fileContent! as String
                 }
                 // My loading method
-    //            var cStress_time:[CGFloat] = []
-    //            var cStress_t:[CGFloat] = []
-    //            (cStress_time,cStress_t) = self.stressCSV_class.convertCSV(loggingString)
+//                var cStress_time:[CGFloat] = []
+//                var cStress_t:[CGFloat] = []
+                (self.cStress_time,self.cStress_stress_t) = self.stressCSV_class.convertCSV(loggingString)
 
-                // SwiftCSV method
-                time = NSDate().timeIntervalSince1970
-                let csv = try? CSV.init(name: self.cumulativeStressPath)
-                self.cStress_time = (csv!.columns["time"]!).map {
-                    CGFloat(($0 as NSString).doubleValue)
-                }
-                
-                self.cStress_stress_t = (csv!.columns["stressTime"]!).map {
-                    CGFloat(($0 as NSString).doubleValue)
-                }
-                if (Int(24*60*60 / timeBetweenStressUpdates) < (self.cStress_time.count-1)) {
-                    print(self.cStress_time.count)
-                    self.cStress_time = Array(self.cStress_time[Int(24*60*60 / timeBetweenStressUpdates)...self.cStress_time.count-1])
-                    self.cStress_stress_t = Array(self.cStress_stress_t[Int(24*60*60 / timeBetweenStressUpdates)...self.cStress_stress_t.count-1])
-                    print(NSDate().timeIntervalSince1970 - time)
-                    print(self.cStress_time.count)
-                    self.writeStressFile(0, initialize: true)
-                }
+//                // SwiftCSV method
+//                time = NSDate().timeIntervalSince1970
+//                let csv = try? CSV.init(name: self.cumulativeStressPath)
+//                self.cStress_time = (csv!.columns["time"]!).map {
+//                    CGFloat(($0 as NSString).doubleValue)
+//                }
+//                
+//                self.cStress_stress_t = (csv!.columns["stressTime"]!).map {
+//                    CGFloat(($0 as NSString).doubleValue)
+//                }
+//                if (Int(24*60*60 / timeBetweenStressUpdates) < (self.cStress_time.count-1)) {
+//                    print(self.cStress_time.count)
+//                    self.cStress_time = Array(self.cStress_time[Int(24*60*60 / timeBetweenStressUpdates)...self.cStress_time.count-1])
+//                    self.cStress_stress_t = Array(self.cStress_stress_t[Int(24*60*60 / timeBetweenStressUpdates)...self.cStress_stress_t.count-1])
+//                    print(NSDate().timeIntervalSince1970 - time)
+//                    print(self.cStress_time.count)
+//                    self.writeStressFile(0, initialize: true)
+//                }
                 print("Section 1")
                 print(NSDate().timeIntervalSince1970 - time)
             }

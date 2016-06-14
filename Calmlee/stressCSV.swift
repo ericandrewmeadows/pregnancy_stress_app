@@ -9,7 +9,6 @@
 import UIKit
 
 class stressCSV: NSObject {
-//    var data:[[String:AnyObject]] = []
     var columnTitles:[String] = []
     var columnType:[String] = ["measurementTime","measurementAccumulated"]
     var  importDateFormat = "ss.SSS"
@@ -38,13 +37,11 @@ class stressCSV: NSObject {
         let time = NSDate().timeIntervalSince1970
         let rows = cleanRows(stringData)
         if rows.count > 0 {
-//            data = []
             columnTitles = cleanFields(rows.first!)
             for row in rows{
                 if row == "time,stressTime" {continue}
                 let fields = cleanFields(row)
                 if fields.count != columnTitles.count {continue}
-//                var newRow = [String:AnyObject]()
                 for index in 0..<fields.count{
                     let column = columnTitles[index]
                     let field = fields[index]
@@ -54,28 +51,17 @@ class stressCSV: NSObject {
                         stress_measurementTime.append(
                             CGFloat(NSNumberFormatter().numberFromString(field)!)
                         )
-//                    case "NSDate":
-//                        guard let newField = dateFormatter.dateFromString(field) else {
-//                            print ("\(field) didn\'t convert")
-//                            continue
-//                        }
-//                        newRow[column] = newField
                     case "measurementAccumulated":
-//                        newRow[column] = CGFloat(NSNumberFormatter().numberFromString(field)!)
                             self.stress_measurementAccumulated.append(
                             CGFloat(NSNumberFormatter().numberFromString(field)!)
                         )
                     default: //default keeps as string
-//                        newRow[column] = field
                         continue
                     }
                 }
-//                data.append(newRow)
             }
         } else {
             print("No data in file")
         }
-//        return data
-        print(NSDate().timeIntervalSince1970 - time)
         return((self.stress_measurementTime,self.stress_measurementAccumulated))
     }}

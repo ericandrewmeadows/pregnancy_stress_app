@@ -137,7 +137,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "174"
             endingLineNumber = "174"
-            landmarkName = "dot_cumulativeStress(_:b_val:c:)"
+            landmarkName = "readStressFile()"
             landmarkType = "5">
             <Locations>
                <Location
@@ -185,7 +185,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "173"
             endingLineNumber = "173"
-            landmarkName = "dot_cumulativeStress(_:b_val:c:)"
+            landmarkName = "readStressFile()"
             landmarkType = "5">
             <Locations>
                <Location
