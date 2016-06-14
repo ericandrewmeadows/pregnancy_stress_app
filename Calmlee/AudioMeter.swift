@@ -85,14 +85,17 @@ class AudioMeter: UIView {
         circlePath.stroke()
         
         // Draw the play/pause button
-        let newFrame = CGRectMake(center.x - circleRadius * 2 / 5, center.y - circleRadius * 5 / 22,
-                                  circleRadius * 4 / 5, circleRadius * 5 / 11)
-        self.playPauseButton!.frame = newFrame
         if delegate!.aM.isPlaying {
+            let newFrame = CGRectMake(center.x - circleRadius * 2 / 5, center.y - circleRadius * 5 / 11,
+                                      circleRadius * 4 / 5, circleRadius * 10 / 11)
             self.playPauseButton!.setImage(self.pauseButton, forState: .Normal)
+            self.playPauseButton!.frame = newFrame
         }
         else {
+            let newFrame = CGRectMake(center.x - circleRadius * 26 / 90, center.y - circleRadius * 5 / 11,
+                                      circleRadius * 41 / 50, circleRadius * 10 / 11)
             self.playPauseButton!.setImage(self.playButton, forState: .Normal)
+            self.playPauseButton!.frame = newFrame
         }
         
         
@@ -100,7 +103,7 @@ class AudioMeter: UIView {
         let startAngle: CGFloat = 3 * π / 4
         // Fill region by the ratio of total/max (stress)
         var endAngle: CGFloat = 3 * π / 4 + 3 * π / 2        // Daily Cumulative Stress Level
-        let path = UIBezierPath(arcCenter: center,
+        var path = UIBezierPath(arcCenter: center,
                                 radius: radius/2 - arcWidth/2,
                                 startAngle: startAngle,
                                 endAngle: endAngle,
@@ -112,17 +115,19 @@ class AudioMeter: UIView {
         
         // Draw outer meter (data)
         // Fill region by the ratio of total/max (stress)
-        endAngle = 3 * π / 4 + π * 3/2 * (self.audioTrackProgress / self.audioTrackLength)
-        
-//        // Daily Cumulative Stress Level
-//        path = UIBezierPath(arcCenter: center,
-//                            radius: radius/2 - arcWidth/2,
-//                            startAngle: startAngle,
-//                            endAngle: endAngle,
-//                            clockwise: true)
-//        path.lineWidth = arcWidth
-//        path.lineCapStyle = CGLineCap.Round
-//        audioMeter_progColor.setStroke()
-//        path.stroke()
+        if self.delegate!.aM.audioPlayer != nil {
+            endAngle = 3 * π / 4 + π * 3/2 * (self.audioTrackProgress / CGFloat(self.delegate!.aM.audioPlayer!.duration))
+            
+            // Daily Cumulative Stress Level
+            path = UIBezierPath(arcCenter: center,
+                                radius: radius/2 - arcWidth/2,
+                                startAngle: startAngle,
+                                endAngle: endAngle,
+                                clockwise: true)
+            path.lineWidth = arcWidth
+            path.lineCapStyle = CGLineCap.Round
+            audioMeter_progColor.setStroke()
+            path.stroke()
+        }
     }
 }

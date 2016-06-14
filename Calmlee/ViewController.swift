@@ -109,11 +109,12 @@ class ViewController: UIViewController {
         self.calmleeQuip?.frame = newFrame
         
         // NavigationBar subview
+        let entire_uiview = UIScreen.mainScreen().bounds
         newFrame = CGRectMake(0,
-                              self.height * 0.9,
-                              self.width,
-                              self.height * 0.1)
-        self.navigationBar?.frame = newFrame
+                              entire_uiview.height * 0.9,
+                              entire_uiview.width,
+                              entire_uiview.height * 0.1)
+        self.navigationBar!.frame = newFrame
         self.navigationBar!.homePage = 0
         
         // Button images

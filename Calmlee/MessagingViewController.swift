@@ -195,11 +195,12 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
         
 
         // NavigationBar subview
+        let entire_uiview = UIScreen.mainScreen().bounds
         newFrame = CGRectMake(0,
-                              scalingFromTop * self.height,
-                              self.width,
-                              (1 - scalingFromTop) * self.height)
-        self.navigationBar?.frame = newFrame
+                              entire_uiview.height * 0.9,
+                              entire_uiview.width,
+                              entire_uiview.height * 0.1)
+        self.navigationBar!.frame = newFrame
         self.navigationBar!.homePage = 3
         
         // Menu Button

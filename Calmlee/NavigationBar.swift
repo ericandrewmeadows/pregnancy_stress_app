@@ -110,6 +110,11 @@ class NavigationBar: UIView {
     
     override func drawRect(rect: CGRect) {
         
+        self.backgroundColor = UIColor.clearColor()
+        self.tintColor = UIColor.clearColor()
+        self.layer.borderColor = UIColor.whiteColor().CGColor
+        self.layer.borderWidth = 1
+        
         // height = 0.1 * H
         width = bounds.width
         height = bounds.height
@@ -164,7 +169,7 @@ class NavigationBar: UIView {
         let breakBar = UIBezierPath()
         breakBar.moveToPoint(CGPointMake(width * 2 / 25, line_topAnchor))
         breakBar.addLineToPoint(CGPointMake(width * 23 / 25, line_topAnchor))
-        UIColor.init(red: 29/255, green: 29/255, blue: 38/255, alpha: 0.7).setStroke()
+        UIColor.init(red: 29/255, green: 29/255, blue: 38/255, alpha: 0.1).setStroke()
         breakBar.lineWidth = 1
         breakBar.stroke()
     }

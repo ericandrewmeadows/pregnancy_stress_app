@@ -44,11 +44,12 @@ class HistoricalGraphViewController: UIViewController {
         self.height = self.view.frame.size.height
         
         // NavigationBar subview
+        let entire_uiview = UIScreen.mainScreen().bounds
         var newFrame = CGRectMake(0,
-                                  self.height * 0.9,
-                                  self.width,
-                                  self.height * 0.1)
-        self.navigationBar?.frame = newFrame
+                                  entire_uiview.height * 0.9,
+                                  entire_uiview.width,
+                                  entire_uiview.height * 0.1)
+        self.navigationBar!.frame = newFrame
         self.navigationBar!.homePage = 2
         
         // Menu Button

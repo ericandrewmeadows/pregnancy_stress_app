@@ -14,7 +14,7 @@ import AVFoundation
 class MeditationViewController: UIViewController {
     
     let delegate = UIApplication.sharedApplication().delegate as? AppDelegate
-    @IBOutlet weak var audioMeter: AudioMeter?
+    @IBOutlet weak var audioMeter: AudioMeter?//! = AudioMeter()
 
     @IBOutlet var navigationBar:  NavigationBar? =  NavigationBar()
     
@@ -92,13 +92,14 @@ class MeditationViewController: UIViewController {
             print("exists")
             if delegate!.aM.isPlaying == false {
                 delegate!.aM.audioPlayer!.play()
-                delegate!.aM.isPlaying == true
+                delegate!.aM.isPlaying = true
                 self.updateTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: "updateAudioProgressView", userInfo: nil, repeats: true)
             }
             else {
-                delegate!.aM.audioPlayer!.play()
+                delegate!.aM.audioPlayer!.pause()
                 delegate!.aM.isPlaying = false
                 updateTimer.invalidate()
+                self.audioMeter!.setNeedsDisplay()
             }
         }
 
@@ -106,6 +107,7 @@ class MeditationViewController: UIViewController {
     
     func updateAudioProgressView() {
 //        print(delegate!.aM.audioPlayer!.currentTime)
+//        print(self.audioMeter!.audioTrackProgress)
         self.audioMeter!.audioTrackProgress = CGFloat(delegate!.aM.audioPlayer!.currentTime)
     }
     
@@ -116,12 +118,15 @@ class MeditationViewController: UIViewController {
         self.width = self.view.frame.size.width
         self.height = self.view.frame.size.height
         
+        self.view.backgroundColor = UIColor.whiteColor()
+        
         // NavigationBar subview
+        let entire_uiview = UIScreen.mainScreen().bounds
         var newFrame = CGRectMake(0,
-                                  self.height * 0.9,
-                                  self.width,
-                                  self.height * 0.1)
-        self.navigationBar?.frame = newFrame
+                                  entire_uiview.height * 0.9,
+                                  entire_uiview.width,
+                                  entire_uiview.height * 0.1)
+        self.navigationBar!.frame = newFrame
         
         // Menu Button
         newFrame = CGRectMake(self.width / 30, self.height / 15, self.width / 10, self.width / 10)
