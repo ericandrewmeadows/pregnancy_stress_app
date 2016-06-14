@@ -10,7 +10,6 @@
 		348F0AD667A5532ADB4D0040 /* Pods_CalmleeUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F608CB24E5C5DD4AA882FD84 /* Pods_CalmleeUITests.framework */; };
 		5331CD6B1CF21B8900B77A5F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5331CD6A1CF21B8900B77A5F /* AppDelegate.swift */; };
 		5331CD6D1CF21B8900B77A5F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5331CD6C1CF21B8900B77A5F /* ViewController.swift */; };
-		5331CD701CF21B8900B77A5F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5331CD6E1CF21B8900B77A5F /* Main.storyboard */; };
 		5331CD721CF21B8900B77A5F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5331CD711CF21B8900B77A5F /* Assets.xcassets */; };
 		5331CD751CF21B8900B77A5F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5331CD731CF21B8900B77A5F /* LaunchScreen.storyboard */; };
 		5331CD801CF21B8900B77A5F /* CalmleeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5331CD7F1CF21B8900B77A5F /* CalmleeTests.swift */; };
@@ -27,6 +26,8 @@
 		537D38771D0CCD0600749B05 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537D38761D0CCD0600749B05 /* SettingsViewController.swift */; };
 		537D38791D0D34BF00749B05 /* GenderRadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537D38781D0D34BF00749B05 /* GenderRadioButton.swift */; };
 		537D387B1D0E069A00749B05 /* RoundedRectangleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537D387A1D0E069A00749B05 /* RoundedRectangleButton.swift */; };
+		5383C43F1D0FE996004836CA /* AudioMeter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5383C43E1D0FE996004836CA /* AudioMeter.swift */; };
+		5383C4411D0FEB52004836CA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5383C4401D0FEB52004836CA /* Main.storyboard */; };
 		538AED9C1CF61A7D00E4A29D /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 538AED9B1CF61A7D00E4A29D /* LoginView.swift */; };
 		538AED9E1CF61E9500E4A29D /* LoginDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 538AED9D1CF61E9500E4A29D /* LoginDetails.swift */; };
 		538AEDA01CF6793000E4A29D /* LoginCommunications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 538AED9F1CF6793000E4A29D /* LoginCommunications.swift */; };
@@ -94,7 +95,6 @@
 		5331CD671CF21B8900B77A5F /* Calmlee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Calmlee.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5331CD6A1CF21B8900B77A5F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5331CD6C1CF21B8900B77A5F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		5331CD6F1CF21B8900B77A5F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5331CD711CF21B8900B77A5F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5331CD741CF21B8900B77A5F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5331CD761CF21B8900B77A5F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -117,6 +117,8 @@
 		537D38761D0CCD0600749B05 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		537D38781D0D34BF00749B05 /* GenderRadioButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenderRadioButton.swift; sourceTree = "<group>"; };
 		537D387A1D0E069A00749B05 /* RoundedRectangleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedRectangleButton.swift; sourceTree = "<group>"; };
+		5383C43E1D0FE996004836CA /* AudioMeter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioMeter.swift; sourceTree = "<group>"; };
+		5383C4401D0FEB52004836CA /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		538AED9B1CF61A7D00E4A29D /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		538AED9D1CF61E9500E4A29D /* LoginDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginDetails.swift; sourceTree = "<group>"; };
 		538AED9F1CF6793000E4A29D /* LoginCommunications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginCommunications.swift; sourceTree = "<group>"; };
@@ -224,7 +226,7 @@
 			isa = PBXGroup;
 			children = (
 				5331CD6A1CF21B8900B77A5F /* AppDelegate.swift */,
-				5331CD6E1CF21B8900B77A5F /* Main.storyboard */,
+				5383C4401D0FEB52004836CA /* Main.storyboard */,
 				5331CD711CF21B8900B77A5F /* Assets.xcassets */,
 				5331CD761CF21B8900B77A5F /* Info.plist */,
 				53B7F9211CFB8E79001E07C1 /* NavigationBar.swift */,
@@ -315,6 +317,7 @@
 			isa = PBXGroup;
 			children = (
 				53B7F9241CFBB2BD001E07C1 /* MeditationViewController.swift */,
+				5383C43E1D0FE996004836CA /* AudioMeter.swift */,
 			);
 			name = Meditation;
 			sourceTree = "<group>";
@@ -530,8 +533,8 @@
 			files = (
 				5331CD751CF21B8900B77A5F /* LaunchScreen.storyboard in Resources */,
 				5331CD721CF21B8900B77A5F /* Assets.xcassets in Resources */,
-				5331CD701CF21B8900B77A5F /* Main.storyboard in Resources */,
 				539B8D311CFE38BF00B93F85 /* SendBirdMessaging in Resources */,
+				5383C4411D0FEB52004836CA /* Main.storyboard in Resources */,
 				539B8D2F1CFE38BF00B93F85 /* SendBirdChat in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -706,6 +709,7 @@
 				539B8D411CFE3DEA00B93F85 /* FileLinkTableViewCell.swift in Sources */,
 				539B8D531CFE3E1A00B93F85 /* MemberTableViewCell.swift in Sources */,
 				53EF96C71D06418D0037A404 /* userInfo.swift in Sources */,
+				5383C43F1D0FE996004836CA /* AudioMeter.swift in Sources */,
 				539B8D331CFE3DC000B93F85 /* ChattingTableViewController.swift in Sources */,
 				53B7F9221CFB8E79001E07C1 /* NavigationBar.swift in Sources */,
 				5336CFEB1D0B77F500231B4A /* ProfileInMenuView.swift in Sources */,
@@ -762,14 +766,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		5331CD6E1CF21B8900B77A5F /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				5331CD6F1CF21B8900B77A5F /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		5331CD731CF21B8900B77A5F /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
