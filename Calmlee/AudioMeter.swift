@@ -25,6 +25,11 @@ class AudioMeter: UIView {
         }
     }
     
+    @IBOutlet var playPauseButton:  UIButton?
+    var playButton:   UIImage = UIImage(named: "playButton")!
+    var pauseButton:  UIImage = UIImage(named: "pauseButton")!
+
+    
     var audioMeter_background: UIColor = UIColor.init(red: 209/255, green: 209/255, blue: 209/255, alpha: 64/100)
     var audioMeter_progColor:  UIColor = UIColor.init(red: 168/255, green: 230/255, blue: 206/255, alpha: 1.0)//was alpha: 64/100
     
@@ -38,12 +43,13 @@ class AudioMeter: UIView {
         print("loadingAudioTrack")
         do {
 //            let url = "https://io.calmlee.com/mindfulnessTracks/2mins-inner-peace-stereo.mp3"
-//            NSString *path = [NSString stringWithFormat:@"%@/drum01.mp3", [[NSBundle mainBundle] resourcePath]];
+//            let fileURL = NSURL(string:url)
+//            let soundData = NSData(contentsOfURL:fileURL!)
+//            try self.audioPlayer = AVAudioPlayer(data: soundData!)
             
             let url = String(format: "%@/2mins-inner-peace-stereo.mp3",NSBundle.mainBundle().resourcePath!)
             let fileURL = NSURL(string:url)
-            let soundData = NSData(contentsOfURL:fileURL!)
-            try self.audioPlayer = AVAudioPlayer(data: soundData!)
+            try self.audioPlayer = AVAudioPlayer.init(contentsOfURL: fileURL!)
             self.audioPlayer!.prepareToPlay()
             self.audioPlayer!.volume = 1.0
             //            self.audioPlayer!.play()
@@ -53,6 +59,15 @@ class AudioMeter: UIView {
             
         } catch {
             print("Error getting the audio file")
+        }
+    }
+    
+    @IBAction func playPauseAudio(sender: AnyObject?) {
+        if delegate!.aM.isPlaying {
+            self.audioPlayer!.pause()
+        }
+        else {
+            self.audioPlayer!.play()
         }
     }
 
@@ -66,7 +81,7 @@ class AudioMeter: UIView {
         let circuleEndAngle:  CGFloat = 2*π
         
         
-        // Draw the current level meter
+        // Draw the play/pause background
         let circleRadius:  CGFloat = bounds.width * 11 / 75
         let circlePath = UIBezierPath(arcCenter: center,
                                       radius: circleRadius/2,
@@ -77,6 +92,17 @@ class AudioMeter: UIView {
         circlePath.lineWidth = circleRadius
         UIColor.init(red: 126/255, green: 91/255, blue: 119/255, alpha: 1.0).setStroke()
         circlePath.stroke()
+        
+        // Draw the play/pause button
+        let newFrame = CGRectMake(center.x - circleRadius * 2 / 5, center.y - circleRadius * 5 / 22,
+                                  circleRadius * 4 / 5, circleRadius * 5 / 11)
+        self.playPauseButton!.frame = newFrame
+        if delegate!.aM.isPlaying {
+            self.playPauseButton!.setImage(self.pauseButton, forState: .Normal)
+        }
+        else {
+            self.playPauseButton!.setImage(self.playButton, forState: .Normal)
+        }
         
         
         // Draw outer meter (background)

@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		348F0AD667A5532ADB4D0040 /* Pods_CalmleeUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F608CB24E5C5DD4AA882FD84 /* Pods_CalmleeUITests.framework */; };
+		5331856E1D108A52008ED634 /* 2mins-inner-peace-stereo.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5331856C1D108A52008ED634 /* 2mins-inner-peace-stereo.mp3 */; };
+		5331856F1D108A52008ED634 /* 2mins-release-stress-stereo.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5331856D1D108A52008ED634 /* 2mins-release-stress-stereo.mp3 */; };
 		5331CD6B1CF21B8900B77A5F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5331CD6A1CF21B8900B77A5F /* AppDelegate.swift */; };
 		5331CD6D1CF21B8900B77A5F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5331CD6C1CF21B8900B77A5F /* ViewController.swift */; };
 		5331CD721CF21B8900B77A5F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5331CD711CF21B8900B77A5F /* Assets.xcassets */; };
@@ -92,6 +94,8 @@
 		1B7F40200B2C0F42D0AF9AB1 /* Pods-Calmlee.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Calmlee.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Calmlee/Pods-Calmlee.debug.xcconfig"; sourceTree = "<group>"; };
 		27CD907F9785FED0647EF6BB /* Pods_Calmlee.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Calmlee.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4E036FF324ECA65F0B3F0F6E /* Pods-CalmleeUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CalmleeUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CalmleeUITests/Pods-CalmleeUITests.release.xcconfig"; sourceTree = "<group>"; };
+		5331856C1D108A52008ED634 /* 2mins-inner-peace-stereo.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "2mins-inner-peace-stereo.mp3"; sourceTree = "<group>"; };
+		5331856D1D108A52008ED634 /* 2mins-release-stress-stereo.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "2mins-release-stress-stereo.mp3"; sourceTree = "<group>"; };
 		5331CD671CF21B8900B77A5F /* Calmlee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Calmlee.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5331CD6A1CF21B8900B77A5F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5331CD6C1CF21B8900B77A5F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -195,6 +199,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5331856B1D108A03008ED634 /* AudioTracks */ = {
+			isa = PBXGroup;
+			children = (
+				5331856C1D108A52008ED634 /* 2mins-inner-peace-stereo.mp3 */,
+				5331856D1D108A52008ED634 /* 2mins-release-stress-stereo.mp3 */,
+			);
+			name = AudioTracks;
+			sourceTree = "<group>";
+		};
 		5331CD5E1CF21B8900B77A5F = {
 			isa = PBXGroup;
 			children = (
@@ -225,6 +238,7 @@
 		5331CD691CF21B8900B77A5F /* Calmlee */ = {
 			isa = PBXGroup;
 			children = (
+				5331856B1D108A03008ED634 /* AudioTracks */,
 				5331CD6A1CF21B8900B77A5F /* AppDelegate.swift */,
 				5383C4401D0FEB52004836CA /* Main.storyboard */,
 				5331CD711CF21B8900B77A5F /* Assets.xcassets */,
@@ -488,6 +502,7 @@
 					5331CD661CF21B8900B77A5F = {
 						CreatedOnToolsVersion = 7.3;
 						DevelopmentTeam = LQG25CTX7K;
+						LastSwiftMigration = 0800;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -497,11 +512,13 @@
 					5331CD7A1CF21B8900B77A5F = {
 						CreatedOnToolsVersion = 7.3;
 						DevelopmentTeam = 96LY6JE5R6;
+						LastSwiftMigration = 0800;
 						TestTargetID = 5331CD661CF21B8900B77A5F;
 					};
 					5331CD851CF21B8900B77A5F = {
 						CreatedOnToolsVersion = 7.3;
 						DevelopmentTeam = 96LY6JE5R6;
+						LastSwiftMigration = 0800;
 						TestTargetID = 5331CD661CF21B8900B77A5F;
 					};
 				};
@@ -535,6 +552,8 @@
 				5331CD721CF21B8900B77A5F /* Assets.xcassets in Resources */,
 				539B8D311CFE38BF00B93F85 /* SendBirdMessaging in Resources */,
 				5383C4411D0FEB52004836CA /* Main.storyboard in Resources */,
+				5331856F1D108A52008ED634 /* 2mins-release-stress-stereo.mp3 in Resources */,
+				5331856E1D108A52008ED634 /* 2mins-inner-peace-stereo.mp3 in Resources */,
 				539B8D2F1CFE38BF00B93F85 /* SendBirdChat in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -878,6 +897,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.calmlee.calmleepregnancy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Calmlee/BandSensorSwift-Bridging-Header.h";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Debug;
 		};
@@ -898,6 +918,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.calmlee.calmleepregnancy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Calmlee/BandSensorSwift-Bridging-Header.h";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Release;
 		};
@@ -910,6 +931,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = CLApp.CalmleeTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Calmlee.app/Calmlee";
 			};
 			name = Debug;
@@ -923,6 +945,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = CLApp.CalmleeTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Calmlee.app/Calmlee";
 			};
 			name = Release;
@@ -935,6 +958,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = CLApp.CalmleeUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 				TEST_TARGET_NAME = Calmlee;
 			};
 			name = Debug;
@@ -947,6 +971,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = CLApp.CalmleeUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 				TEST_TARGET_NAME = Calmlee;
 			};
 			name = Release;

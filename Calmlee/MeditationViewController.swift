@@ -48,7 +48,8 @@ class MeditationViewController: UIViewController {
     func loadAudio() {
         // Play audio file
         do {
-            let url = "https://io.calmlee.com/mindfulnessTracks/2mins-inner-peace-stereo.mp3"
+//            let url = "https://io.calmlee.com/mindfulnessTracks/2mins-inner-peace-stereo.mp3"
+            let url = String(format:"%@/2mins-inner-peace-stereo.mp3",NSBundle.mainBundle().resourcePath!)
             let fileURL = NSURL(string:url)
             let soundData = NSData(contentsOfURL:fileURL!)
             try self.audioPlayer = AVAudioPlayer(data: soundData!)

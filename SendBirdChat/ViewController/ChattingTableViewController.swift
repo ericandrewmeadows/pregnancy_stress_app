@@ -768,7 +768,7 @@ class ChattingTableViewController: UIViewController, ChatMessageInputViewDelegat
                 
                 UIGraphicsBeginImageContextWithOptions(CGSizeMake(newWidth, newHeight), false, 0.0);
                 imageToUse?.drawInRect(CGRectMake(0, 0, newWidth, newHeight))
-                let newImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()
+                let newImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
                 UIGraphicsEndImageContext()
                 
                 let imageFileData: NSData = UIImagePNGRepresentation(newImage)!

@@ -232,7 +232,7 @@ class SendBirdUtils {
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
-        return newImage
+        return newImage!
     }
     
     static func getDisplayMemberNames(members: Array<SendBirdMember>) -> String {
@@ -313,9 +313,9 @@ class SendBirdUtils {
         let rect: CGRect = CGRectMake(0, 0, 1, 1)
         UIGraphicsBeginImageContext(rect.size)
         let context = UIGraphicsGetCurrentContext()
-        CGContextSetFillColorWithColor(context, color.CGColor)
-        CGContextFillRect(context, rect)
-        let img: UIImage = UIGraphicsGetImageFromCurrentImageContext()
+        CGContextSetFillColorWithColor(context!, color.CGColor)
+        CGContextFillRect(context!, rect)
+        let img: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
         
         return img
@@ -346,7 +346,7 @@ class SendBirdUtils {
             
             UIGraphicsBeginImageContextWithOptions(newSize, false, 0)
             image.drawInRect(CGRectMake(0, 0, newSize.width, newSize.height))
-            let newImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()
+            let newImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
             UIGraphicsEndImageContext()
             
             iv.image = newImage

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="mtR-ns-gdC">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="kWN-da-N7a">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -833,6 +833,15 @@ mins</string>
                             <view contentMode="scaleToFill" id="r4G-RN-jNq" customClass="AudioMeter" customModule="Calmlee" customModuleProvider="target">
                                 <rect key="frame" x="40" y="157" width="240" height="128"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="hJm-fC-Npv">
+                                        <rect key="frame" x="97" y="49" width="46" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <connections>
+                                            <action selector="playPauseAudio:" destination="r4G-RN-jNq" eventType="touchUpInside" id="e2X-b2-W0A"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                         </subviews>
@@ -960,7 +969,7 @@ mins</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4tm-ed-eW2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-309" y="352"/>
+            <point key="canvasLocation" x="-308.80000000000001" y="352.15999999999997"/>
         </scene>
         <!--Walkthrough View Controller-->
         <scene sceneID="eYA-sh-GUm">
@@ -1037,9 +1046,9 @@ mins</string>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="SqM-Jm-HkB"/>
-        <segue reference="vSg-AY-Yw6"/>
+        <segue reference="99C-Ug-Gc5"/>
         <segue reference="9hP-Ua-RRU"/>
         <segue reference="5tf-Jq-c8G"/>
-        <segue reference="aG1-dV-L2l"/>
+        <segue reference="lGP-YS-nFX"/>
     </inferredMetricsTieBreakers>
 </document>
