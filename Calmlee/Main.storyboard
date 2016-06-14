@@ -837,6 +837,7 @@ mins</string>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="hJm-fC-Npv">
                                         <rect key="frame" x="97" y="49" width="46" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" red="0.012027450607902735" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
                                             <action selector="playPauseAudio:" destination="r4G-RN-jNq" eventType="touchUpInside" id="e2X-b2-W0A"/>
                                         </connections>
