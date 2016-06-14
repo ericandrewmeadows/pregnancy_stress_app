@@ -37,7 +37,10 @@ class AudioMeter: UIView {
         // Play audio file
         print("loadingAudioTrack")
         do {
-            let url = "https://io.calmlee.com/mindfulnessTracks/2mins-inner-peace-stereo.mp3"
+//            let url = "https://io.calmlee.com/mindfulnessTracks/2mins-inner-peace-stereo.mp3"
+//            NSString *path = [NSString stringWithFormat:@"%@/drum01.mp3", [[NSBundle mainBundle] resourcePath]];
+            
+            let url = String(format: "%@/2mins-inner-peace-stereo.mp3",NSBundle.mainBundle().resourcePath!)
             let fileURL = NSURL(string:url)
             let soundData = NSData(contentsOfURL:fileURL!)
             try self.audioPlayer = AVAudioPlayer(data: soundData!)

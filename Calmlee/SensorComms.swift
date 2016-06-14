@@ -161,7 +161,7 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
                 let fileContent = try? NSString(contentsOfFile: self.cumulativeStressPath,
                                                 encoding: NSUTF8StringEncoding)
                 let fileData = fileContent?.componentsSeparatedByString("\n")
-                var time = NSDate().timeIntervalSince1970
+                let time = NSDate().timeIntervalSince1970
                 print(fileData![0])
                 var loggingString = ""
                 if (fileData![0] != "time,stressTime") {

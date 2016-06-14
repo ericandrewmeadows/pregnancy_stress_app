@@ -141,7 +141,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func sendData(sender: UIButton!) {
-//        delegate!.Sensor.sendFile()
+        delegate!.Sensor.reportIncorrectStress(sender)
     }
 
     func updateStressMeter() {
