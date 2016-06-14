@@ -7,10 +7,14 @@
 //
 
 import UIKit
+//import MediaPlayer
+//import MobileCoreServices
+import AVFoundation
 
 class MeditationViewController: UIViewController {
     
     let delegate = UIApplication.sharedApplication().delegate as? AppDelegate
+    @IBOutlet weak var audioMeter: AudioMeter?
 
     @IBOutlet var navigationBar:  NavigationBar? =  NavigationBar()
     
@@ -33,6 +37,57 @@ class MeditationViewController: UIViewController {
         delegate!.previousPage = self.navigationBar!.homePage
         print(delegate!.previousPage)
         self.performSegueWithIdentifier("goto_menu", sender: nil)
+    }
+    
+    // Media Player elements
+    var audioPlayer: AVAudioPlayer?
+    var isPlaying = false
+    var timer:NSTimer! = NSTimer.init()
+    var playTimer = NSTimer()
+    
+    func loadAudio() {
+        // Play audio file
+        do {
+            let url = "https://io.calmlee.com/mindfulnessTracks/2mins-inner-peace-stereo.mp3"
+            let fileURL = NSURL(string:url)
+            let soundData = NSData(contentsOfURL:fileURL!)
+            try self.audioPlayer = AVAudioPlayer(data: soundData!)
+            self.audioPlayer!.prepareToPlay()
+            self.audioPlayer!.volume = 1.0
+//            delegate!.aM.audioPlayer!.play()
+            self.audioMeter!.audioTrackLength = CGFloat(delegate!.aM.audioPlayer!.duration)
+//            delegate?.aM.audioTrackLength = CGFloat(self.audioPlayer!.duration)
+            print("Duration:  \(self.audioPlayer!.duration)")
+            NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: "updateAudioProgressView", userInfo: nil, repeats: true)
+
+        } catch {
+            print("Error getting the audio file")
+        }
+    }
+    
+    @IBAction func pauseAudioPlayer() {
+        if self.audioPlayer != nil {
+            self.audioPlayer!.pause()
+        }
+    }
+    
+    @IBAction func playAudioPlayer() {
+        if delegate!.aM.audioPlayer != nil {
+            print("exists")
+            if delegate!.aM.isPlaying == false {
+                delegate!.aM.audioPlayer!.play()
+                delegate!.aM.isPlaying == true
+                NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: "updateAudioProgressView", userInfo: nil, repeats: true)
+            }
+        }
+        else {
+            print("DNE")
+        }
+    }
+    
+    func updateAudioProgressView() {
+//        print(delegate!.aM.audioPlayer!.currentTime)
+        self.audioMeter!.audioTrackProgress = CGFloat(delegate!.aM.audioPlayer!.currentTime)
     }
     
     override func viewDidLoad() {
@@ -71,6 +126,24 @@ class MeditationViewController: UIViewController {
         self.navigationBar!.mes_button.setImage(self.mes_sel, forState: .Highlighted)
         self.navigationBar!.hG_button.setImage(self.hG_desel, forState: .Normal)
         self.navigationBar!.hG_button.setImage(self.hG_sel, forState: .Highlighted)
+        
+        self.width = self.view.frame.size.width
+        self.height = self.view.frame.size.height
+        
+        newFrame = CGRectMake(0,
+                              self.height/2-self.width/2,
+                              self.width,
+                              self.width*5/6);
+        
+        self.audioMeter?.frame = newFrame
+//        delegate?.aM.frame = newFrame
+//        self.loadAudio()
+        
+        self.playTimer = NSTimer.scheduledTimerWithTimeInterval(1.0,
+                                                                target: self,
+                                                                selector: #selector(self.playAudioPlayer),
+                                                                userInfo: nil,
+                                                                repeats: true)
     }
     
     override func didReceiveMemoryWarning() {

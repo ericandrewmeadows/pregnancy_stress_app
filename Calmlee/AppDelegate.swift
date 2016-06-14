@@ -17,6 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let app_notifications = notifications()
     var previousPage: Int = 0
     let sQ = serverQuery()
+    let aM = AudioMeter()
     let defaults = NSUserDefaults.standardUserDefaults()
     let nav = UINavigationController()
 
@@ -25,7 +26,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Reads historical stress from existing storage.  Async due to read-time.
         let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
-        dispatch_async(dispatch_get_global_queue(priority, 0)) {self.Sensor.readStressFile()
+        dispatch_async(dispatch_get_global_queue(priority, 0)) {
+            self.Sensor.readStressFile()
+            self.aM.loadAudio()
         }
         Sensor.start()
         Sensor.startTesting()

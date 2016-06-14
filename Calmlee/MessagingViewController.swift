@@ -546,7 +546,7 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func updateChannelTitle() {
-        print(SendBirdUtils.getChannelNameFromUrl(self.channelUrl as! String))
+        print(SendBirdUtils.getChannelNameFromUrl(self.channelUrl ))
     }
 
     func showTyping() {

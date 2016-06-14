@@ -9,7 +9,7 @@
 import UIKit
 import Darwin
 
-let max_dailyStress:  CGFloat = 60*60 // Time in seconds
+let max_dailyStress:  CGFloat = 60*60*8 // Time in seconds
 /* Maximum set of hours stress can happen.  Above this, it will be set to the maximum.  This will show up on the plot as well */
 let π:CGFloat = CGFloat(M_PI)
 var stressIndex_p:  CGFloat = 0.00
@@ -170,7 +170,7 @@ let stressThreshold:  CGFloat = 0.60
         path.stroke()
         
         // Draw outline for current level text
-        var outlinePath = UIBezierPath()
+        let outlinePath = UIBezierPath()
         
         // Corner Anchor
         let bubbleAngle = π/8

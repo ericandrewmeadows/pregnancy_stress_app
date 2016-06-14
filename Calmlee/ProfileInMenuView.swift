@@ -10,6 +10,8 @@ import UIKit
 
 class ProfileInMenuView: UIView {
     
+    let defaults = NSUserDefaults.standardUserDefaults()
+
     var entire_uiview = UIScreen.mainScreen().bounds
     var height:  CGFloat = 0
     var width:  CGFloat = 0
@@ -56,7 +58,7 @@ class ProfileInMenuView: UIView {
                                            green: 255/255,
                                            blue: 255/255,
                                            alpha: 1.0)
-        self.nameLabel.text = "Bozo Clown"
+        self.nameLabel.text = self.defaults.stringForKey("firstName")! + " " + self.defaults.stringForKey("lastName")!
         
         newFrame = CGRectMake(self.width * 22 / 75, self.height * 9 / 16,
                               self.width * 53 / 75, self.height * 1 / 10)
@@ -67,6 +69,7 @@ class ProfileInMenuView: UIView {
                                             green: 255/255,
                                             blue: 255/255,
                                             alpha: 0.5)
-        self.emailLabel.text = "bozo@clowntown.com"
+        self.emailLabel.text = self.defaults.stringForKey("email")!
+
     }
 }

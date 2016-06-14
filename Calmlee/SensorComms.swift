@@ -95,7 +95,7 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
     
     // Norification Functions
     /*
-    Log identifier 99
+    Log identifier 50
         - 0: Recorded as stressed, but user not stressed
         - 1: Recorded as not Stressed, but user stressed
      */
@@ -110,6 +110,34 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
             self.logToFile(String(format: "50, %0.4f, 1\n",milliseconds))
             print("incorrectly reported as not stressed")
         }
+    }
+    
+    func sendBuzzNotification() {
+        // send a vibration request of type alert alarm to the Band
+        self.client?.notificationManager.vibrateWithType(MSBNotificationVibrationType.Alarm, completionHandler: { (error) in
+            print("buzzed")
+        })
+//        [self.client.notificationManager
+//            vibrateWithType:MSBNotificationVibrationTypeAlarm
+//            completionHandler:^(NSError *error)
+//            {
+//            if (error){
+//            // handle error
+//            }
+//            }];
+        
+//        [self.client.notificationManager
+//            sendMessageWithTileID:tileId
+//            title:@"Message title"
+//        body:@"Message body"
+//        timeStamp:[NSDate date]
+//        flags:MSBNotificationMessageFlagsShowDialog
+//        completionHandler:^(NSError *error)
+//        {
+//            if (error){
+//                // handle error
+//            }
+//        }];
     }
     
     func scheduleLocalNotification() {
@@ -129,42 +157,66 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
     // Cumulative Stress functions
     func readStressFile() {
         if (NSFileManager.defaultManager().fileExistsAtPath(self.cumulativeStressPath)) {
-            var fileContent = try? NSString(contentsOfFile: self.cumulativeStressPath,
-                                            encoding: NSUTF8StringEncoding)
-            let fileData = fileContent?.componentsSeparatedByString("\n")
-            var time = NSDate().timeIntervalSince1970
-            print(fileData![0])
-            var loggingString = ""
-            if (fileData![0] != "time,stressTime") {
-                loggingString = "time,stressTime\n" + String(fileContent)
-                let os:  NSOutputStream = NSOutputStream(toFileAtPath: self.cumulativeStressPath,
-                                                         append: false)!
-                os.open()
-                os.write(loggingString, maxLength: loggingString.lengthOfBytesUsingEncoding(NSUTF8StringEncoding))
-                os.close()
+            if let delete: Bool? = self.defaults.integerForKey("deleteData_rev") == 0 {
+                let fileContent = try? NSString(contentsOfFile: self.cumulativeStressPath,
+                                                encoding: NSUTF8StringEncoding)
+                let fileData = fileContent?.componentsSeparatedByString("\n")
+                var time = NSDate().timeIntervalSince1970
+                print(fileData![0])
+                var loggingString = ""
+                if (fileData![0] != "time,stressTime") {
+                    loggingString = "time,stressTime\n" + String(fileContent)
+                    let os:  NSOutputStream = NSOutputStream(toFileAtPath: self.cumulativeStressPath,
+                                                             append: false)!
+                    os.open()
+                    os.write(loggingString, maxLength: loggingString.lengthOfBytesUsingEncoding(NSUTF8StringEncoding))
+                    os.close()
+                }
+                else {
+                    loggingString = fileContent! as String
+                }
+                // My loading method
+    //            var cStress_time:[CGFloat] = []
+    //            var cStress_t:[CGFloat] = []
+    //            (cStress_time,cStress_t) = self.stressCSV_class.convertCSV(loggingString)
+
+                // SwiftCSV method
+                time = NSDate().timeIntervalSince1970
+                let csv = try? CSV.init(name: self.cumulativeStressPath)
+                self.cStress_time = (csv!.columns["time"]!).map {
+                    CGFloat(($0 as NSString).doubleValue)
+                }
+                
+                self.cStress_stress_t = (csv!.columns["stressTime"]!).map {
+                    CGFloat(($0 as NSString).doubleValue)
+                }
+                if (Int(24*60*60 / timeBetweenStressUpdates) < (self.cStress_time.count-1)) {
+                    print(self.cStress_time.count)
+                    self.cStress_time = Array(self.cStress_time[Int(24*60*60 / timeBetweenStressUpdates)...self.cStress_time.count-1])
+                    self.cStress_stress_t = Array(self.cStress_stress_t[Int(24*60*60 / timeBetweenStressUpdates)...self.cStress_stress_t.count-1])
+                    print(NSDate().timeIntervalSince1970 - time)
+                    print(self.cStress_time.count)
+                    self.writeStressFile(0, initialize: true)
+                }
+                print("Section 1")
+                print(NSDate().timeIntervalSince1970 - time)
             }
             else {
-                loggingString = fileContent! as String
+                self.defaults.setInteger(0, forKey: "deleteData_rev")
+                let fileManager = NSFileManager.defaultManager()
+                do {
+                    try fileManager.removeItemAtPath(self.cumulativeStressPath)
+                }
+                catch let error as NSError {
+                    print("Ooops! Something went wrong: \(error)")
+                }
+                print("Section 2")
             }
-            // My loading method
-//            var cStress_time:[CGFloat] = []
-//            var cStress_t:[CGFloat] = []
-//            (cStress_time,cStress_t) = self.stressCSV_class.convertCSV(loggingString)
-
-            // SwiftCSV method
-            time = NSDate().timeIntervalSince1970
-            let csv = try? CSV.init(name: self.cumulativeStressPath)
-            self.cStress_time = (csv!.columns["time"]!).map {
-                CGFloat(($0 as NSString).doubleValue)
-            }
-            
-            self.cStress_stress_t = (csv!.columns["stressTime"]!).map {
-                CGFloat(($0 as NSString).doubleValue)
-            }
-            print(NSDate().timeIntervalSince1970 - time)
+        
         }
         else {
             self.writeStressFile(0,initialize: true)
+            print("Section 3")
         }
     }
     
@@ -207,6 +259,43 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
         }
     }
     
+    /*
+     
+     Number Sensor                      Number Format   Units
+     ---    ----------------------      -------------   -----
+     0*     Accelerometer
+     1*     Altimeter
+     2      Ambient Light
+     3      Air Temperature
+     4      Barometric Pressure
+     5*     Calories Burned
+     6      Contact of Band (Real-time monitor:  GSR == 340330)
+     7*     Distance
+     8      Galvanic Skin Resistance
+     9*     Gyroscope
+     10     Heart Rate
+     11     Motion Type                 enum
+     12*    Pedometer
+     13*    Resting Rate Interval
+     14     Skin Temperature
+     15     Ultraviolet Light
+     16     Heart Rate Type
+     17     Band speed                  Float           ms/m
+     18     Band pace                   Float           cm/s
+     50     False stress reading        0 - F. Positive, 1 - F. Negative
+     
+     */
+    
+    /* enum:MOTION TYPE
+     Value  Motion Type
+     -----  -----------
+     0      Unknown
+     1      Idle
+     2      Walking
+     3      Jogging
+     4      Running
+     */
+    
     func startTesting() { //I NEED TO RESET ARRAYS here!
         let delay: NSTimeInterval = NSTimeInterval(2) // Time until connection retry
         if let client = self.client {
@@ -247,14 +336,15 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
                 })
             }
             
-            // Fetch skin temperature readings
-            try! client.sensorManager.startSkinTempUpdatesToQueue(nil, withHandler: {
-                (skinTempData:  MSBSensorSkinTemperatureData!, error: NSError!) in
+            // Fetch Barometer readings
+            try! client.sensorManager.startBarometerUpdatesToQueue(nil, withHandler:  {
+                (barometerData:  MSBSensorBarometerData!, error:  NSError!) in
                 
                 let seconds = NSDate().timeIntervalSince1970
                 let milliseconds = seconds * 1000.0
                 
-                self.logToFile(String(format: "14, %0.4f, %0.3f\n",milliseconds,skinTempData.temperature))
+                self.logToFile(String(format: "3, %0.4f, %0.8f\n",milliseconds,barometerData.temperature))
+                self.logToFile(String(format: "4, %0.4f, %0.8f\n",milliseconds,barometerData.airPressure))
             })
             
             // Fetch Galvanic Skin Resistance readings
@@ -267,6 +357,28 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
                 self.addToInputs(String("GSR"), value: CGFloat(skinResistanceData.resistance))
                 
                 self.logToFile(String(format: "8, %0.4f, %d\n",milliseconds,skinResistanceData.resistance))
+            })
+            
+            // Fetch Distance readings
+            try! client.sensorManager.startDistanceUpdatesToQueue(nil, withHandler: {
+                (distanceData:  MSBSensorDistanceData!, error: NSError!) in
+                
+                let seconds = NSDate().timeIntervalSince1970
+                let milliseconds = seconds * 1000.0
+                
+                self.logToFile(String(format: "11, %0.4f, %d\n",milliseconds,distanceData.motionType.rawValue))
+                self.logToFile(String(format: "17, %0.4f, %f\n",milliseconds,distanceData.speed))
+                self.logToFile(String(format: "18, %0.4f, %f\n",milliseconds,distanceData.pace))
+            })
+            
+            // Fetch Skin Temperature readings
+            try! client.sensorManager.startSkinTempUpdatesToQueue(nil, withHandler: {
+                (skinTempData:  MSBSensorSkinTemperatureData!, error: NSError!) in
+                
+                let seconds = NSDate().timeIntervalSince1970
+                let milliseconds = seconds * 1000.0
+                
+                self.logToFile(String(format: "14, %0.4f, %0.3f\n",milliseconds,skinTempData.temperature))
             })
             
             //Stop stream updates after <repeatTime> seconds
@@ -362,6 +474,8 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
     
     func stopSensors() {
         if let client = self.client {
+            try! client.sensorManager.stopBarometerUpdatesErrorRef()
+            try! client.sensorManager.stopDistanceUpdatesErrorRef()
             try! client.sensorManager.stopGSRUpdatesErrorRef()
             try! client.sensorManager.stopHeartRateUpdatesErrorRef()
             try! client.sensorManager.stopSkinTempUpdatesErrorRef()
@@ -384,7 +498,7 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
             self.headerWritten = 1
         }
         
-        var os:  NSOutputStream = NSOutputStream(toFileAtPath: self.destinationPath, append: true)!
+        let os:  NSOutputStream = NSOutputStream(toFileAtPath: self.destinationPath, append: true)!
         os.open()
         os.write(logString, maxLength: logString.lengthOfBytesUsingEncoding(NSUTF8StringEncoding))
         os.close()
