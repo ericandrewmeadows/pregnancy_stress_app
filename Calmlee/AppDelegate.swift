@@ -33,7 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Sensor.start()
         Sensor.startTesting()
         
-        Sensor!.determineBandDisconnect()
+//        Sensor!.determineBandDisconnect()
         
         // Consider moving this  around because of the time to initialize
         let APP_ID: String = "2857873A-3D5C-46AB-8681-E2C8EB52EA7E"

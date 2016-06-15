@@ -337,8 +337,10 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
             }
             
             // Fetch Band Contact readings
+            try! client.sensorManager.stopBandContactUpdatesErrorRef()
             try! client.sensorManager.startBandContactUpdatesToQueue(nil, withHandler: {
                 (bandContactData:  MSBSensorBandContactData!, error:  NSError!) in
+                print(bandContactData.wornState)
                 switch bandContactData.wornState {
                 case MSBSensorBandContactState.NotWorn:
                     print("NOT worn")

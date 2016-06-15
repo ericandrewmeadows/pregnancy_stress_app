@@ -78,6 +78,8 @@ class MeditationViewController: UIViewController {
         if delegate!.aM.audioPlayer != nil {
             print("exists")
             if delegate!.aM.isPlaying == false {
+                delegate!.aM.audioPlayer!.prepareToPlay()
+                delegate!.aM.audioPlayer!.volume = 1.0
                 delegate!.aM.audioPlayer!.play()
                 delegate!.aM.isPlaying == true
                 NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: "updateAudioProgressView", userInfo: nil, repeats: true)
@@ -92,9 +94,12 @@ class MeditationViewController: UIViewController {
         if delegate!.aM.audioPlayer != nil {
             print("exists")
             if delegate!.aM.isPlaying == false {
+                delegate!.aM.audioPlayer!.prepareToPlay()
+                delegate!.aM.audioPlayer!.volume = 1.0
                 delegate!.aM.audioPlayer!.play()
                 delegate!.aM.isPlaying = true
                 self.updateTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: "updateAudioProgressView", userInfo: nil, repeats: true)
+                NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("oops:"), name:AVPlayerItemDidPlayToEndTimeNotification, object: delegate!.aM.fileUrl)
             }
             else {
                 delegate!.aM.audioPlayer!.pause()
@@ -104,6 +109,9 @@ class MeditationViewController: UIViewController {
             }
         }
 
+    }
+    func oops() {
+        print("llll.....llll")
     }
     
     func updateAudioProgressView() {

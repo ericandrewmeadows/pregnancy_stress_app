@@ -37,6 +37,7 @@ class AudioMeter: UIView {
     var audioPlayer: AVAudioPlayer?
     var isPlaying = false
     var timer:NSTimer! = NSTimer.init()
+    var fileUrl:  NSURL?
     
     func loadAudio() {
         // Play audio file
@@ -47,19 +48,21 @@ class AudioMeter: UIView {
 //            let soundData = NSData(contentsOfURL:fileURL!)
 //            try self.audioPlayer = AVAudioPlayer(data: soundData!)
             
-            let url = String(format: "%@/2mins-inner-peace-stereo.mp3",NSBundle.mainBundle().resourcePath!)
-            let fileURL = NSURL(string:url)
-            try self.audioPlayer = AVAudioPlayer.init(contentsOfURL: fileURL!)
-            self.audioPlayer!.prepareToPlay()
-            self.audioPlayer!.volume = 1.0
+//            let url = String(format: "%@/2mins-inner-peace-stereo.mp3",NSBundle.mainBundle().resourcePath!)
+            let url = String(format: "%@/together.mp3",NSBundle.mainBundle().resourcePath!)
+            self.fileUrl = NSURL(string:url)
+            try self.audioPlayer = AVAudioPlayer.init(contentsOfURL: self.fileUrl!)
             //            self.audioPlayer!.play()
             self.audioTrackLength = CGFloat(self.audioPlayer!.duration)
             print("Duration:  \(self.audioPlayer!.duration)")
-            NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: "updateAudioProgressView", userInfo: nil, repeats: true)
-            
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("oops:"), name:AVPlayerItemDidPlayToEndTimeNotification, object: self.fileUrl)
         } catch {
             print("Error getting the audio file")
         }
+    }
+    
+    func oops() {
+        print("skittles")
     }
 
     override func drawRect(rect: CGRect) {
