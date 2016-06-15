@@ -48,21 +48,14 @@ class AudioMeter: UIView {
 //            let soundData = NSData(contentsOfURL:fileURL!)
 //            try self.audioPlayer = AVAudioPlayer(data: soundData!)
             
-//            let url = String(format: "%@/2mins-inner-peace-stereo.mp3",NSBundle.mainBundle().resourcePath!)
-            let url = String(format: "%@/together.mp3",NSBundle.mainBundle().resourcePath!)
+            let url = String(format: "%@/2mins-inner-peace-stereo.mp3",NSBundle.mainBundle().resourcePath!)
             self.fileUrl = NSURL(string:url)
             try self.audioPlayer = AVAudioPlayer.init(contentsOfURL: self.fileUrl!)
-            //            self.audioPlayer!.play()
             self.audioTrackLength = CGFloat(self.audioPlayer!.duration)
             print("Duration:  \(self.audioPlayer!.duration)")
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("oops:"), name:AVPlayerItemDidPlayToEndTimeNotification, object: self.fileUrl)
         } catch {
             print("Error getting the audio file")
         }
-    }
-    
-    func oops() {
-        print("skittles")
     }
 
     override func drawRect(rect: CGRect) {

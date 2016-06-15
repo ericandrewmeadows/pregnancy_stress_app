@@ -325,7 +325,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "91"
             endingLineNumber = "91"
-            landmarkName = "playPauseAudio(_:)"
+            landmarkName = "playAudioPlayer()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -384,11 +384,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Calmlee/MeditationViewController.swift"
-            timestampString = "487637819.250994"
+            timestampString = "487654408.059773"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "114"
-            endingLineNumber = "114"
+            startingLineNumber = "133"
+            endingLineNumber = "133"
             landmarkName = "updateAudioProgressView()"
             landmarkType = "5">
          </BreakpointContent>

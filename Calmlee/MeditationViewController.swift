@@ -99,7 +99,6 @@ class MeditationViewController: UIViewController {
                 delegate!.aM.audioPlayer!.play()
                 delegate!.aM.isPlaying = true
                 self.updateTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: "updateAudioProgressView", userInfo: nil, repeats: true)
-                NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("oops:"), name:AVPlayerItemDidPlayToEndTimeNotification, object: delegate!.aM.fileUrl)
             }
             else {
                 delegate!.aM.audioPlayer!.pause()
@@ -110,25 +109,29 @@ class MeditationViewController: UIViewController {
         }
 
     }
-    func oops() {
-        print("llll.....llll")
-    }
     
     func updateAudioProgressView() {
-//        print(delegate!.aM.audioPlayer!.currentTime)
-//        print(self.audioMeter!.audioTrackProgress)
-        self.audioMeter!.audioTrackProgress = CGFloat(delegate!.aM.audioPlayer!.currentTime)
-        let minutes = floor(self.audioMeter!.audioTrackProgress / 60)
-        let seconds = round(self.audioMeter!.audioTrackProgress - minutes * 60)
-        let previousText = self.timeLabel?.text
-        if seconds < 10 {
-            self.timeLabel?.text = String(format:"%d:0%d",Int(minutes),Int(seconds))
+        if delegate!.aM.audioPlayer!.playing {
+            self.audioMeter!.audioTrackProgress = CGFloat(delegate!.aM.audioPlayer!.currentTime)
+            let minutes = floor(self.audioMeter!.audioTrackProgress / 60)
+            let seconds = round(self.audioMeter!.audioTrackProgress - minutes * 60)
+            let previousText = self.timeLabel?.text
+            if seconds < 10 {
+                self.timeLabel?.text = String(format:"%d:0%d",Int(minutes),Int(seconds))
+            }
+            else {
+                self.timeLabel?.text = String(format:"%d:%d",Int(minutes),Int(seconds))
+            }
+            if previousText != self.timeLabel?.text {
+                self.timeLabel?.setNeedsDisplay()
+            }
         }
-        else {
-            self.timeLabel?.text = String(format:"%d:%d",Int(minutes),Int(seconds))
-        }
-        if previousText != self.timeLabel?.text {
-            self.timeLabel?.setNeedsDisplay()
+        else if delegate!.aM.isPlaying {
+            delegate!.aM.isPlaying = false
+            self.audioMeter!.audioTrackProgress = CGFloat(0.0)
+            self.timeLabel?.text = ""
+            updateTimer.invalidate()
+            self.audioMeter?.setNeedsDisplay()
         }
     }
     
