@@ -24,6 +24,7 @@
 		5336CFE61D0A1B6500231B4A /* stressCSV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5336CFE51D0A1B6500231B4A /* stressCSV.swift */; };
 		5336CFE91D0B73DD00231B4A /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5336CFE81D0B73DD00231B4A /* MenuViewController.swift */; };
 		5336CFEB1D0B77F500231B4A /* ProfileInMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5336CFEA1D0B77F500231B4A /* ProfileInMenuView.swift */; };
+		534C48971D11F7E400E12D63 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 534C48961D11F7E400E12D63 /* Charts.framework */; };
 		535089BA1D07637200A15090 /* AFNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 535089B91D07637200A15090 /* AFNetworking.framework */; };
 		537D38771D0CCD0600749B05 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537D38761D0CCD0600749B05 /* SettingsViewController.swift */; };
 		537D38791D0D34BF00749B05 /* GenderRadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537D38781D0D34BF00749B05 /* GenderRadioButton.swift */; };
@@ -117,6 +118,7 @@
 		5336CFE51D0A1B6500231B4A /* stressCSV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = stressCSV.swift; sourceTree = "<group>"; };
 		5336CFE81D0B73DD00231B4A /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		5336CFEA1D0B77F500231B4A /* ProfileInMenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileInMenuView.swift; sourceTree = "<group>"; };
+		534C48961D11F7E400E12D63 /* Charts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Charts.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Calmlee-fogfmrckncjbmleymvckzpevjhae/Build/Products/Debug-iphoneos/Charts/Charts.framework"; sourceTree = "<group>"; };
 		535089B91D07637200A15090 /* AFNetworking.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AFNetworking.framework; sourceTree = "<group>"; };
 		537D38761D0CCD0600749B05 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		537D38781D0D34BF00749B05 /* GenderRadioButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenderRadioButton.swift; sourceTree = "<group>"; };
@@ -173,6 +175,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				534C48971D11F7E400E12D63 /* Charts.framework in Frameworks */,
 				5331CDA11CF2666900B77A5F /* CoreBluetooth.framework in Frameworks */,
 				535089BA1D07637200A15090 /* AFNetworking.framework in Frameworks */,
 				5331CDA31CF2669800B77A5F /* MicrosoftBandKit_iOS.framework in Frameworks */,
@@ -238,12 +241,12 @@
 		5331CD691CF21B8900B77A5F /* Calmlee */ = {
 			isa = PBXGroup;
 			children = (
-				5331856B1D108A03008ED634 /* AudioTracks */,
 				5331CD6A1CF21B8900B77A5F /* AppDelegate.swift */,
-				5383C4401D0FEB52004836CA /* Main.storyboard */,
 				5331CD711CF21B8900B77A5F /* Assets.xcassets */,
 				5331CD761CF21B8900B77A5F /* Info.plist */,
+				5383C4401D0FEB52004836CA /* Main.storyboard */,
 				53B7F9211CFB8E79001E07C1 /* NavigationBar.swift */,
+				5331856B1D108A03008ED634 /* AudioTracks */,
 				53B7F9281CFBB306001E07C1 /* CalmleeMeter */,
 				53B7F92A1CFBB3AB001E07C1 /* HistoricalGraph */,
 				53B7F9271CFBB2F3001E07C1 /* LoginRegistration */,
@@ -417,6 +420,7 @@
 		F753660665F02B1FBE5A676B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				534C48961D11F7E400E12D63 /* Charts.framework */,
 				535089B91D07637200A15090 /* AFNetworking.framework */,
 				27CD907F9785FED0647EF6BB /* Pods_Calmlee.framework */,
 				BE4EF6D7DEC82342A2648CC6 /* Pods_CalmleeTests.framework */,

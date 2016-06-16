@@ -61,6 +61,15 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
     var cStress_time_toWrite:  [CGFloat] = []
     var cStress_stress_t_toWrite:  [CGFloat] = []
     
+    // Plotting variables
+    var calmleeScores_tmp_sum:  CGFloat = 0.0
+    var calmleeScores_tmp_min:  CGFloat = 100.0
+    var calmleeScores_tmp_max:  CGFloat = 0.0
+    var calmleeScores_tmp_cnt:  CGFloat = 0.0
+    var calmleeScores_avg:  [CGFloat] = []
+    var calmleeScores_min:  [CGFloat] = []
+    var calmleeScores_max:  [CGFloat] = []
+    
     // Sensor variables
     var firstTime = 1
     weak var client: MSBClient?
@@ -77,6 +86,7 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
     var quitTesting = 0
     var destinationPath: String! = NSTemporaryDirectory() + "tempSensorDump.txt"
     var cumulativeStressPath: String! = NSTemporaryDirectory() + "cumulativeStress.txt"
+    var camleeScoreHistoryPath: String! = NSTemporaryDirectory() + "calmleeScoreHistory.txt"
     var sentSuccessfully = false
     let stressCSV_class = stressCSV()
     
@@ -176,28 +186,8 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
                     loggingString = fileContent! as String
                 }
                 // My loading method
-//                var cStress_time:[CGFloat] = []
-//                var cStress_t:[CGFloat] = []
                 (self.cStress_time,self.cStress_stress_t) = self.stressCSV_class.convertCSV(loggingString)
-
-//                // SwiftCSV method
-//                time = NSDate().timeIntervalSince1970
-//                let csv = try? CSV.init(name: self.cumulativeStressPath)
-//                self.cStress_time = (csv!.columns["time"]!).map {
-//                    CGFloat(($0 as NSString).doubleValue)
-//                }
-//                
-//                self.cStress_stress_t = (csv!.columns["stressTime"]!).map {
-//                    CGFloat(($0 as NSString).doubleValue)
-//                }
-//                if (Int(24*60*60 / timeBetweenStressUpdates) < (self.cStress_time.count-1)) {
-//                    print(self.cStress_time.count)
-//                    self.cStress_time = Array(self.cStress_time[Int(24*60*60 / timeBetweenStressUpdates)...self.cStress_time.count-1])
-//                    self.cStress_stress_t = Array(self.cStress_stress_t[Int(24*60*60 / timeBetweenStressUpdates)...self.cStress_stress_t.count-1])
-//                    print(NSDate().timeIntervalSince1970 - time)
-//                    print(self.cStress_time.count)
-//                    self.writeStressFile(0, initialize: true)
-//                }
+                
                 print("Section 1")
                 print(NSDate().timeIntervalSince1970 - time)
             }
@@ -226,6 +216,24 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
         return zip(stressValid,c).map{ (CGFloat($0*$1)) }.reduce(0, combine: +)
     }
     
+    func dot_stressValuesToWrite_uponClose(timeStamps: [CGFloat], minTime: CGFloat, averageScores: [CGFloat]) {
+        
+    }
+    
+    func writeCalmleeScoreFile(initialize: Bool, time: CGFloat, avg: CGFloat, min: CGFloat, max: CGFloat) {
+        var loggingString:  String
+        let os:  NSOutputStream = NSOutputStream(toFileAtPath: self.camleeScoreHistoryPath, append: initialize == false)!
+        os.open()
+        if (initialize == true) {
+            loggingString = "time,average,min,max\n"
+        }
+        else {
+            loggingString = "\(time),\(avg),\(min),\(max)\n"
+        }
+        os.write(loggingString, maxLength: loggingString.lengthOfBytesUsingEncoding(NSUTF8StringEncoding))
+        os.close()
+    }
+    
     func writeStressFile(closing: Int, initialize: Bool) {
         print("writing")
         var loggingString:  String
@@ -234,6 +242,12 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
         os.open()
         if (initialize == true) || (self.cStress_stress_t_toWrite.count == 0) {
             loggingString = "time,stressTime\n"
+        }
+        else if (closing == 1) {
+            loggingString = "time,stressTime\n"
+            for index in 0...(self.cStress_stress_t.count) {
+                print("pause")
+            }
         }
         else {
             loggingString = ""
@@ -724,6 +738,13 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
                 self.calmleeScore = relayedStress
                 self.cStress_time.append(CGFloat(time))
                 self.cStress_stress_t.append(self.cumulativeStressTime_interim)
+                
+                // For plotting
+                calmleeScores_tmp_sum += relayedStress
+                calmleeScores_tmp_cnt += 1
+                calmleeScores_tmp_min = min(calmleeScores_tmp_min, relayedStress)
+                calmleeScores_tmp_max = max(calmleeScores_tmp_max, relayedStress)
+                
                 self.cStress_time_toWrite.append(CGFloat(time))
                 self.cStress_stress_t_toWrite.append(self.cumulativeStressTime_interim)
                 self.cumulativeStressTime_interim = 0
@@ -738,6 +759,21 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
                 self.writeStressFile(0,initialize: false)
                 self.cStress_stress_t_toWrite = []
                 self.cStress_time_toWrite = []
+                
+                // For plotting
+                let calmleeScores_tmp_avg = calmleeScores_tmp_sum / calmleeScores_tmp_cnt
+                self.calmleeScores_avg.append(calmleeScores_tmp_avg)
+                self.calmleeScores_min.append(calmleeScores_tmp_min)
+                self.calmleeScores_max.append(calmleeScores_tmp_max)
+                self.writeCalmleeScoreFile(false,
+                                           time: CGFloat(time),
+                                           avg: calmleeScores_tmp_avg,
+                                           min: calmleeScores_tmp_min,
+                                           max: calmleeScores_tmp_max)
+                self.calmleeScores_tmp_sum = 0.0
+                self.calmleeScores_tmp_min = 100.0
+                self.calmleeScores_tmp_max = 0.0
+                self.calmleeScores_tmp_cnt = 0.0
             }
             
             self.lastGSR = self.currentGSR

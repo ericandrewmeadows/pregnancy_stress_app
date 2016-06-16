@@ -154,7 +154,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rNU-PI-tDB" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="65.599999999999994" y="352.15999999999997"/>
+            <point key="canvasLocation" x="65" y="404"/>
         </scene>
         <!--Historical Graph vc-->
         <scene sceneID="tQV-t1-kEZ">
@@ -164,13 +164,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Historical Graph" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="t6K-4s-Q0y">
-                                <rect key="frame" x="98" y="273" width="124" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Mqc-uI-LsC">
                                 <rect key="frame" x="20" y="20" width="46" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -239,10 +232,23 @@
                                     <outlet property="mes_button" destination="aYe-iU-IgG" id="0Px-UI-vmh"/>
                                 </connections>
                             </view>
+                            <view contentMode="scaleToFill" id="mEv-Tm-t7z" customClass="LineChartView" customModule="Charts">
+                                <rect key="frame" x="10" y="84" width="300" height="389"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Historical Graph" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="t6K-4s-Q0y">
+                                <rect key="frame" x="98" y="49" width="124" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <connections>
+                        <outlet property="lineChartView" destination="mEv-Tm-t7z" id="NXt-Ms-sge"/>
                         <outlet property="menuButton" destination="Mqc-uI-LsC" id="4cD-nD-DZs"/>
                         <outlet property="navigationBar" destination="MDN-ca-kqO" id="UNZ-dl-4ij"/>
                         <segue destination="KTs-D7-NvN" kind="modal" identifier="goto_calmleeMeter" animates="NO" id="mk2-Uc-6M5"/>
@@ -253,7 +259,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="o65-Et-vV9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="65.599999999999994" y="1034.7066666666667"/>
+            <point key="canvasLocation" x="65" y="1034"/>
         </scene>
         <!--Messaging vc-->
         <scene sceneID="W2k-wm-dx4">
@@ -978,7 +984,7 @@ mins</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4tm-ed-eW2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-308.80000000000001" y="352.15999999999997"/>
+            <point key="canvasLocation" x="-309" y="404"/>
         </scene>
         <!--Walkthrough View Controller-->
         <scene sceneID="eYA-sh-GUm">
@@ -1054,10 +1060,10 @@ mins</string>
         <image name="warningIcon" width="72" height="64"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="9hP-Ua-RRU"/>
-        <segue reference="pR1-t5-bxJ"/>
-        <segue reference="5tf-Jq-c8G"/>
-        <segue reference="lGP-YS-nFX"/>
-        <segue reference="SqM-Jm-HkB"/>
+        <segue reference="bSv-3Z-fdS"/>
+        <segue reference="znj-tc-EOv"/>
+        <segue reference="mk2-Uc-6M5"/>
+        <segue reference="99C-Ug-Gc5"/>
+        <segue reference="DuW-Nf-yCj"/>
     </inferredMetricsTieBreakers>
 </document>

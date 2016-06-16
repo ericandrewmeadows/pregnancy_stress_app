@@ -46,6 +46,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print(settings.types.contains(.Sound))
         }
         
+        do {
+            let scoreRev = try defaults.integerForKey("calmleeScoreFile_rev")
+            print("ExistingCSF")
+        }
+        catch {
+            self.defaults.setInteger(1, forKey: "calmleeScoreFile_rev")
+            self.Sensor!.writeCalmleeScoreFile(true, time: 0, avg: 0, min: 0, max: 0)
+        }
+        
         return true
     }
     

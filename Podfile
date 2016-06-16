@@ -8,6 +8,7 @@ target 'Calmlee' do
   # Pods for Calmlee
   pod 'SendBirdSDK'
   pod 'AFNetworking'
+  pod 'Charts'
 #  pod 'LayerKit'
 #  pod 'SwiftCSV'
 
