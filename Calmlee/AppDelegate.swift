@@ -27,6 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Reads historical stress from existing storage.  Async due to read-time.
         let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
         dispatch_async(dispatch_get_global_queue(priority, 0)) {
+            self.Sensor.readCalmleeScoreFile()
             self.Sensor.readStressFile()
             self.aM.loadAudio()
         }
@@ -46,14 +47,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print(settings.types.contains(.Sound))
         }
         
-        do {
-            let scoreRev = try defaults.integerForKey("calmleeScoreFile_rev")
-            print("ExistingCSF")
-        }
-        catch {
-            self.defaults.setInteger(1, forKey: "calmleeScoreFile_rev")
-            self.Sensor!.writeCalmleeScoreFile(true, time: 0, avg: 0, min: 0, max: 0)
-        }
+//        do {
+//            let scoreRev = try defaults.integerForKey("calmleeScoreFile_rev")
+//            print("ExistingCSF")
+//        }
+//        catch {
+//            self.defaults.setInteger(1, forKey: "calmleeScoreFile_rev")
+//            self.Sensor!.writeCalmleeScoreFile(true, closing: false, time: 0, avg: 0, min: 0, max: 0)
+//        }
         
         return true
     }
@@ -114,6 +115,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         */
         
         Sensor!.writeStressFile(1,initialize: false)
+        Sensor!.writeCalmleeScoreFile(false, closing: true, time: 0, avg: 0, min: 0, max: 0)
         try Sensor!.stop_bandDisconnectUpdates()
         Sensor!.sendFile()
     }

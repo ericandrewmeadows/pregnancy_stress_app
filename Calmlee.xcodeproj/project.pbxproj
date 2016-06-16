@@ -25,6 +25,7 @@
 		5336CFE91D0B73DD00231B4A /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5336CFE81D0B73DD00231B4A /* MenuViewController.swift */; };
 		5336CFEB1D0B77F500231B4A /* ProfileInMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5336CFEA1D0B77F500231B4A /* ProfileInMenuView.swift */; };
 		534C48971D11F7E400E12D63 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 534C48961D11F7E400E12D63 /* Charts.framework */; };
+		534C48991D13451100E12D63 /* calmleeScoreCSV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534C48981D13451000E12D63 /* calmleeScoreCSV.swift */; };
 		535089BA1D07637200A15090 /* AFNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 535089B91D07637200A15090 /* AFNetworking.framework */; };
 		537D38771D0CCD0600749B05 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537D38761D0CCD0600749B05 /* SettingsViewController.swift */; };
 		537D38791D0D34BF00749B05 /* GenderRadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537D38781D0D34BF00749B05 /* GenderRadioButton.swift */; };
@@ -119,6 +120,7 @@
 		5336CFE81D0B73DD00231B4A /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		5336CFEA1D0B77F500231B4A /* ProfileInMenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileInMenuView.swift; sourceTree = "<group>"; };
 		534C48961D11F7E400E12D63 /* Charts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Charts.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Calmlee-fogfmrckncjbmleymvckzpevjhae/Build/Products/Debug-iphoneos/Charts/Charts.framework"; sourceTree = "<group>"; };
+		534C48981D13451000E12D63 /* calmleeScoreCSV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = calmleeScoreCSV.swift; sourceTree = "<group>"; };
 		535089B91D07637200A15090 /* AFNetworking.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AFNetworking.framework; sourceTree = "<group>"; };
 		537D38761D0CCD0600749B05 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		537D38781D0D34BF00749B05 /* GenderRadioButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenderRadioButton.swift; sourceTree = "<group>"; };
@@ -374,6 +376,7 @@
 				5331CDA41CF37D8200B77A5F /* SensorComms.swift */,
 				5336CFE31D0A0E7D00231B4A /* Notifications.swift */,
 				5336CFE51D0A1B6500231B4A /* stressCSV.swift */,
+				534C48981D13451000E12D63 /* calmleeScoreCSV.swift */,
 			);
 			name = "Sensors and Neural Network";
 			sourceTree = "<group>";
@@ -731,6 +734,7 @@
 				53B7F92D1CFBB3C7001E07C1 /* MessagingViewController.swift in Sources */,
 				539B8D411CFE3DEA00B93F85 /* FileLinkTableViewCell.swift in Sources */,
 				539B8D531CFE3E1A00B93F85 /* MemberTableViewCell.swift in Sources */,
+				534C48991D13451100E12D63 /* calmleeScoreCSV.swift in Sources */,
 				53EF96C71D06418D0037A404 /* userInfo.swift in Sources */,
 				5383C43F1D0FE996004836CA /* AudioMeter.swift in Sources */,
 				539B8D331CFE3DC000B93F85 /* ChattingTableViewController.swift in Sources */,

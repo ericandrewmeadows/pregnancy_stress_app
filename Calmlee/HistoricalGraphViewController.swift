@@ -128,7 +128,7 @@ class HistoricalGraphViewController: UIViewController, ChartViewDelegate {
      Experimental own plotting
     */
     func quadCurvedPathWithPoints(points: NSArray) -> UIBezierPath {
-        var path: UIBezierPath
+        var path: UIBezierPath = UIBezierPath()
         return path
     }
 //    UIBezierPath *path = [UIBezierPath bezierPath];
