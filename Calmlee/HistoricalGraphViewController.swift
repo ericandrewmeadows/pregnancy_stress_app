@@ -39,11 +39,24 @@ class HistoricalGraphViewController: UIViewController, ChartViewDelegate {
     // Line Chart
     @IBOutlet weak var lineChartView: LineChartView!
     
-    let months = ["Jan" , "Feb", "Mar", "Apr", "May", "June", "July", "August", "Sept", "Oct", "Nov", "Dec"]
-    let dollars1 = [1453.0,2352,5431,1442,5451,6486,1173,5678,9234,1345,9411,2212]
+//    let months = ["Jan" , "Feb", "Mar", "Apr", "May", "June", "July", "August", "Sept", "Oct", "Nov", "Dec"]
+    //    let dollars1 = [1453.0,2352,5431,1442,5451,6486,1173,5678,9234,1345,9411,2212]
+    var months: [CGFloat] = [] {
+        didSet {
+            self.lineChartView.setNeedsDisplay()
+        }
+    }
+    var dollars1: [CGFloat] = []
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // Testing
+        
+//        self.months = self.delegate!.Sensor.calmleeScores_time
+//        self.dollars1 = self.delegate!.Sensor.calmleeScores_avg
+        self.months = [1.1,2.1,3.1,4.1,5.1,6.1,7.1,8.1]
+        self.dollars1 = [100,100,95,91,90,89,90,85]
         
         // Do any additional setup after loading the view.
         
@@ -92,11 +105,11 @@ class HistoricalGraphViewController: UIViewController, ChartViewDelegate {
         setChartData(months)
     }
     
-    func setChartData(months : [String]) {
+    func setChartData(months : [CGFloat]) {
         // 1 - creating an array of data entries
         var yVals1 : [ChartDataEntry] = [ChartDataEntry]()
-        for var i = 0; i < months.count; i++ {
-            yVals1.append(ChartDataEntry(value: dollars1[i], xIndex: i))
+        for var i = 0; i < self.months.count; i += 1 {
+            yVals1.append(ChartDataEntry(value: Double(self.dollars1[i]), xIndex: i))
         }
         
         // 2 - create a data set with our array
@@ -110,7 +123,9 @@ class HistoricalGraphViewController: UIViewController, ChartViewDelegate {
         set1.fillColor = UIColor.redColor()
         set1.highlightColor = UIColor.whiteColor()
         set1.drawCircleHoleEnabled = true
-        set1.drawCubicEnabled = true
+//        set1.drawCubicEnabled = true
+        set1.mode = .HorizontalBezier
+//        LineChartModeHorizontalBezier
 //        set1.mode =  L
         //3 - create an array to store our LineChartDataSets
         var dataSets : [LineChartDataSet] = [LineChartDataSet]()

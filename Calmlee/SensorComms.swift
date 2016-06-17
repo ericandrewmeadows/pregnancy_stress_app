@@ -105,6 +105,74 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
     // Timer elements
     var timer = NSTimer()
     
+    // Microsoft Band Tile
+    var tile: MSBTile = MSBTile()
+    
+    // Custom Tiles
+    func createTile() {
+        // Fetch tile list
+        self.client?.tileManager.tilesWithCompletionHandler({
+            (tiles, error:  NSError!) in
+            for tile in tiles {
+                print(tile)
+            }
+        })
+        
+        // Determine if there is free tile space
+        self.client?.tileManager.remainingTileCapacityWithCompletionHandler({
+            (remainingCapacity, error: NSError!) in
+            print(remainingCapacity)
+            if (remainingCapacity == 0) {return}
+        })
+        
+        // Create a new tile
+        // create the small and tile icons from UIImage
+        // small icons are 24x24 pixels
+        let smallImage = UIImage(named: "BandIcon_24x24")
+        var smallIcon = try! MSBIcon.init(UIImage: smallImage)
+        // tile icons are 48x48 pixels for Microsoft Band 2.
+        let largeImage = UIImage(named: "BandIcon_48x48")
+        var tileIcon  = try! MSBIcon.init(UIImage: largeImage)
+        
+        // Sample code uses random tileId, but you should persist the value
+        // for your application's tileId.
+        let tileId = NSUUID.init()
+        // create a new MSBTile
+        self.tile = try! MSBTile.init(id: tileId, name: "calmlee", tileIcon: tileIcon, smallIcon: smallIcon)
+
+        // enable badging (the count of unread messages)
+        self.tile.badgingEnabled = true
+        
+        // add created tile to the Band.
+        self.client?.tileManager.addTile(self.tile, completionHandler: { (error: NSError!) in
+            print(error)
+        })
+    }
+    
+    func removeTile() {
+        self.client?.tileManager.removeTile(self.tile, completionHandler: { (error: NSError!) in
+            print(error)
+        })
+    }
+    
+//        // Remove tile from band
+//        // get the current set of tiles
+//        __weak typeof(self) weakSelf = self;
+//        [self.client.tileManager tilesWithCompletionHandler:^(NSArray *tiles,
+//            NSError *error){
+//            for (MSBTile *aTile in tiles)
+//            {
+//            // remove this tile, can be async
+//            [weakSelf.client.tileManager removeTile:aTile
+//            completionHandler:^(NSError *error){
+//            if (error) {
+//            // failed to remove this tile
+//            }
+//            }];
+//            }
+//            }];
+//    }
+    
     // Norification Functions
     /*
     Log identifier 50
@@ -168,16 +236,22 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
     
     // Historical Calmlee Score functions
     func readCalmleeScoreFile() {
+        if let delete: Bool? = self.defaults.integerForKey("deleteData_rev") == 2 {
+            print("keyExists")
+        }
+        else {
+            self.defaults.setInteger(1, forKey: "deleteData_rev")
+        }
         if (NSFileManager.defaultManager().fileExistsAtPath(self.camleeScoreHistoryPath)) {
-            if let delete: Bool? = self.defaults.integerForKey("deleteData_rev") == 0 {
+            if self.defaults.integerForKey("deleteData_rev") == 2 {
                 let fileContent = try? NSString(contentsOfFile: self.camleeScoreHistoryPath,
                                                 encoding: NSUTF8StringEncoding)
                 let fileData = fileContent?.componentsSeparatedByString("\n")
                 let time = NSDate().timeIntervalSince1970
                 print(fileData![0])
                 var loggingString = ""
-                if (fileData![0] != "time,stressTime") {
-                    loggingString = "time,stressTime\n" + String(fileContent)
+                if (fileData![0] != "time,average,min,max") {
+                    loggingString = "time,average,min,max\n" + String(fileContent)
                     let os:  NSOutputStream = NSOutputStream(toFileAtPath: self.camleeScoreHistoryPath,
                                                              append: false)!
                     os.open()
@@ -193,17 +267,17 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
                 print("Section 1")
                 print(NSDate().timeIntervalSince1970 - time)
             }
-//            else {
-//                self.defaults.setInteger(0, forKey: "deleteData_rev")
-//                let fileManager = NSFileManager.defaultManager()
-//                do {
-//                    try fileManager.removeItemAtPath(self.camleeScoreHistoryPath)
-//                }
-//                catch let error as NSError {
-//                    print("Ooops! Something went wrong: \(error)")
-//                }
-//                print("Section 2")
-//            }
+            else {
+                self.defaults.setInteger(2, forKey: "deleteData_rev")
+                let fileManager = NSFileManager.defaultManager()
+                do {
+                    try fileManager.removeItemAtPath(self.camleeScoreHistoryPath)
+                }
+                catch let error as NSError {
+                    print("Ooops! Something went wrong: \(error)")
+                }
+                self.readCalmleeScoreFile()
+            }
             
         }
         else {
@@ -278,7 +352,7 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
             loggingString = "time,average,min,max\n"
         }
         else if (closing == true) {
-            loggingString = "time,stressTime\n"
+            loggingString = "time,average,min,max\n"
             self.calmleeScores_avg = dot_stressValuesToWrite_uponClose(self.calmleeScores_time,
                                                                        minTime: time - self.cumulativeStressTimeToKeep,
                                                                        arrayVariable: self.calmleeScores_avg)
@@ -291,7 +365,7 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
             self.calmleeScores_time = dot_stressValuesToWrite_uponClose(self.calmleeScores_time,
                                                                         minTime: time - self.cumulativeStressTimeToKeep,
                                                                         arrayVariable: self.cStress_time)
-            for index in 0...(self.cStress_stress_t.count - 1) {
+            for index in 0...(self.calmleeScores_time.count - 1) {
                 loggingString += String(format: "%0.20f,%0.2f,%0.2f,%0.2f\n",
                                         self.calmleeScores_time[index],
                                         self.calmleeScores_avg[index],
@@ -321,7 +395,6 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
             self.cStress_stress_t = dot_stressValuesToWrite_uponClose(self.cStress_time,
                                                                       minTime: CGFloat(time) - self.cumulativeStressTimeToKeep,
                                                                       arrayVariable: self.cStress_stress_t)
-            self.calmleeScores_time = self.cStress_time
             self.cStress_time = dot_stressValuesToWrite_uponClose(self.cStress_time,
                                                                   minTime: CGFloat(time) - self.cumulativeStressTimeToKeep,
                                                                   arrayVariable: self.cStress_time)
@@ -334,7 +407,7 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
         else {
             loggingString = String(format: "%0.20f,%0.2f\n",
                                    self.lastCumulativeUpdateTime_major,
-                                   self.self.cumulativeStressTime_inPeriod)
+                                   self.cumulativeStressTime_inPeriod)
         }
         os.write(loggingString, maxLength: loggingString.lengthOfBytesUsingEncoding(NSUTF8StringEncoding))
         os.close()
@@ -844,6 +917,7 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
                 self.calmleeScores_avg.append(calmleeScores_tmp_avg)
                 self.calmleeScores_min.append(calmleeScores_tmp_min)
                 self.calmleeScores_max.append(calmleeScores_tmp_max)
+                self.calmleeScores_time.append(CGFloat(time))
                 self.writeCalmleeScoreFile(false,
                                            closing: false,
                                            time: CGFloat(time),

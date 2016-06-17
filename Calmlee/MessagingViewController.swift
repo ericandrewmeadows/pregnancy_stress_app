@@ -239,8 +239,8 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
         
         
         // Keyboard show and Hide functions
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name:UIKeyboardWillShowNotification, object: self.view.window)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name:UIKeyboardWillHideNotification, object: self.view.window)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MessagingViewController.keyboardWillShow(_:)), name:UIKeyboardWillShowNotification, object: self.view.window)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MessagingViewController.keyboardWillHide(_:)), name:UIKeyboardWillHideNotification, object: self.view.window)
     }
 
     override func didReceiveMemoryWarning() {
@@ -375,7 +375,7 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    func scrollViewDidScroll(scrollView: UIScrollView) {
         self.messageTableView?.reloadData()
     }
     

@@ -20,7 +20,6 @@ class GenderRadioButton: UIButton {
     override func drawRect(rect: CGRect) {
         
         var path = UIBezierPath()
-//        var path = UIBezierPath(ovalInRect: rect)
         if buttonChosen {
             path = UIBezierPath(ovalInRect: rect)
             UIColor.init(red: 126/255, green: 91/255, blue: 119/255, alpha: 1.0).setFill()

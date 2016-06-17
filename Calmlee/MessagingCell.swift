@@ -25,12 +25,6 @@ extension UIBezierPath {
 
 class MessagingCell: UITableViewCell {
     
-//    @IBOutlet weak var messageView:  MessageView!
-//
-//    override func layoutSubviews() {
-//        super.layoutSubviews()
-//        self.messageView.frame = CGRectMake(0, 0, self.bounds.width, self.bounds.height)
-//    }
     var entire_uiview = UIScreen.mainScreen().bounds
     let defaults = NSUserDefaults.standardUserDefaults()
     

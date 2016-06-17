@@ -81,8 +81,8 @@ class MeditationViewController: UIViewController {
                 delegate!.aM.audioPlayer!.prepareToPlay()
                 delegate!.aM.audioPlayer!.volume = 1.0
                 delegate!.aM.audioPlayer!.play()
-                delegate!.aM.isPlaying == true
-                NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: "updateAudioProgressView", userInfo: nil, repeats: true)
+                delegate!.aM.isPlaying = true
+                NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: #selector(MeditationViewController.updateAudioProgressView), userInfo: nil, repeats: true)
             }
         }
         else {
@@ -98,7 +98,7 @@ class MeditationViewController: UIViewController {
                 delegate!.aM.audioPlayer!.volume = 1.0
                 delegate!.aM.audioPlayer!.play()
                 delegate!.aM.isPlaying = true
-                self.updateTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: "updateAudioProgressView", userInfo: nil, repeats: true)
+                self.updateTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: #selector(MeditationViewController.updateAudioProgressView), userInfo: nil, repeats: true)
             }
             else {
                 delegate!.aM.audioPlayer!.pause()

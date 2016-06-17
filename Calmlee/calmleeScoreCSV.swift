@@ -41,7 +41,7 @@ class calmleeScoreCSV: NSObject {
         if rows.count > 0 {
             columnTitles = cleanFields(rows.first!)
             for row in rows{
-                if row == "time,stressTime" {continue}
+                if row == "time,average,min,max" {continue}
                 let fields = cleanFields(row)
                 if fields.count != columnTitles.count {continue}
                 for index in 0..<fields.count{

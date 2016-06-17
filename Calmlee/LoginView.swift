@@ -157,10 +157,7 @@ import UIKit
             self.keyboardFirstTime = 1
             self.minKeyHeight = offset.height
         }
-//        print("minKeyHeight:  \(self.minKeyHeight)")
-//        print("offsetHeight:  \(offset.height)")
-//        print("originHeight:  \(self.view.frame.origin.y)")
-//        print("othersHeight:  \(self.originY - max(self.minKeyHeight,offset.height))")
+        
         UIView.animateWithDuration(0.1, animations: { () -> Void in
             if self.view.frame.origin.y < 0 {
                 self.view.frame.origin.y = self.originY - max(self.minKeyHeight,offset.height)

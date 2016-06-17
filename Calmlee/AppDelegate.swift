@@ -47,27 +47,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print(settings.types.contains(.Sound))
         }
         
-//        do {
-//            let scoreRev = try defaults.integerForKey("calmleeScoreFile_rev")
-//            print("ExistingCSF")
-//        }
-//        catch {
-//            self.defaults.setInteger(1, forKey: "calmleeScoreFile_rev")
-//            self.Sensor!.writeCalmleeScoreFile(true, closing: false, time: 0, avg: 0, min: 0, max: 0)
-//        }
-        
         return true
     }
     
     func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forLocalNotification notification: UILocalNotification, completionHandler: () -> Void) {
         print(notification.category)
         switch identifier! {
-            
-            
-            
-            
-            
-            
+        
         case "Meditate":
             
             print("Opening to Meditation")
@@ -116,7 +102,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         Sensor!.writeStressFile(1,initialize: false)
         Sensor!.writeCalmleeScoreFile(false, closing: true, time: 0, avg: 0, min: 0, max: 0)
-        try Sensor!.stop_bandDisconnectUpdates()
+        try! Sensor!.stopSensors()
         Sensor!.sendFile()
     }
 

@@ -177,7 +177,7 @@ let stressThreshold:  CGFloat = 0.60
         let outlineHeight: CGFloat = 24
         let outlineWidth: CGFloat = outlineHeight * 1.25
         
-        if let _unneeded = dailyStress_time {
+        if dailyStress_time != nil {
             if !(endAngle.isNaN) {//&& (stressIndex_today != 0) {
                 dailyStress_time.hidden = false
                 

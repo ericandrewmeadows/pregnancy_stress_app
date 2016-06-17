@@ -17,7 +17,7 @@ PODS:
   - Charts (2.2.5):
     - Charts/Core (= 2.2.5)
   - Charts/Core (2.2.5)
-  - SendBirdSDK (2.2.11)
+  - SendBirdSDK (2.2.12)
 
 DEPENDENCIES:
   - AFNetworking
@@ -27,7 +27,7 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   Charts: b48fcc8d7190de910ff9e9748f5360c8ea7856e5
-  SendBirdSDK: a198b9fb1dbfe506b8da2c255fa57d2d6394c0f7
+  SendBirdSDK: 684c8a83b44b13166ae3e202829213d771b3718c
 
 PODFILE CHECKSUM: 4d0bf2a5c62d7caa54ee6441a1cf46fd52832169
 

@@ -125,29 +125,6 @@ class LoginDetails: UIView {
         forgotPasswordBorder.borderWidth = borderWidth
         forgotPassword.layer.addSublayer(forgotPasswordBorder)
         forgotPassword.layer.masksToBounds = true
-        
-//        username_label.hidden = true
-//        password_label.hidden = true
-//        username.hidden = true
-//        password.hidden = true
-//        forgotPassword.hidden = true
-//        submit.hidden = true
-
-//        let borderWidth = bounds.borderWidth
-//        let height = bounds.height
-
-//        var horizontalLinePath = UIBezierPath()
-//
-//        let passwordStart = CGPointMake(borderWidth * 0.1, height * 0.1)
-//        let passwordEnd = CGPointMake(borderWidth * 0.9, height * 0.1)
-//
-//        horizontalLinePath.moveToPoint(passwordStart)
-//        horizontalLinePath.addLineToPoint(passwordEnd)
-//        horizontalLinePath.closePath()
-//        UIColor.lightGrayColor().set()
-//        horizontalLinePath.lineborderWidth = 2
-//        horizontalLinePath.stroke()
-        
     }
 
 }

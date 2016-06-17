@@ -63,12 +63,6 @@ class serverQuery:  NSObject, NSURLSessionDataDelegate {
                 print(self.defaults.stringForKey("email"))
                 print(self.defaults.stringForKey("dueDate"))
                 print(self.defaults.stringForKey("female"))
-//                let stringArr = responseString!.componentsSeparatedByString(":")
-//                let nameBr = stringArr[1].componentsSeparatedByString("<")
-//                let name = nameBr[0].stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-//                if (name.characters.count > 0) && (username == self.defaults.stringForKey("username")) {
-//                    self.defaults.setValue(name, forKey: "firstName")
-//                }
                 self.returnVal = true
             }
             else {
