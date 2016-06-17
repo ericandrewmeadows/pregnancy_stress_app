@@ -95,7 +95,7 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
     // Notification variables
     var extremeStress_notified = false
     var calm_min = 50
-    var calm_extreme = 20 // If Calmlee score is under this value, it will send a notification
+    var calm_extreme = 95//20 // If Calmlee score is under this value, it will send a notification
     var last_extremeStress: Double = 0.0
     var last_longDurationStress = NSDate().timeIntervalSince1970
     var currentlyStresed = false
@@ -107,24 +107,13 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
     
     // Microsoft Band Tile
     var tile: MSBTile = MSBTile()
+    var tileExists = true
+    var tileId:  NSUUID = NSUUID()
     
     // Custom Tiles
     func createTile() {
-        // Fetch tile list
-        self.client?.tileManager.tilesWithCompletionHandler({
-            (tiles, error:  NSError!) in
-            for tile in tiles {
-                print(tile)
-            }
-        })
         
-        // Determine if there is free tile space
-        self.client?.tileManager.remainingTileCapacityWithCompletionHandler({
-            (remainingCapacity, error: NSError!) in
-            print(remainingCapacity)
-            if (remainingCapacity == 0) {return}
-        })
-        
+        var tileExists = false
         // Create a new tile
         // create the small and tile icons from UIImage
         // small icons are 24x24 pixels
@@ -137,21 +126,55 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
         // Sample code uses random tileId, but you should persist the value
         // for your application's tileId.
         let tileId = NSUUID.init()
-        // create a new MSBTile
-        self.tile = try! MSBTile.init(id: tileId, name: "calmlee", tileIcon: tileIcon, smallIcon: smallIcon)
-
-        // enable badging (the count of unread messages)
-        self.tile.badgingEnabled = true
-        
-        // add created tile to the Band.
-        self.client?.tileManager.addTile(self.tile, completionHandler: { (error: NSError!) in
-            print(error)
-        })
+//        self.defaults.setValue(tileId, forKey: "tileInfo")
+        if let prevTileId = (self.defaults.stringForKey("tileInfo")) {
+            // Fetch tile list
+            self.client?.tileManager.tilesWithCompletionHandler({
+                (tiles, error:  NSError!) in
+                for tile in tiles {
+                    print((tile as! MSBTile).tileId.UUIDString)
+                    if ((tile as! MSBTile).tileId.UUIDString == prevTileId) {
+                        self.tileId = (tile as! MSBTile).tileId
+                        tileExists = true
+                        return
+                    }
+                }
+                if !tileExists {
+                    self.defaults.setValue(tileId.UUIDString, forKey: "tileInfo")
+                    print("Not on Band")
+                    
+                    // create a new MSBTile
+                    self.tile = try! MSBTile.init(id: tileId, name: "calmlee", tileIcon: tileIcon, smallIcon: smallIcon)
+                    
+                    // enable badging (the count of unread messages)
+                    self.tile.badgingEnabled = true
+                    
+                    // Determine if there is free tile space
+                    self.client?.tileManager.remainingTileCapacityWithCompletionHandler({
+                        (remainingCapacity, error: NSError!) in
+                        print(remainingCapacity)
+                        if (remainingCapacity == 0) {
+                            return
+                        }
+                    })
+                    
+                    // add created tile to the Band.
+                    self.client?.tileManager.addTile(self.tile, completionHandler: { (error: NSError!) in
+                        if error != nil {
+                            self.tileExists = false
+                            print(error)
+                        }
+                    })
+                }
+            })
+        }
     }
     
     func removeTile() {
         self.client?.tileManager.removeTile(self.tile, completionHandler: { (error: NSError!) in
-            print(error)
+            if error != nil {
+                print(error)
+            }
         })
     }
     
@@ -271,7 +294,7 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
                 self.defaults.setInteger(2, forKey: "deleteData_rev")
                 let fileManager = NSFileManager.defaultManager()
                 do {
-                    try fileManager.removeItemAtPath(self.camleeScoreHistoryPath)
+                    try! fileManager.removeItemAtPath(self.camleeScoreHistoryPath)
                 }
                 catch let error as NSError {
                     print("Ooops! Something went wrong: \(error)")
@@ -317,7 +340,7 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
                 self.defaults.setInteger(0, forKey: "deleteData_rev")
                 let fileManager = NSFileManager.defaultManager()
                 do {
-                    try fileManager.removeItemAtPath(self.cumulativeStressPath)
+                    try! fileManager.removeItemAtPath(self.cumulativeStressPath)
                 }
                 catch let error as NSError {
                     print("Ooops! Something went wrong: \(error)")
@@ -365,12 +388,15 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
             self.calmleeScores_time = dot_stressValuesToWrite_uponClose(self.calmleeScores_time,
                                                                         minTime: time - self.cumulativeStressTimeToKeep,
                                                                         arrayVariable: self.cStress_time)
-            for index in 0...(self.calmleeScores_time.count - 1) {
-                loggingString += String(format: "%0.20f,%0.2f,%0.2f,%0.2f\n",
-                                        self.calmleeScores_time[index],
-                                        self.calmleeScores_avg[index],
-                                        self.calmleeScores_min[index],
-                                        self.calmleeScores_max[index])
+            
+            if self.calmleeScores_time.count != 0 {
+                for index in 0...(self.calmleeScores_time.count - 1) {
+                    loggingString += String(format: "%0.20f,%0.2f,%0.2f,%0.2f\n",
+                                            self.calmleeScores_time[index],
+                                            self.calmleeScores_avg[index],
+                                            self.calmleeScores_min[index],
+                                            self.calmleeScores_max[index])
+                }
             }
         }
         else {
@@ -398,10 +424,12 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
             self.cStress_time = dot_stressValuesToWrite_uponClose(self.cStress_time,
                                                                   minTime: CGFloat(time) - self.cumulativeStressTimeToKeep,
                                                                   arrayVariable: self.cStress_time)
-            for index in 0...(self.cStress_stress_t.count - 1) {
-                loggingString += String(format: "%0.20f,%0.2f\n",
-                                        self.cStress_time[index],
-                                        self.cStress_stress_t[index])
+            if self.cStress_stress_t.count != 0 {
+                for index in 0...(self.cStress_stress_t.count - 1) {
+                    loggingString += String(format: "%0.20f,%0.2f\n",
+                                            self.cStress_time[index],
+                                            self.cStress_stress_t[index])
+                }
             }
         }
         else {
@@ -500,6 +528,9 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
                     }
                 })
             }
+            
+            // Launch tile onto Band
+            self.createTile()
             
             // Fetch Band Contact readings
             try! client.sensorManager.stopBandContactUpdatesErrorRef()
@@ -862,8 +893,21 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
                 else {
                     let currentWarning_notificationCount = Int(floor((time - self.stressStart) / self.defaults.doubleForKey("intervalSecondsInStress_toWarn")))
                     if currentWarning_notificationCount != self.longDurationStress_notificationCount {
+                        
                         let stressTime_minutes = Int(floor((time - self.stressStart) / 60))
-                        self.app_notifications.longDurationStress.alertBody = "Calmlee detected that you have been stressed for \(stressTime_minutes) minutes."
+                        
+                        if self.tileExists {
+                            self.client?.notificationManager.sendMessageWithTileID(self.tileId,
+                                                                                   title: "Continued Stress",
+                                                                                   body: "Go to Calmlee App to ease your stress.",
+                                                                                   timeStamp: NSDate(),
+                                                                                   flags: MSBNotificationMessageFlags.ShowDialog, completionHandler: { (error: NSError!) in
+                                                                                    if (error != nil) {
+                                                                                        print(error)
+                                                                                    }
+                            })
+                        }
+                        self.app_notifications.longDurationStress.alertBody = "Calmlee detected that you have been stressed for \(stressTime_minutes) minutes.\n\nGo to Calmlee App to ease your stress."
                         UIApplication.sharedApplication().scheduleLocalNotification(self.app_notifications.longDurationStress)
                         self.longDurationStress_notificationCount = currentWarning_notificationCount
                     }
@@ -877,6 +921,34 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
             if (relayedStress < CGFloat(self.calm_extreme)) &&
                 (time - self.last_extremeStress > self.defaults.doubleForKey("secondsBetween_extremeStress")) {
                 UIApplication.sharedApplication().scheduleLocalNotification(self.app_notifications.extremeStress)
+                
+                if self.tileExists {
+                    print("sending notification")
+                    self.client?.notificationManager.sendMessageWithTileID(self.tileId,
+                                                                           title: "Extreme Stress",
+                                                                           body: "Go to Calmlee App to ease your stress.",
+                                                                           timeStamp: NSDate(),
+                                                                           flags: MSBNotificationMessageFlags.ShowDialog, completionHandler: { (error: NSError!) in
+                        if (error != nil) {
+                            print(error)
+                        }
+                    })
+//                    [self.client.notificationManager
+//                        sendMessageWithTileID:tileId
+//                        title:@"Message title"
+//                    body:@"Message body"
+//                    timeStamp:[NSDate date]
+//                    flags:MSBNotificationMessageFlagsShowDialog
+//                    completionHandler:^(NSError *error)
+//                    {
+//                        if (error){
+//                            // handle error
+//                        }
+//                    }];
+                    
+                    print("sent :)")
+                }
+                
                 self.extremeStress_notified = true
                 self.last_extremeStress = NSDate().timeIntervalSince1970
             }
