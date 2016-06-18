@@ -10,7 +10,7 @@ target 'Calmlee' do
   pod 'AFNetworking'
   pod 'Charts'
 #  pod 'LayerKit'
-#  pod 'SwiftCSV'
+  pod 'SwiftCSV'
 
   target 'CalmleeTests' do
     inherit! :search_paths

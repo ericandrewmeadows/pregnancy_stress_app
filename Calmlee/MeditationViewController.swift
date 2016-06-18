@@ -110,6 +110,23 @@ class MeditationViewController: UIViewController {
 
     }
     
+    override func viewWillDisappear(animated: Bool) {
+        killTimers(nil)
+    }
+    
+    func killTimers(sender: NSNotification?) {
+        print("<<<<< Disappearing")
+        if self.timer != nil {
+            self.timer.invalidate()
+            self.timer = NSTimer()
+        }
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationWillResignActiveNotification, object: nil)
+    }
+    
+//    override func viewWillDisappear(animated: Bool) {
+//        self.updateTimer.invalidate()
+//    }
+    
     func updateAudioProgressView() {
         if delegate!.aM.audioPlayer!.playing {
             self.audioMeter!.audioTrackProgress = CGFloat(delegate!.aM.audioPlayer!.currentTime)
@@ -137,6 +154,10 @@ class MeditationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("killTimers:"), name:UIApplicationWillResignActiveNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("killTimers:"), name:UIApplicationWillTerminateNotification, object: nil)
         
         // Do any additional setup after loading the view.
         self.width = self.view.frame.size.width

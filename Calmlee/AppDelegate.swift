@@ -27,8 +27,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Reads historical stress from existing storage.  Async due to read-time.
         let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
         dispatch_async(dispatch_get_global_queue(priority, 0)) {
+            print("--> Reading CalmleeScore File")
             self.Sensor.readCalmleeScoreFile()
+            print("--> Reading Stress File")
             self.Sensor.readStressFile()
+            print("--> Loading Audio File")
             self.aM.loadAudio()
         }
         Sensor.start()

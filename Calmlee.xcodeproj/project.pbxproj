@@ -27,6 +27,7 @@
 		534C48971D11F7E400E12D63 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 534C48961D11F7E400E12D63 /* Charts.framework */; };
 		534C48991D13451100E12D63 /* calmleeScoreCSV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534C48981D13451000E12D63 /* calmleeScoreCSV.swift */; };
 		535089BA1D07637200A15090 /* AFNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 535089B91D07637200A15090 /* AFNetworking.framework */; };
+		536FFC371D15137E00ADC68E /* SwiftCSV.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 536FFC361D15137E00ADC68E /* SwiftCSV.framework */; };
 		537D38771D0CCD0600749B05 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537D38761D0CCD0600749B05 /* SettingsViewController.swift */; };
 		537D38791D0D34BF00749B05 /* GenderRadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537D38781D0D34BF00749B05 /* GenderRadioButton.swift */; };
 		537D387B1D0E069A00749B05 /* RoundedRectangleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537D387A1D0E069A00749B05 /* RoundedRectangleButton.swift */; };
@@ -122,6 +123,7 @@
 		534C48961D11F7E400E12D63 /* Charts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Charts.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Calmlee-fogfmrckncjbmleymvckzpevjhae/Build/Products/Debug-iphoneos/Charts/Charts.framework"; sourceTree = "<group>"; };
 		534C48981D13451000E12D63 /* calmleeScoreCSV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = calmleeScoreCSV.swift; sourceTree = "<group>"; };
 		535089B91D07637200A15090 /* AFNetworking.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AFNetworking.framework; sourceTree = "<group>"; };
+		536FFC361D15137E00ADC68E /* SwiftCSV.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftCSV.framework; path = "Pods/../build/Debug-iphoneos/SwiftCSV/SwiftCSV.framework"; sourceTree = "<group>"; };
 		537D38761D0CCD0600749B05 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		537D38781D0D34BF00749B05 /* GenderRadioButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenderRadioButton.swift; sourceTree = "<group>"; };
 		537D387A1D0E069A00749B05 /* RoundedRectangleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedRectangleButton.swift; sourceTree = "<group>"; };
@@ -177,6 +179,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				536FFC371D15137E00ADC68E /* SwiftCSV.framework in Frameworks */,
 				534C48971D11F7E400E12D63 /* Charts.framework in Frameworks */,
 				5331CDA11CF2666900B77A5F /* CoreBluetooth.framework in Frameworks */,
 				535089BA1D07637200A15090 /* AFNetworking.framework in Frameworks */,
@@ -423,6 +426,7 @@
 		F753660665F02B1FBE5A676B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				536FFC361D15137E00ADC68E /* SwiftCSV.framework */,
 				534C48961D11F7E400E12D63 /* Charts.framework */,
 				535089B91D07637200A15090 /* AFNetworking.framework */,
 				27CD907F9785FED0647EF6BB /* Pods_Calmlee.framework */,
@@ -898,6 +902,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/SwiftCSV",
 				);
 				INFOPLIST_FILE = Calmlee/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -918,6 +923,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/SwiftCSV",
 				);
 				INFOPLIST_FILE = Calmlee/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

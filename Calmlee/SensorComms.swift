@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-//import SwiftCSV
+import SwiftCSV
 
 infix operator ** { associativity left precedence 170 }
 
@@ -17,7 +17,7 @@ func ** (num: CGFloat, power: CGFloat) -> CGFloat{
 }
 
 class sensorComms: NSObject, MSBClientManagerDelegate {
-    
+
     // User defaults
     let defaults = NSUserDefaults.standardUserDefaults()
 
@@ -43,9 +43,11 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
     var stressSlope_limit:  CGFloat = 2.0
     var timeBetweenUpdates:  Double = 0.1 // Time between NN runs
     var timeBetweenStressUpdates:  Double = 60.0 // Time between updates of self.cumulativeStressPath file
+    var timeBetween_weekStressFileUpdates: Double = 15 * 60.0 // Allows for all time zones
     var lastUpdateTime = NSDate().timeIntervalSince1970
     var lastCumulativeUpdateTime = NSDate().timeIntervalSince1970
     var lastCumulativeUpdateTime_major = NSDate().timeIntervalSince1970
+    var lastWeeklyFileUpdate = NSDate().timeIntervalSince1970
 //    var writeToStressFile_lastTime = NSDate().timeIntervalSince1970
 //    var timeBetween_writesTo_stressFile:  Double = 60.0 // Time between writes to cumulative stress file
     var cumulativeStressTime:  CGFloat = 0.0
@@ -59,7 +61,9 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
     var cStress_time:  [CGFloat] = []
     var cStress_stress_t:  [CGFloat] = []
     var cumulativeStressTime_inPeriod:  CGFloat = 0.0
-    var cumulativeStressTimeToKeep = CGFloat(10*24*60*60)
+    var cumulativeStressTime_weekly:  CGFloat = 0.0
+    var cumulativeStressTimeToKeep = CGFloat(2*24*60*60)
+    var hourlyStressFileTimeToKeep = CGFloat(10*24*60)
     
     // Plotting variables
     var calmleeScores_time:  [CGFloat] = []
@@ -95,7 +99,7 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
     // Notification variables
     var extremeStress_notified = false
     var calm_min = 50
-    var calm_extreme = 95//20 // If Calmlee score is under this value, it will send a notification
+    var calm_extreme = 20 // If Calmlee score is under this value, it will send a notification
     var last_extremeStress: Double = 0.0
     var last_longDurationStress = NSDate().timeIntervalSince1970
     var currentlyStresed = false
@@ -259,16 +263,22 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
     
     // Historical Calmlee Score functions
     func readCalmleeScoreFile() {
-        if let delete: Bool? = self.defaults.integerForKey("deleteData_rev") == 2 {
+        print("Reading CalmleeScore File")
+        if let delete: Bool? = self.defaults.integerForKey("deleteData_rev") == 3 {
             print("keyExists")
         }
         else {
-            self.defaults.setInteger(1, forKey: "deleteData_rev")
+            self.defaults.setInteger(2, forKey: "deleteData_rev")
         }
         if (NSFileManager.defaultManager().fileExistsAtPath(self.camleeScoreHistoryPath)) {
-            if self.defaults.integerForKey("deleteData_rev") == 2 {
+            if self.defaults.integerForKey("deleteData_rev") == 3 {
                 let fileContent = try? NSString(contentsOfFile: self.camleeScoreHistoryPath,
                                                 encoding: NSUTF8StringEncoding)
+                let attr:NSDictionary? = try! NSFileManager.defaultManager().attributesOfItemAtPath(self.camleeScoreHistoryPath)
+                if let _attr = attr {
+                    print("CalmleeScoreHistory FileSize: \(_attr.fileSize())")
+                }
+                
                 let fileData = fileContent?.componentsSeparatedByString("\n")
                 let time = NSDate().timeIntervalSince1970
                 print(fileData![0])
@@ -285,13 +295,36 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
                     loggingString = fileContent! as String
                 }
                 // My loading method
-                (self.calmleeScores_time,self.calmleeScores_avg,self.calmleeScores_min,self.calmleeScores_max) = self.calmleeScoreCSV_class.convertCSV(loggingString)
+//                (self.calmleeScores_time,self.calmleeScores_avg,self.calmleeScores_min,self.calmleeScores_max) = self.calmleeScoreCSV_class.convertCSV(loggingString)
+                let csv = try? CSV.init(name: self.camleeScoreHistoryPath)
+                self.calmleeScores_time = (csv!.columns["time"]!).map {
+                    CGFloat(($0 as NSString).doubleValue)
+                }
+                self.calmleeScores_avg = (csv!.columns["average"]!).map {
+                    CGFloat(($0 as NSString).doubleValue)
+                }
+                self.calmleeScores_min = (csv!.columns["min"]!).map {
+                    CGFloat(($0 as NSString).doubleValue)
+                }
+                self.calmleeScores_max = (csv!.columns["max"]!).map {
+                    CGFloat(($0 as NSString).doubleValue)
+                }
+                
+                if (Int(24*60*60 / timeBetweenStressUpdates) < (self.cStress_time.count-1)) {
+                    print(self.cStress_time.count)
+                    self.cStress_time = Array(self.cStress_time[Int(24*60*60 / timeBetweenStressUpdates)...self.cStress_time.count-1])
+                    self.cStress_stress_t = Array(self.cStress_stress_t[Int(24*60*60 / timeBetweenStressUpdates)...self.cStress_stress_t.count-1])
+                    print(NSDate().timeIntervalSince1970 - time)
+                    print(self.cStress_time.count)
+                    self.writeStressFile(0, initialize: true)
+                }
+
                 
                 print("Section 1")
                 print(NSDate().timeIntervalSince1970 - time)
             }
             else {
-                self.defaults.setInteger(2, forKey: "deleteData_rev")
+                self.defaults.setInteger(3, forKey: "deleteData_rev")
                 let fileManager = NSFileManager.defaultManager()
                 do {
                     try! fileManager.removeItemAtPath(self.camleeScoreHistoryPath)
@@ -311,10 +344,21 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
 
     // Cumulative Stress functions
     func readStressFile() {
+        print("Reading Stress File")
+        if let delete: Bool? = self.defaults.integerForKey("deleteStressFile") == 1 {
+            print("keyExists")
+        }
+        else {
+            self.defaults.setInteger(0, forKey: "deleteStressFile")
+        }
         if (NSFileManager.defaultManager().fileExistsAtPath(self.cumulativeStressPath)) {
-            if let delete: Bool? = self.defaults.integerForKey("deleteData_rev") == 0 {
+            if self.defaults.integerForKey("deleteStressFile") == 1 {
                 let fileContent = try? NSString(contentsOfFile: self.cumulativeStressPath,
                                                 encoding: NSUTF8StringEncoding)
+                let attr:NSDictionary? = try! NSFileManager.defaultManager().attributesOfItemAtPath(self.cumulativeStressPath)
+                if let _attr = attr {
+                    print("Stress FileSize: \(_attr.fileSize())")
+                }
                 let fileData = fileContent?.componentsSeparatedByString("\n")
                 let time = NSDate().timeIntervalSince1970
                 print(fileData![0])
@@ -331,13 +375,31 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
                     loggingString = fileContent! as String
                 }
                 // My loading method
-                (self.cStress_time,self.cStress_stress_t) = self.stressCSV_class.convertCSV(loggingString)
+//                (self.cStress_time,self.cStress_stress_t) = self.stressCSV_class.convertCSV(loggingString)
+                // SwiftCSV method
+//                time = NSDate().timeIntervalSince1970
+                let csv = try? CSV.init(name: self.cumulativeStressPath)
+                self.cStress_time = (csv!.columns["time"]!).map {
+                    CGFloat(($0 as NSString).doubleValue)
+                }
+
+                self.cStress_stress_t = (csv!.columns["stressTime"]!).map {
+                    CGFloat(($0 as NSString).doubleValue)
+                }
+                if (Int(24*60*60 / timeBetweenStressUpdates) < (self.cStress_time.count-1)) {
+                    print(self.cStress_time.count)
+                    self.cStress_time = Array(self.cStress_time[Int(24*60*60 / timeBetweenStressUpdates)...self.cStress_time.count-1])
+                    self.cStress_stress_t = Array(self.cStress_stress_t[Int(24*60*60 / timeBetweenStressUpdates)...self.cStress_stress_t.count-1])
+                    print(NSDate().timeIntervalSince1970 - time)
+                    print(self.cStress_time.count)
+                    self.writeStressFile(0, initialize: true)
+                }
                 
                 print("Section 1")
                 print(NSDate().timeIntervalSince1970 - time)
             }
             else {
-                self.defaults.setInteger(0, forKey: "deleteData_rev")
+                self.defaults.setInteger(1, forKey: "deleteStressFile")
                 let fileManager = NSFileManager.defaultManager()
                 do {
                     try! fileManager.removeItemAtPath(self.cumulativeStressPath)
@@ -399,8 +461,12 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
                 }
             }
         }
-        else {
+        else if (time != 0) {
             loggingString = "\(time),\(avg),\(min),\(max)\n"
+        }
+        else {
+            os.close()
+            return
         }
         os.write(loggingString, maxLength: loggingString.lengthOfBytesUsingEncoding(NSUTF8StringEncoding))
         os.close()
@@ -982,6 +1048,7 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
                 // Stress File
                 self.cStress_time.append(CGFloat(time))
                 self.cStress_stress_t.append(self.cumulativeStressTime_inPeriod)
+//                self.cumulativeStressTime_weekly += cumulativeStressTime_inPeriod
                 self.cumulativeStressTime_inPeriod = 0
                 
                 // For plotting
@@ -990,6 +1057,8 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
                 self.calmleeScores_min.append(calmleeScores_tmp_min)
                 self.calmleeScores_max.append(calmleeScores_tmp_max)
                 self.calmleeScores_time.append(CGFloat(time))
+                
+                // Update Log File
                 self.writeCalmleeScoreFile(false,
                                            closing: false,
                                            time: CGFloat(time),
@@ -1000,6 +1069,10 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
                 self.calmleeScores_tmp_min = 100.0
                 self.calmleeScores_tmp_max = 0.0
                 self.calmleeScores_tmp_cnt = 0.0
+            }
+            if ((time - self.lastWeeklyFileUpdate) > self.timeBetweenStressUpdates) {
+//                self.cumulativeStressTime_weekly
+                self.lastWeeklyFileUpdate = time
             }
             
             self.lastGSR = self.currentGSR

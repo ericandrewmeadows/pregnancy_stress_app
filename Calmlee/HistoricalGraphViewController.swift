@@ -13,6 +13,8 @@ class HistoricalGraphViewController: UIViewController, ChartViewDelegate {
     
     let delegate = UIApplication.sharedApplication().delegate as? AppDelegate
     
+    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
+    
     @IBOutlet weak var navigationBar:  NavigationBar?
     
     var width:  CGFloat = 0
@@ -38,6 +40,8 @@ class HistoricalGraphViewController: UIViewController, ChartViewDelegate {
     
     // Line Chart
     @IBOutlet weak var lineChartView: LineChartView!
+    var timer:NSTimer! = NSTimer.init()
+    var timeBetweenPlotUpdates:  Double = 5 // Time in seconds
     
 //    let months = ["Jan" , "Feb", "Mar", "Apr", "May", "June", "July", "August", "Sept", "Oct", "Nov", "Dec"]
     //    let dollars1 = [1453.0,2352,5431,1442,5451,6486,1173,5678,9234,1345,9411,2212]
@@ -51,12 +55,17 @@ class HistoricalGraphViewController: UIViewController, ChartViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("killTimers:"), name:UIApplicationWillResignActiveNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("killTimers:"), name:UIApplicationWillTerminateNotification, object: nil)
+        
+        print(">>>>> Appearing")
         // Testing
         
-//        self.months = self.delegate!.Sensor.calmleeScores_time
-//        self.dollars1 = self.delegate!.Sensor.calmleeScores_avg
-        self.months = [1.1,2.1,3.1,4.1,5.1,6.1,7.1,8.1]
-        self.dollars1 = [100,100,95,91,90,89,90,85]
+        self.months = self.delegate!.Sensor.calmleeScores_time
+        self.dollars1 = self.delegate!.Sensor.calmleeScores_avg
+//        self.months = [1.1,2.1,3.1,4.1,5.1,6.1,7.1,8.1]
+//        self.dollars1 = [100,100,95,91,90,89,90,85]
         
         // Do any additional setup after loading the view.
         
@@ -94,18 +103,51 @@ class HistoricalGraphViewController: UIViewController, ChartViewDelegate {
         
         // 1
         self.lineChartView.delegate = self
+        // 1.5 - setup axes
+        self.lineChartView.leftAxis.axisMinValue = 0
+        self.lineChartView.leftAxis.axisMaxValue = 100
+        self.lineChartView.leftAxis.labelCount = 5
+        self.lineChartView.rightAxis.axisMinValue = self.lineChartView.leftAxis.axisMinValue
+        self.lineChartView.rightAxis.axisMaxValue = self.lineChartView.leftAxis.axisMaxValue
+        self.lineChartView.rightAxis.labelCount = self.lineChartView.leftAxis.labelCount
         // 2
         self.lineChartView.descriptionText = "Tap node for details"
         // 3
         self.lineChartView.descriptionTextColor = UIColor.whiteColor()
         self.lineChartView.gridBackgroundColor = UIColor.darkGrayColor()
+        self.lineChartView.drawGridBackgroundEnabled = false
+//        self.lineChartView.pinchZoomEnabled = true
         // 4
         self.lineChartView.noDataText = "No data provided"
         // 5
-        setChartData(months)
+        setChartData()
+        
+//        let delay: NSTimeInterval = NSTimeInterval(self.timeBetweenPlotUpdates)
+        let delay: NSTimeInterval = NSTimeInterval(self.delegate!.Sensor.timeBetweenStressUpdates)
+        self.timer = NSTimer.scheduledTimerWithTimeInterval(delay,
+                                                            target: self,
+                                                            selector: #selector(viewDidLoad),
+                                                            userInfo: nil,
+                                                            repeats: true)
     }
     
-    func setChartData(months : [CGFloat]) {
+    override func viewWillDisappear(animated: Bool) {
+        
+        killTimers(nil)
+    }
+    
+    func killTimers(sender: NSNotification?) {
+        print("<<<<< Disappearing")
+        if self.timer != nil {
+            self.timer.invalidate()
+            self.timer = NSTimer()
+        }
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationWillResignActiveNotification, object: nil)
+    }
+
+    
+    func setChartData() {
+        print("plotUpdate")
         // 1 - creating an array of data entries
         var yVals1 : [ChartDataEntry] = [ChartDataEntry]()
         for var i = 0; i < self.months.count; i += 1 {
@@ -115,18 +157,19 @@ class HistoricalGraphViewController: UIViewController, ChartViewDelegate {
         // 2 - create a data set with our array
         let set1: LineChartDataSet = LineChartDataSet(yVals: yVals1, label: "First Set")
         set1.axisDependency = .Left // Line will correlate with left axis values
-        set1.setColor(UIColor.redColor().colorWithAlphaComponent(0.5)) // our line's opacity is 50%
+        set1.setColor(UIColor.init(red: 126/255, green: 91/255, blue: 119/255, alpha: 1.0)) // our line's opacity is 50%
         set1.setCircleColor(UIColor.redColor()) // our circle will be dark red
-        set1.lineWidth = 2.0
-        set1.circleRadius = 6.0 // the radius of the node circle
+        set1.lineWidth = 1.0
+        set1.circleRadius = 0.0 // the radius of the node circle
         set1.fillAlpha = 65 / 255.0
         set1.fillColor = UIColor.redColor()
         set1.highlightColor = UIColor.whiteColor()
-        set1.drawCircleHoleEnabled = true
-//        set1.drawCubicEnabled = true
+        set1.drawCircleHoleEnabled = false
         set1.mode = .HorizontalBezier
-//        LineChartModeHorizontalBezier
-//        set1.mode =  L
+        set1.drawCirclesEnabled = false
+        set1.drawValuesEnabled = false
+        
+        
         //3 - create an array to store our LineChartDataSets
         var dataSets : [LineChartDataSet] = [LineChartDataSet]()
         dataSets.append(set1)
@@ -136,41 +179,11 @@ class HistoricalGraphViewController: UIViewController, ChartViewDelegate {
         data.setValueTextColor(UIColor.whiteColor())
         
         //5 - finally set our data
-        self.lineChartView.data = data            
+        self.lineChartView.data = data
+        
+        //        self.lineChartView.setNeedsDisplay()
+//        self.view.setNeedsDisplay()
     }
-    
-    /*
-     Experimental own plotting
-    */
-    func quadCurvedPathWithPoints(points: NSArray) -> UIBezierPath {
-        var path: UIBezierPath = UIBezierPath()
-        return path
-    }
-//    UIBezierPath *path = [UIBezierPath bezierPath];
-//    
-//    NSValue *value = points[0];
-//    CGPoint p1 = [value CGPointValue];
-//    [path moveToPoint:p1];
-//    
-//    if (points.count == 2) {
-//    value = points[1];
-//    CGPoint p2 = [value CGPointValue];
-//    [path addLineToPoint:p2];
-//    return path;
-//    }
-//    
-//    for (NSUInteger i = 1; i < points.count; i++) {
-//    value = points[i];
-//    CGPoint p2 = [value CGPointValue];
-//    
-//    CGPoint midPoint = midPointForPoints(p1, p2);
-//    [path addQuadCurveToPoint:midPoint controlPoint:controlPointForPoints(midPoint, p1)];
-//    [path addQuadCurveToPoint:p2 controlPoint:controlPointForPoints(midPoint, p2)];
-//    
-//    p1 = p2;
-//    }
-//    return path;
-//    }
     
     static func midPointForPoints(p1: CGPoint, p2: CGPoint) -> CGPoint {
         return CGPointMake((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);

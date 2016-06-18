@@ -63,7 +63,7 @@ class ViewController: UIViewController {
     var destinationPath: String! = NSTemporaryDirectory() + "tempSensorDump.txt"
     
     // Timer elements
-    var timer = NSTimer()
+    var timer:NSTimer! = NSTimer.init()
     
     // Navigation elements
     // Background Images
@@ -84,6 +84,11 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("killTimers:"), name:UIApplicationWillResignActiveNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("killTimers:"), name:UIApplicationWillTerminateNotification, object: nil)
+        
         // Do any additional setup after loading the view, typically from a nib.
         self.width = self.view.frame.size.width
         self.height = self.view.frame.size.height
@@ -140,6 +145,20 @@ class ViewController: UIViewController {
                                                             userInfo: nil,
                                                             repeats: true)
     }
+    
+    override func viewWillDisappear(animated: Bool) {
+        killTimers(nil)
+    }
+    
+    func killTimers(sender: NSNotification?) {
+        print("<<<<< Disappearing")
+        if self.timer != nil {
+            self.timer.invalidate()
+            self.timer = NSTimer()
+        }
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationWillResignActiveNotification, object: nil)
+    }
+
     
     @IBAction func sendData(sender: UIButton!) {
         delegate!.Sensor.reportIncorrectStress(sender)
