@@ -16,6 +16,7 @@ class HistoricalGraphViewController: UIViewController, ChartViewDelegate {
     //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
     
     @IBOutlet weak var navigationBar:  NavigationBar?
+    @IBOutlet weak var historicalStressMeters:  HistoricalStressLevelMeters?
     
     var width:  CGFloat = 0
     var height:  CGFloat = 0
@@ -111,16 +112,23 @@ class HistoricalGraphViewController: UIViewController, ChartViewDelegate {
         self.lineChartView.rightAxis.axisMaxValue = self.lineChartView.leftAxis.axisMaxValue
         self.lineChartView.rightAxis.labelCount = self.lineChartView.leftAxis.labelCount
         // 2
-        self.lineChartView.descriptionText = "Tap node for details"
+        self.lineChartView.descriptionText = "Horizontal Zoom = Enabled"
         // 3
-        self.lineChartView.descriptionTextColor = UIColor.whiteColor()
+        self.lineChartView.descriptionTextColor = UIColor.blackColor()
         self.lineChartView.gridBackgroundColor = UIColor.darkGrayColor()
         self.lineChartView.drawGridBackgroundEnabled = false
+        self.lineChartView.scaleYEnabled = false
 //        self.lineChartView.pinchZoomEnabled = true
         // 4
         self.lineChartView.noDataText = "No data provided"
         // 5
         setChartData()
+        
+        // Load up Historical Stress Section
+        newFrame = CGRectMake(self.height * 16 / 25, 0,
+                              self.width, self.height * 4 / 25)
+        self.historicalStressMeters!.frame = newFrame
+        self.historicalStressMeters!.layer.zPosition = 1
         
 //        let delay: NSTimeInterval = NSTimeInterval(self.timeBetweenPlotUpdates)
         let delay: NSTimeInterval = NSTimeInterval(self.delegate!.Sensor.timeBetweenStressUpdates)
@@ -151,11 +159,12 @@ class HistoricalGraphViewController: UIViewController, ChartViewDelegate {
         // 1 - creating an array of data entries
         var yVals1 : [ChartDataEntry] = [ChartDataEntry]()
         for var i = 0; i < self.months.count; i += 1 {
-            yVals1.append(ChartDataEntry(value: Double(self.dollars1[i]), xIndex: i))
+            yVals1.append(ChartDataEntry(value: Double(self.dollars1[i]), xIndex: i))//Int(self.months[i])))
         }
         
         // 2 - create a data set with our array
-        let set1: LineChartDataSet = LineChartDataSet(yVals: yVals1, label: "First Set")
+//        let set1: LineChartData
+        let set1: LineChartDataSet = LineChartDataSet(yVals: yVals1, label: "Calmlee Score")
         set1.axisDependency = .Left // Line will correlate with left axis values
         set1.setColor(UIColor.init(red: 126/255, green: 91/255, blue: 119/255, alpha: 1.0)) // our line's opacity is 50%
         set1.setCircleColor(UIColor.redColor()) // our circle will be dark red

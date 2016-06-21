@@ -34,6 +34,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print("--> Loading Audio File")
             self.aM.loadAudio()
         }
+        
+        // Launch tile onto Band
+        Sensor.createTile()
+        
         Sensor.start()
         Sensor.startTesting()
         

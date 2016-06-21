@@ -12,6 +12,35 @@ import SwiftCSV
 
 infix operator ** { associativity left precedence 170 }
 
+extension NSDate {
+    var startOfToday: NSDate {
+        return NSCalendar.currentCalendar().startOfDayForDate(self)
+    }
+    
+    var endOfToday: NSDate? {
+        let components = NSDateComponents()
+        components.day = 1
+        components.second = -1
+        return NSCalendar.currentCalendar().dateByAddingComponents(components, toDate: startOfToday, options: NSCalendarOptions())
+    }
+    
+    var startOfYesterday: NSDate {
+        return NSCalendar.currentCalendar().startOfDayForDate(NSCalendar.currentCalendar().dateByAddingUnit(.Day, value: -1, toDate: NSDate(), options: [])!)
+    }
+    
+    var endOfYesterday: NSDate? {
+        let components = NSDateComponents()
+        components.day = 1
+        components.second = -1
+        return NSCalendar.currentCalendar().dateByAddingComponents(components, toDate: startOfYesterday, options: NSCalendarOptions())
+    }
+    
+    var startOfTenDaysAgo: NSDate? {
+        return NSCalendar.currentCalendar().startOfDayForDate(NSCalendar.currentCalendar().dateByAddingUnit(.Day, value: -10, toDate: NSDate(), options: [])!)
+    }
+}
+
+
 func ** (num: CGFloat, power: CGFloat) -> CGFloat{
     return pow(num, power)
 }
@@ -63,7 +92,7 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
     var cumulativeStressTime_inPeriod:  CGFloat = 0.0
     var cumulativeStressTime_weekly:  CGFloat = 0.0
     var cumulativeStressTimeToKeep = CGFloat(2*24*60*60)
-    var hourlyStressFileTimeToKeep = CGFloat(10*24*60)
+    var hourlyStressFileTimeToKeep = CGFloat(10*24*60*60)
     
     // Plotting variables
     var calmleeScores_time:  [CGFloat] = []
@@ -74,6 +103,19 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
     var calmleeScores_avg:  [CGFloat] = []
     var calmleeScores_min:  [CGFloat] = []
     var calmleeScores_max:  [CGFloat] = []
+    
+    // Historical Graph variables
+    var calmleeScore_today: [CGFloat] = []
+    var calmleeScore_yesterday: [CGFloat] = []
+    var stressYesterday: CGFloat = 0.0
+    var stressToday: CGFloat = 0.0
+    var stress10Day: CGFloat = 0.0
+    var startOfToday = NSDate().startOfToday.timeIntervalSince1970
+    var endOfToday = NSDate().endOfToday!.timeIntervalSince1970
+    var startOfYesterday = NSDate().startOfYesterday.timeIntervalSince1970
+    var endOfYesterday = NSDate().endOfYesterday!.timeIntervalSince1970
+    var startOfTenDaysAgo = NSDate().startOfTenDaysAgo!.timeIntervalSince1970
+    
     
     // Sensor variables
     var firstTime = 1
@@ -117,7 +159,7 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
     // Custom Tiles
     func createTile() {
         
-        var tileExists = false
+        self.tileExists = false
         // Create a new tile
         // create the small and tile icons from UIImage
         // small icons are 24x24 pixels
@@ -139,11 +181,11 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
                     print((tile as! MSBTile).tileId.UUIDString)
                     if ((tile as! MSBTile).tileId.UUIDString == prevTileId) {
                         self.tileId = (tile as! MSBTile).tileId
-                        tileExists = true
+                        self.tileExists = true
                         return
                     }
                 }
-                if !tileExists {
+                if !self.tileExists {
                     self.defaults.setValue(tileId.UUIDString, forKey: "tileInfo")
                     print("Not on Band")
                     
@@ -264,14 +306,14 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
     // Historical Calmlee Score functions
     func readCalmleeScoreFile() {
         print("Reading CalmleeScore File")
-        if let delete: Bool? = self.defaults.integerForKey("deleteData_rev") == 3 {
+        if let delete: Bool? = self.defaults.integerForKey("deleteData_rev") == 4 {
             print("keyExists")
         }
         else {
-            self.defaults.setInteger(2, forKey: "deleteData_rev")
+            self.defaults.setInteger(3, forKey: "deleteData_rev")
         }
         if (NSFileManager.defaultManager().fileExistsAtPath(self.camleeScoreHistoryPath)) {
-            if self.defaults.integerForKey("deleteData_rev") == 3 {
+            if self.defaults.integerForKey("deleteData_rev") == 4 {
                 let fileContent = try? NSString(contentsOfFile: self.camleeScoreHistoryPath,
                                                 encoding: NSUTF8StringEncoding)
                 let attr:NSDictionary? = try! NSFileManager.defaultManager().attributesOfItemAtPath(self.camleeScoreHistoryPath)
@@ -310,6 +352,9 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
                     CGFloat(($0 as NSString).doubleValue)
                 }
                 
+                self.calmleeScore_yesterday = self.dot_valuesBetweenDates(self.calmleeScores_time, minTime: CGFloat(self.startOfYesterday), maxTime: CGFloat(self.endOfYesterday), arrayVariable: self.calmleeScores_avg)
+                self.calmleeScore_today = self.dot_valuesBetweenDates(self.calmleeScores_time, minTime: CGFloat(self.startOfToday), maxTime: CGFloat(self.endOfToday), arrayVariable: self.calmleeScores_avg)
+                
                 if (Int(24*60*60 / timeBetweenStressUpdates) < (self.cStress_time.count-1)) {
                     print(self.cStress_time.count)
                     self.cStress_time = Array(self.cStress_time[Int(24*60*60 / timeBetweenStressUpdates)...self.cStress_time.count-1])
@@ -324,7 +369,7 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
                 print(NSDate().timeIntervalSince1970 - time)
             }
             else {
-                self.defaults.setInteger(3, forKey: "deleteData_rev")
+                self.defaults.setInteger(4, forKey: "deleteData_rev")
                 let fileManager = NSFileManager.defaultManager()
                 do {
                     try! fileManager.removeItemAtPath(self.camleeScoreHistoryPath)
@@ -386,6 +431,11 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
                 self.cStress_stress_t = (csv!.columns["stressTime"]!).map {
                     CGFloat(($0 as NSString).doubleValue)
                 }
+                
+                self.initializeTenDayStress()
+                self.initializeTodayStress()
+                self.initializeYesterdayStress()
+                
                 if (Int(24*60*60 / timeBetweenStressUpdates) < (self.cStress_time.count-1)) {
                     print(self.cStress_time.count)
                     self.cStress_time = Array(self.cStress_time[Int(24*60*60 / timeBetweenStressUpdates)...self.cStress_time.count-1])
@@ -429,9 +479,35 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
         return zip(timeStamps_valid,arrayVariable).filter { (time,val) in time == true }.map{ (time,val) in return val   }
     }
     
+    func dot_valuesBetweenDates(timeStamps: [CGFloat], minTime: CGFloat, maxTime: CGFloat, arrayVariable: [CGFloat]) -> [CGFloat] {
+        if arrayVariable.count == 0 {return []}
+        let mintimeArray = [CGFloat](count: timeStamps.count, repeatedValue: minTime)
+        var timeStamps_valid = zip(timeStamps,mintimeArray).map{ ($0 >= $1) }
+        if maxTime != 0 {
+            let maxtimeArray = [CGFloat](count: timeStamps.count, repeatedValue: maxTime)
+            let timeStamps_validMax = zip(timeStamps,maxtimeArray).map{ ($0 < $1) }
+            timeStamps_valid = zip(timeStamps_valid, timeStamps_validMax).map{ ($0 && $1) }
+        }
+        return zip(timeStamps_valid,arrayVariable).filter { (time,val) in time == true }.map{ (time,val) in return val   }
+    }
+    
+    func initializeTenDayStress() {
+        self.stress10Day = self.dot_valuesBetweenDates(self.cStress_time, minTime: CGFloat(self.startOfTenDaysAgo), maxTime: CGFloat(self.endOfToday), arrayVariable: self.cStress_stress_t).reduce(0, combine: +)
+    }
+    
+    func initializeTodayStress() {
+        self.stressToday = self.dot_valuesBetweenDates(self.cStress_time, minTime: CGFloat(self.startOfToday), maxTime: CGFloat(self.endOfToday), arrayVariable: self.cStress_stress_t).reduce(0, combine: +)
+        print("Stress Today:  \(self.stressToday)")
+    }
+    
+    func initializeYesterdayStress() {
+        self.stressYesterday = self.dot_valuesBetweenDates(self.cStress_time, minTime: CGFloat(self.startOfYesterday), maxTime: CGFloat(self.endOfYesterday), arrayVariable: self.cStress_stress_t).reduce(0, combine: +)
+        print("Stress Yesterday:  \(self.stressYesterday)")
+    }
+    
     func writeCalmleeScoreFile(initialize: Bool, closing: Bool, time: CGFloat, avg: CGFloat, min: CGFloat, max: CGFloat) {
         var loggingString:  String
-        let os:  NSOutputStream = NSOutputStream(toFileAtPath: self.camleeScoreHistoryPath, append: initialize == false)!
+        let os:  NSOutputStream = NSOutputStream(toFileAtPath: self.camleeScoreHistoryPath, append: (initialize == false) && (closing == false))!
         os.open()
         if (initialize == true) {
             loggingString = "time,average,min,max\n"
@@ -485,10 +561,10 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
         else if (closing == 1) {
             loggingString = "time,stressTime\n"
             self.cStress_stress_t = dot_stressValuesToWrite_uponClose(self.cStress_time,
-                                                                      minTime: CGFloat(time) - self.cumulativeStressTimeToKeep,
+                                                                      minTime: CGFloat(time) - self.hourlyStressFileTimeToKeep,
                                                                       arrayVariable: self.cStress_stress_t)
             self.cStress_time = dot_stressValuesToWrite_uponClose(self.cStress_time,
-                                                                  minTime: CGFloat(time) - self.cumulativeStressTimeToKeep,
+                                                                  minTime: CGFloat(time) - self.hourlyStressFileTimeToKeep,
                                                                   arrayVariable: self.cStress_time)
             if self.cStress_stress_t.count != 0 {
                 for index in 0...(self.cStress_stress_t.count - 1) {
@@ -575,101 +651,106 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
                 self.firstTime = 0
             }
             
-            // Get User Consent for Heart Rate
-            if client.sensorManager.heartRateUserConsent() == MSBUserConsent.Granted {
-                // Heart Rate is being captured
-                self.gatherHeartRate(client)
-            } else {
-                mainView?.calmleeQuip!.text = "I'm going to need to access your heart rate..."
-                client.sensorManager.requestHRUserConsentWithCompletion( { (userConsent: Bool, error: NSError!) -> Void in
-                    if userConsent {
-                        self.gatherHeartRate(client)
-                    } else {
-                        self.mainView?.calmleeQuip!.text = "I need you to select \"Yes\" when the prompt comes up the next time"
-                        self.timer = NSTimer.scheduledTimerWithTimeInterval(delay,
-                            target: self,
-                            selector: #selector(self.startTesting),
-                            userInfo: nil,
-                            repeats: false)
-                    }
-                })
-            }
-            
-            // Launch tile onto Band
-            self.createTile()
-            
             // Fetch Band Contact readings
             try! client.sensorManager.stopBandContactUpdatesErrorRef()
             try! client.sensorManager.startBandContactUpdatesToQueue(nil, withHandler: {
                 (bandContactData:  MSBSensorBandContactData!, error:  NSError!) in
-                print(bandContactData.wornState)
                 switch bandContactData.wornState {
                 case MSBSensorBandContactState.NotWorn:
-                    print("NOT worn")
+                    print("notWorn")
+                    self.timer.invalidate()
+                    self.timer = NSTimer.scheduledTimerWithTimeInterval(delay,
+                        target: self,
+                        selector: #selector(self.startTesting),
+                        userInfo: nil,
+                        repeats: false)
+                    self.firstTime = 1
+                    self.stopSensors()
+                    return
                 case MSBSensorBandContactState.Worn:
                     print("worn")
+                    // Get User Consent for Heart Rate
+                    if client.sensorManager.heartRateUserConsent() == MSBUserConsent.Granted {
+                        // Heart Rate is being captured
+                        self.gatherHeartRate(client)
+                    } else {
+                        self.mainView?.calmleeQuip!.text = "I'm going to need to access your heart rate..."
+                        client.sensorManager.requestHRUserConsentWithCompletion( { (userConsent: Bool, error: NSError!) -> Void in
+                            if userConsent {
+                                self.gatherHeartRate(client)
+                            } else {
+                                self.mainView?.calmleeQuip!.text = "I need you to select \"Yes\" when the prompt comes up the next time"
+                                self.timer = NSTimer.scheduledTimerWithTimeInterval(delay,
+                                    target: self,
+                                    selector: #selector(self.startTesting),
+                                    userInfo: nil,
+                                    repeats: false)
+                            }
+                        })
+                    }
+                    
+                    // Fetch Barometer readings
+                    try! client.sensorManager.startBarometerUpdatesToQueue(nil, withHandler:  {
+                        (barometerData:  MSBSensorBarometerData!, error:  NSError!) in
+                        
+                        let seconds = NSDate().timeIntervalSince1970
+                        let milliseconds = seconds * 1000.0
+                        
+                        self.logToFile(String(format: "3, %0.4f, %0.8f\n",milliseconds,barometerData.temperature))
+                        self.logToFile(String(format: "4, %0.4f, %0.8f\n",milliseconds,barometerData.airPressure))
+                    })
+                    
+                    // Fetch Galvanic Skin Resistance readings
+                    try! client.sensorManager.startGSRUpdatesToQueue(nil, withHandler: {
+                        (skinResistanceData: MSBSensorGSRData!, error: NSError!) in
+                        
+                        let seconds = NSDate().timeIntervalSince1970
+                        let milliseconds = seconds * 1000.0
+                        
+                        self.addToInputs(String("GSR"), value: CGFloat(skinResistanceData.resistance))
+                        
+                        self.logToFile(String(format: "8, %0.4f, %d\n",milliseconds,skinResistanceData.resistance))
+                    })
+                    
+                    // Fetch Distance readings
+                    try! client.sensorManager.startDistanceUpdatesToQueue(nil, withHandler: {
+                        (distanceData:  MSBSensorDistanceData!, error: NSError!) in
+                        
+                        let seconds = NSDate().timeIntervalSince1970
+                        let milliseconds = seconds * 1000.0
+                        
+                        self.logToFile(String(format: "11, %0.4f, %d\n",milliseconds,distanceData.motionType.rawValue))
+                        self.logToFile(String(format: "17, %0.4f, %f\n",milliseconds,distanceData.speed))
+                        self.logToFile(String(format: "18, %0.4f, %f\n",milliseconds,distanceData.pace))
+                    })
+                    
+                    // Fetch Skin Temperature readings
+                    try! client.sensorManager.startSkinTempUpdatesToQueue(nil, withHandler: {
+                        (skinTempData:  MSBSensorSkinTemperatureData!, error: NSError!) in
+                        
+                        let seconds = NSDate().timeIntervalSince1970
+                        let milliseconds = seconds * 1000.0
+                        
+                        self.logToFile(String(format: "14, %0.4f, %0.3f\n",milliseconds,skinTempData.temperature))
+                    })
+                    
+                    //Stop stream updates after <repeatTime> seconds
+                    let repeatTime = 60.0 * Double(NSEC_PER_SEC)
+                    let time = dispatch_time(DISPATCH_TIME_NOW, Int64(repeatTime))
+                    dispatch_after(time, dispatch_get_main_queue(), {
+                        self.stopSensors()
+                        if self.quitTesting == 1 {
+                            self.headerWritten = 0
+                            self.quitTesting = 0
+                        }
+                        self.startTesting()
+                    })
                 case MSBSensorBandContactState.Unknown:
                     print("UNK")
                 default:
                     print("uhoh")
                 }})
             
-            // Fetch Barometer readings
-            try! client.sensorManager.startBarometerUpdatesToQueue(nil, withHandler:  {
-                (barometerData:  MSBSensorBarometerData!, error:  NSError!) in
-                
-                let seconds = NSDate().timeIntervalSince1970
-                let milliseconds = seconds * 1000.0
-                
-                self.logToFile(String(format: "3, %0.4f, %0.8f\n",milliseconds,barometerData.temperature))
-                self.logToFile(String(format: "4, %0.4f, %0.8f\n",milliseconds,barometerData.airPressure))
-            })
-            
-            // Fetch Galvanic Skin Resistance readings
-            try! client.sensorManager.startGSRUpdatesToQueue(nil, withHandler: {
-                (skinResistanceData: MSBSensorGSRData!, error: NSError!) in
-                
-                let seconds = NSDate().timeIntervalSince1970
-                let milliseconds = seconds * 1000.0
-                
-                self.addToInputs(String("GSR"), value: CGFloat(skinResistanceData.resistance))
-                
-                self.logToFile(String(format: "8, %0.4f, %d\n",milliseconds,skinResistanceData.resistance))
-            })
-            
-            // Fetch Distance readings
-            try! client.sensorManager.startDistanceUpdatesToQueue(nil, withHandler: {
-                (distanceData:  MSBSensorDistanceData!, error: NSError!) in
-                
-                let seconds = NSDate().timeIntervalSince1970
-                let milliseconds = seconds * 1000.0
-                
-                self.logToFile(String(format: "11, %0.4f, %d\n",milliseconds,distanceData.motionType.rawValue))
-                self.logToFile(String(format: "17, %0.4f, %f\n",milliseconds,distanceData.speed))
-                self.logToFile(String(format: "18, %0.4f, %f\n",milliseconds,distanceData.pace))
-            })
-            
-            // Fetch Skin Temperature readings
-            try! client.sensorManager.startSkinTempUpdatesToQueue(nil, withHandler: {
-                (skinTempData:  MSBSensorSkinTemperatureData!, error: NSError!) in
-                
-                let seconds = NSDate().timeIntervalSince1970
-                let milliseconds = seconds * 1000.0
-                
-                self.logToFile(String(format: "14, %0.4f, %0.3f\n",milliseconds,skinTempData.temperature))
-            })
-            
-            //Stop stream updates after <repeatTime> seconds
-            let repeatTime = 60.0 * Double(NSEC_PER_SEC)
-            let time = dispatch_time(DISPATCH_TIME_NOW, Int64(repeatTime))
-            dispatch_after(time, dispatch_get_main_queue(), {
-                self.stopSensors()
-                if self.quitTesting == 1 {
-                    self.headerWritten = 0
-                    self.quitTesting = 0
-                }
-                self.startTesting()
-            })
         } else {
             self.timer = NSTimer.scheduledTimerWithTimeInterval(delay,
                                                                 target: self,
@@ -1049,7 +1130,6 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
                 self.cStress_time.append(CGFloat(time))
                 self.cStress_stress_t.append(self.cumulativeStressTime_inPeriod)
 //                self.cumulativeStressTime_weekly += cumulativeStressTime_inPeriod
-                self.cumulativeStressTime_inPeriod = 0
                 
                 // For plotting
                 let calmleeScores_tmp_avg = calmleeScores_tmp_sum / calmleeScores_tmp_cnt
@@ -1065,10 +1145,36 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
                                            avg: calmleeScores_tmp_avg,
                                            min: calmleeScores_tmp_min,
                                            max: calmleeScores_tmp_max)
+                
+                // Update History Values
+                // Update if new day has started
+                if time > self.endOfToday {
+                    // Array re-assignment
+                    self.calmleeScore_yesterday = self.calmleeScore_today
+                    self.calmleeScore_today = []
+                    self.stressYesterday = self.stressToday
+                    self.stressToday = 0.0
+                    
+                    // Value re-assignment
+                    self.startOfYesterday = self.startOfToday
+                    self.endOfYesterday = self.endOfToday
+                    self.startOfToday = NSDate().startOfToday.timeIntervalSince1970
+                    self.endOfToday = NSDate().endOfToday!.timeIntervalSince1970
+                    self.startOfTenDaysAgo = NSDate().startOfTenDaysAgo!.timeIntervalSince1970
+                    
+                    // Reset of 10-day Stress
+                    self.initializeTenDayStress()
+                }
+                // Normal update process
+                self.calmleeScore_today.append(calmleeScores_tmp_avg)
+                self.stressToday += self.cumulativeStressTime_inPeriod
+                
+                // Reset Intermediate Values
                 self.calmleeScores_tmp_sum = 0.0
                 self.calmleeScores_tmp_min = 100.0
                 self.calmleeScores_tmp_max = 0.0
                 self.calmleeScores_tmp_cnt = 0.0
+                self.cumulativeStressTime_inPeriod = 0
             }
             if ((time - self.lastWeeklyFileUpdate) > self.timeBetweenStressUpdates) {
 //                self.cumulativeStressTime_weekly

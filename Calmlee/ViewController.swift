@@ -172,7 +172,7 @@ class ViewController: UIViewController {
             self.lastUpdateTime = NSDate().timeIntervalSince1970
             stressMeter?.stressIndex = actualStress
             stressMeter?.stressIndex_number.text = String(format: "%0.0f",actualStress)
-            stressMeter?.stressIndex_today = delegate!.Sensor.dailyCalmleeScore// Old for average / delegate!.Sensor.measurementsRecorded
+            stressMeter?.stressIndex_today = delegate!.Sensor.stressToday // Old for average / delegate!.Sensor.measurementsRecorded
             updateCalmleeQuip(actualStress)
         }
     }

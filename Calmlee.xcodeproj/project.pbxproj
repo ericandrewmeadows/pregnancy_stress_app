@@ -33,6 +33,7 @@
 		537D387B1D0E069A00749B05 /* RoundedRectangleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537D387A1D0E069A00749B05 /* RoundedRectangleButton.swift */; };
 		5383C43F1D0FE996004836CA /* AudioMeter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5383C43E1D0FE996004836CA /* AudioMeter.swift */; };
 		5383C4411D0FEB52004836CA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5383C4401D0FEB52004836CA /* Main.storyboard */; };
+		5385C7041D19BD1B006C86AD /* HistoricalStressLevelMeters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5385C7031D19BD1B006C86AD /* HistoricalStressLevelMeters.swift */; };
 		538AED9C1CF61A7D00E4A29D /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 538AED9B1CF61A7D00E4A29D /* LoginView.swift */; };
 		538AED9E1CF61E9500E4A29D /* LoginDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 538AED9D1CF61E9500E4A29D /* LoginDetails.swift */; };
 		538AEDA01CF6793000E4A29D /* LoginCommunications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 538AED9F1CF6793000E4A29D /* LoginCommunications.swift */; };
@@ -129,6 +130,7 @@
 		537D387A1D0E069A00749B05 /* RoundedRectangleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedRectangleButton.swift; sourceTree = "<group>"; };
 		5383C43E1D0FE996004836CA /* AudioMeter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioMeter.swift; sourceTree = "<group>"; };
 		5383C4401D0FEB52004836CA /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		5385C7031D19BD1B006C86AD /* HistoricalStressLevelMeters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoricalStressLevelMeters.swift; sourceTree = "<group>"; };
 		538AED9B1CF61A7D00E4A29D /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		538AED9D1CF61E9500E4A29D /* LoginDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginDetails.swift; sourceTree = "<group>"; };
 		538AED9F1CF6793000E4A29D /* LoginCommunications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginCommunications.swift; sourceTree = "<group>"; };
@@ -388,6 +390,7 @@
 			isa = PBXGroup;
 			children = (
 				53B7F92E1CFBB3EA001E07C1 /* HistoricalGraphViewController.swift */,
+				5385C7031D19BD1B006C86AD /* HistoricalStressLevelMeters.swift */,
 			);
 			name = HistoricalGraph;
 			sourceTree = "<group>";
@@ -715,6 +718,7 @@
 			files = (
 				539B8D561CFE3E1A00B93F85 /* MessagingChannelTableViewCell.swift in Sources */,
 				53B7F92F1CFBB3EA001E07C1 /* HistoricalGraphViewController.swift in Sources */,
+				5385C7041D19BD1B006C86AD /* HistoricalStressLevelMeters.swift in Sources */,
 				539B8D401CFE3DEA00B93F85 /* ChatMessageInputView.swift in Sources */,
 				539B8D3E1CFE3DEA00B93F85 /* ChannelListTableView.swift in Sources */,
 				539B8D5A1CFE3E1A00B93F85 /* MessagingMessageTableViewCell.swift in Sources */,
