@@ -233,7 +233,7 @@
                                 </connections>
                             </view>
                             <view contentMode="scaleToFill" id="mEv-Tm-t7z" customClass="LineChartView" customModule="Charts">
-                                <rect key="frame" x="10" y="84" width="300" height="389"/>
+                                <rect key="frame" x="10" y="84" width="300" height="306"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
@@ -244,10 +244,16 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view contentMode="scaleToFill" id="lyn-5y-1aX" customClass="HistoricalStressLevelMeters" customModule="Calmlee" customModuleProvider="target">
+                                <rect key="frame" x="10" y="393" width="300" height="112"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <connections>
+                        <outlet property="historicalStressMeters" destination="lyn-5y-1aX" id="tPz-xI-s2H"/>
                         <outlet property="lineChartView" destination="mEv-Tm-t7z" id="NXt-Ms-sge"/>
                         <outlet property="menuButton" destination="Mqc-uI-LsC" id="4cD-nD-DZs"/>
                         <outlet property="navigationBar" destination="MDN-ca-kqO" id="UNZ-dl-4ij"/>
