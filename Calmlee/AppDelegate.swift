@@ -35,6 +35,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.aM.loadAudio()
         }
         
+        
+        
         // Launch tile onto Band
         Sensor.createTile()
         

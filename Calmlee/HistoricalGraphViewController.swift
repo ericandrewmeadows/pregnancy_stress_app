@@ -43,6 +43,7 @@ class HistoricalGraphViewController: UIViewController, ChartViewDelegate {
     @IBOutlet weak var lineChartView: LineChartView!
     var timer:NSTimer! = NSTimer.init()
     var timeBetweenPlotUpdates:  Double = 5 // Time in seconds
+    var dayToPlot: Int = 0
     
 //    let months = ["Jan" , "Feb", "Mar", "Apr", "May", "June", "July", "August", "Sept", "Oct", "Nov", "Dec"]
     //    let dollars1 = [1453.0,2352,5431,1442,5451,6486,1173,5678,9234,1345,9411,2212]
@@ -53,32 +54,56 @@ class HistoricalGraphViewController: UIViewController, ChartViewDelegate {
     }
     var dollars1: [CGFloat] = []
     
+    @IBAction func changeDays (sender: UIButton!) {
+        self.timer.invalidate()
+        self.timer = nil
+        self.viewDidLoad()
+    }
+    
+    var delay: NSTimeInterval = NSTimeInterval(2)
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("killTimers:"), name:UIApplicationWillResignActiveNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("killTimers:"), name:UIApplicationWillTerminateNotification, object: nil)
-        
-        print(">>>>> Appearing")
-        // Testing
-        
-        self.months = self.delegate!.Sensor.calmleeScores_time
-        self.dollars1 = self.delegate!.Sensor.calmleeScores_avg
-//        self.months = [1.1,2.1,3.1,4.1,5.1,6.1,7.1,8.1]
-//        self.dollars1 = [100,100,95,91,90,89,90,85]
         
         // Do any additional setup after loading the view.
         
         self.width = self.view.frame.size.width
         self.height = self.view.frame.size.height
         
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("killTimers:"), name:UIApplicationWillResignActiveNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("killTimers:"), name:UIApplicationWillTerminateNotification, object: nil)
+        
+        print(">>>>> Appearing")
+        
+        // Load up Historical Stress Section
+        var newFrame = CGRectMake(0, self.height * 16 / 25,
+                                  self.width, self.height * 4 / 25)
+        self.historicalStressMeters!.frame = newFrame
+        self.historicalStressMeters!.stressTodayRatio = (self.delegate?.Sensor.stressToday)! / max_dailyStress
+        self.historicalStressMeters!.stressYesterdayRatio = (self.delegate?.Sensor.stressYesterday)! / max_dailyStress
+        self.historicalStressMeters!.stressTenDayRatio = (self.delegate?.Sensor.stress10Day)! / max_dailyStress
+
+        
+        self.months = self.delegate!.Sensor.calmleeTime_today
+        self.dollars1 = self.delegate!.Sensor.calmleeScore_today
+//        if self.historicalStressMeters!.dayToPlot == 0 {
+//            self.months = self.delegate!.Sensor.calmleeTime_today
+//            self.dollars1 = self.delegate!.Sensor.calmleeScore_today
+//        }
+//        else if self.historicalStressMeters!.dayToPlot == 1 {
+//            self.months = self.delegate!.Sensor.calmleeTime_yesterday
+//            self.dollars1 = self.delegate!.Sensor.calmleeScore_yesterday
+//        }
+//        self.months = [1.1,2.1,3.1,4.1,5.1,6.1,7.1,8.1]
+//        self.dollars1 = [100,100,95,91,90,89,90,85]
+        
         // NavigationBar subview
         let entire_uiview = UIScreen.mainScreen().bounds
-        var newFrame = CGRectMake(0,
-                                  entire_uiview.height * 0.9,
-                                  entire_uiview.width,
-                                  entire_uiview.height * 0.1)
+        newFrame = CGRectMake(0,
+                              entire_uiview.height * 0.9,
+                              entire_uiview.width,
+                              entire_uiview.height * 0.1)
         self.navigationBar!.frame = newFrame
         self.navigationBar!.homePage = 2
         
@@ -104,9 +129,16 @@ class HistoricalGraphViewController: UIViewController, ChartViewDelegate {
         
         // 1
         self.lineChartView.delegate = self
+        // 1.1 - Instigate frame
+        newFrame = CGRectMake(0, self.height / 5, self.width, self.height * 3 / 10)
+        self.lineChartView.frame = newFrame
         // 1.5 - setup axes
+        self.lineChartView.maxVisibleValueCount = 10000
         self.lineChartView.leftAxis.axisMinValue = 0
         self.lineChartView.leftAxis.axisMaxValue = 100
+        self.lineChartView.scaleXEnabled = false
+        self.lineChartView.xAxis.axisMinValue = 0
+        self.lineChartView.xAxis.axisMaxValue = 24*60*60
         self.lineChartView.leftAxis.labelCount = 5
         self.lineChartView.rightAxis.axisMinValue = self.lineChartView.leftAxis.axisMinValue
         self.lineChartView.rightAxis.axisMaxValue = self.lineChartView.leftAxis.axisMaxValue
@@ -124,21 +156,29 @@ class HistoricalGraphViewController: UIViewController, ChartViewDelegate {
         // 5
         setChartData()
         
-        // Load up Historical Stress Section
-        newFrame = CGRectMake(self.height * 16 / 25, 0,
-                              self.width, self.height * 4 / 25)
-        self.historicalStressMeters!.frame = newFrame
-        self.historicalStressMeters!.layer.zPosition = 1
-        
 //        let delay: NSTimeInterval = NSTimeInterval(self.timeBetweenPlotUpdates)
-        let delay: NSTimeInterval = NSTimeInterval(self.delegate!.Sensor.timeBetweenStressUpdates)
-        self.timer = NSTimer.scheduledTimerWithTimeInterval(delay,
-                                                            target: self,
-                                                            selector: #selector(viewDidLoad),
-                                                            userInfo: nil,
-                                                            repeats: true)
+        print("Loaded Stress File \(historicalStressLoaded)")
+        if (self.timer == nil) {
+            if (historicalStressLoaded) {
+                self.delay = NSTimeInterval(self.delegate!.Sensor.timeBetweenStressUpdates / 4)
+            }
+            self.timer = NSTimer.scheduledTimerWithTimeInterval(self.delay,
+                                                                target: self,
+                                                                selector: #selector(viewDidLoad),
+                                                                userInfo: nil,
+                                                                repeats: true)
+        }
+        else if (self.delay == NSTimeInterval(2)) {
+            self.timer.invalidate()
+            self.delay = NSTimeInterval(self.delegate!.Sensor.timeBetweenStressUpdates / 4)
+            self.timer = NSTimer.scheduledTimerWithTimeInterval(self.delay,
+                                                                target: self,
+                                                                selector: #selector(viewDidLoad),
+                                                                userInfo: nil,
+                                                                repeats: true)
+        }
     }
-    
+
     override func viewWillDisappear(animated: Bool) {
         
         killTimers(nil)
@@ -159,7 +199,8 @@ class HistoricalGraphViewController: UIViewController, ChartViewDelegate {
         // 1 - creating an array of data entries
         var yVals1 : [ChartDataEntry] = [ChartDataEntry]()
         for var i = 0; i < self.months.count; i += 1 {
-            yVals1.append(ChartDataEntry(value: Double(self.dollars1[i]), xIndex: i))//Int(self.months[i])))
+            yVals1.append(ChartDataEntry(value: Double(self.dollars1[i]), xIndex: i))
+//            print("Values: \(self.dollars1[i]) : \(self.months[i])")
         }
         
         // 2 - create a data set with our array
@@ -184,11 +225,13 @@ class HistoricalGraphViewController: UIViewController, ChartViewDelegate {
         dataSets.append(set1)
         
         //4 - pass our months in for our x-axis label value along with our dataSets
-        let data: LineChartData = LineChartData(xVals: months, dataSets: dataSets)
-        data.setValueTextColor(UIColor.whiteColor())
+        let data: LineChartData = LineChartData(xVals: self.months.map {("\($0)")}, dataSets: dataSets)
+        data.setValueTextColor(UIColor.clearColor())
         
         //5 - finally set our data
         self.lineChartView.data = data
+        
+        print(self.lineChartView.xAxis.values)
         
         //        self.lineChartView.setNeedsDisplay()
 //        self.view.setNeedsDisplay()

@@ -10,6 +10,9 @@ import Foundation
 import UIKit
 import SwiftCSV
 
+var historicalStressLoaded: Bool = false
+var historicalCalmleeScoreLoaded: Bool = false
+
 infix operator ** { associativity left precedence 170 }
 
 extension NSDate {
@@ -107,6 +110,8 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
     // Historical Graph variables
     var calmleeScore_today: [CGFloat] = []
     var calmleeScore_yesterday: [CGFloat] = []
+    var calmleeTime_today: [CGFloat] = []
+    var calmleeTime_yesterday: [CGFloat] = []
     var stressYesterday: CGFloat = 0.0
     var stressToday: CGFloat = 0.0
     var stress10Day: CGFloat = 0.0
@@ -128,6 +133,8 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
     var currentHR_DR:  CGFloat = 0
     
     // Logging variables
+    var deleteCalmleeScore_rev = 6
+    var deleteStress_rev = 2
     var headerWritten = 0
     var stressHeaderWritten = 0
     var quitTesting = 0
@@ -306,14 +313,14 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
     // Historical Calmlee Score functions
     func readCalmleeScoreFile() {
         print("Reading CalmleeScore File")
-        if let delete: Bool? = self.defaults.integerForKey("deleteData_rev") == 4 {
+        if let delete: Bool? = self.defaults.integerForKey("deleteData_rev") == self.deleteCalmleeScore_rev {
             print("keyExists")
         }
         else {
-            self.defaults.setInteger(3, forKey: "deleteData_rev")
+            self.defaults.setInteger(self.deleteCalmleeScore_rev - 1, forKey: "deleteData_rev")
         }
         if (NSFileManager.defaultManager().fileExistsAtPath(self.camleeScoreHistoryPath)) {
-            if self.defaults.integerForKey("deleteData_rev") == 4 {
+            if self.defaults.integerForKey("deleteData_rev") == self.deleteCalmleeScore_rev {
                 let fileContent = try? NSString(contentsOfFile: self.camleeScoreHistoryPath,
                                                 encoding: NSUTF8StringEncoding)
                 let attr:NSDictionary? = try! NSFileManager.defaultManager().attributesOfItemAtPath(self.camleeScoreHistoryPath)
@@ -336,8 +343,7 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
                 else {
                     loggingString = fileContent! as String
                 }
-                // My loading method
-//                (self.calmleeScores_time,self.calmleeScores_avg,self.calmleeScores_min,self.calmleeScores_max) = self.calmleeScoreCSV_class.convertCSV(loggingString)
+                
                 let csv = try? CSV.init(name: self.camleeScoreHistoryPath)
                 self.calmleeScores_time = (csv!.columns["time"]!).map {
                     CGFloat(($0 as NSString).doubleValue)
@@ -352,24 +358,33 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
                     CGFloat(($0 as NSString).doubleValue)
                 }
                 
+                // Yesterday
                 self.calmleeScore_yesterday = self.dot_valuesBetweenDates(self.calmleeScores_time, minTime: CGFloat(self.startOfYesterday), maxTime: CGFloat(self.endOfYesterday), arrayVariable: self.calmleeScores_avg)
-                self.calmleeScore_today = self.dot_valuesBetweenDates(self.calmleeScores_time, minTime: CGFloat(self.startOfToday), maxTime: CGFloat(self.endOfToday), arrayVariable: self.calmleeScores_avg)
+                self.calmleeTime_yesterday = self.dot_valuesBetweenDates(self.calmleeScores_time, minTime: CGFloat(self.startOfYesterday), maxTime: CGFloat(self.endOfYesterday), arrayVariable: self.calmleeScores_time)
+                self.calmleeTime_yesterday = self.dot_subtract(self.calmleeTime_yesterday, b: [CGFloat](count: self.calmleeTime_today.count, repeatedValue: CGFloat(self.startOfYesterday)))
                 
-                if (Int(24*60*60 / timeBetweenStressUpdates) < (self.cStress_time.count-1)) {
-                    print(self.cStress_time.count)
-                    self.cStress_time = Array(self.cStress_time[Int(24*60*60 / timeBetweenStressUpdates)...self.cStress_time.count-1])
-                    self.cStress_stress_t = Array(self.cStress_stress_t[Int(24*60*60 / timeBetweenStressUpdates)...self.cStress_stress_t.count-1])
+                // Today
+                self.calmleeScore_today = self.dot_valuesBetweenDates(self.calmleeScores_time, minTime: CGFloat(self.startOfToday), maxTime: CGFloat(self.endOfToday), arrayVariable: self.calmleeScores_avg)
+                self.calmleeTime_today = self.dot_valuesBetweenDates(self.calmleeScores_time, minTime: CGFloat(self.startOfToday), maxTime: CGFloat(self.endOfToday), arrayVariable: self.calmleeScores_time)
+                self.calmleeTime_today = self.dot_subtract(self.calmleeTime_today, b: [CGFloat](count: self.calmleeTime_today.count, repeatedValue: CGFloat(self.startOfToday)))
+                
+                if (Int(24*60*60 / timeBetweenStressUpdates) < (self.calmleeScores_time.count-1)) {
+                    print(self.calmleeScores_time.count)
+                    self.calmleeScores_time = Array(self.calmleeScores_time[Int(24*60*60 / timeBetweenStressUpdates)...self.calmleeScores_time.count-1])
+                    self.calmleeScores_avg = Array(self.calmleeScores_avg[Int(24*60*60 / timeBetweenStressUpdates)...self.calmleeScores_avg.count-1])
+                    self.calmleeScores_min = Array(self.calmleeScores_min[Int(24*60*60 / timeBetweenStressUpdates)...self.calmleeScores_min.count-1])
+                    self.calmleeScores_max = Array(self.calmleeScores_max[Int(24*60*60 / timeBetweenStressUpdates)...self.calmleeScores_max.count-1])
                     print(NSDate().timeIntervalSince1970 - time)
-                    print(self.cStress_time.count)
-                    self.writeStressFile(0, initialize: true)
+                    print(self.calmleeScores_time.count)
+                    self.writeCalmleeScoreFile(false, closing: true,
+                                               time: 0, avg: 0, min: 0, max: 0)
                 }
-
                 
                 print("Section 1")
                 print(NSDate().timeIntervalSince1970 - time)
             }
             else {
-                self.defaults.setInteger(4, forKey: "deleteData_rev")
+                self.defaults.setInteger(self.deleteCalmleeScore_rev, forKey: "deleteData_rev")
                 let fileManager = NSFileManager.defaultManager()
                 do {
                     try! fileManager.removeItemAtPath(self.camleeScoreHistoryPath)
@@ -385,19 +400,20 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
             self.writeCalmleeScoreFile(true, closing: false, time: 0, avg: 0, min: 0, max: 0)
             print("File didn't exist...creating...")
         }
+        historicalCalmleeScoreLoaded = true
     }
 
     // Cumulative Stress functions
     func readStressFile() {
         print("Reading Stress File")
-        if let delete: Bool? = self.defaults.integerForKey("deleteStressFile") == 1 {
+        if let delete: Bool? = self.defaults.integerForKey("deleteStressFile") == self.deleteStress_rev {
             print("keyExists")
         }
         else {
-            self.defaults.setInteger(0, forKey: "deleteStressFile")
+            self.defaults.setInteger(self.deleteStress_rev - 1, forKey: "deleteStressFile")
         }
         if (NSFileManager.defaultManager().fileExistsAtPath(self.cumulativeStressPath)) {
-            if self.defaults.integerForKey("deleteStressFile") == 1 {
+            if self.defaults.integerForKey("deleteStressFile") == self.deleteStress_rev {
                 let fileContent = try? NSString(contentsOfFile: self.cumulativeStressPath,
                                                 encoding: NSUTF8StringEncoding)
                 let attr:NSDictionary? = try! NSFileManager.defaultManager().attributesOfItemAtPath(self.cumulativeStressPath)
@@ -419,10 +435,7 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
                 else {
                     loggingString = fileContent! as String
                 }
-                // My loading method
-//                (self.cStress_time,self.cStress_stress_t) = self.stressCSV_class.convertCSV(loggingString)
-                // SwiftCSV method
-//                time = NSDate().timeIntervalSince1970
+                
                 let csv = try? CSV.init(name: self.cumulativeStressPath)
                 self.cStress_time = (csv!.columns["time"]!).map {
                     CGFloat(($0 as NSString).doubleValue)
@@ -449,7 +462,7 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
                 print(NSDate().timeIntervalSince1970 - time)
             }
             else {
-                self.defaults.setInteger(1, forKey: "deleteStressFile")
+                self.defaults.setInteger(self.deleteStress_rev, forKey: "deleteStressFile")
                 let fileManager = NSFileManager.defaultManager()
                 do {
                     try! fileManager.removeItemAtPath(self.cumulativeStressPath)
@@ -465,6 +478,7 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
             self.writeStressFile(0,initialize: true)
             print("Section 3")
         }
+        historicalStressLoaded = true
     }
     
     func dot_cumulativeStress(a: [CGFloat], b_val: CGFloat, c: [CGFloat]) -> CGFloat {
@@ -480,6 +494,7 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
     }
     
     func dot_valuesBetweenDates(timeStamps: [CGFloat], minTime: CGFloat, maxTime: CGFloat, arrayVariable: [CGFloat]) -> [CGFloat] {
+        if arrayVariable == [] { return [] }
         if arrayVariable.count == 0 {return []}
         let mintimeArray = [CGFloat](count: timeStamps.count, repeatedValue: minTime)
         var timeStamps_valid = zip(timeStamps,mintimeArray).map{ ($0 >= $1) }
@@ -492,7 +507,7 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
     }
     
     func initializeTenDayStress() {
-        self.stress10Day = self.dot_valuesBetweenDates(self.cStress_time, minTime: CGFloat(self.startOfTenDaysAgo), maxTime: CGFloat(self.endOfToday), arrayVariable: self.cStress_stress_t).reduce(0, combine: +)
+        self.stress10Day = self.dot_valuesBetweenDates(self.cStress_time, minTime: CGFloat(self.startOfTenDaysAgo), maxTime: CGFloat(self.endOfToday), arrayVariable: self.cStress_stress_t).reduce(0, combine: +) / 10
     }
     
     func initializeTodayStress() {
@@ -525,7 +540,7 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
                                                                        arrayVariable: self.calmleeScores_min)
             self.calmleeScores_time = dot_stressValuesToWrite_uponClose(self.calmleeScores_time,
                                                                         minTime: time - self.cumulativeStressTimeToKeep,
-                                                                        arrayVariable: self.cStress_time)
+                                                                        arrayVariable: self.calmleeScores_time)
             
             if self.calmleeScores_time.count != 0 {
                 for index in 0...(self.calmleeScores_time.count - 1) {
@@ -1151,7 +1166,9 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
                 if time > self.endOfToday {
                     // Array re-assignment
                     self.calmleeScore_yesterday = self.calmleeScore_today
+                    self.calmleeTime_yesterday = self.calmleeTime_today
                     self.calmleeScore_today = []
+                    self.calmleeTime_today = []
                     self.stressYesterday = self.stressToday
                     self.stressToday = 0.0
                     
@@ -1167,6 +1184,7 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
                 }
                 // Normal update process
                 self.calmleeScore_today.append(calmleeScores_tmp_avg)
+                self.calmleeTime_today.append(CGFloat(time) - CGFloat(self.startOfToday))
                 self.stressToday += self.cumulativeStressTime_inPeriod
                 
                 // Reset Intermediate Values
