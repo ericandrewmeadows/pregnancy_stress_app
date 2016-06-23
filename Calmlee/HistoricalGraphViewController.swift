@@ -16,6 +16,7 @@ class HistoricalGraphViewController: UIViewController, ChartViewDelegate {
     //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
     
     @IBOutlet weak var navigationBar:  NavigationBar?
+    @IBOutlet weak var calmleeLogo: UIImageView?
     @IBOutlet weak var historicalStressMeters:  HistoricalStressLevelMeters?
     
     var width:  CGFloat = 0
@@ -44,6 +45,9 @@ class HistoricalGraphViewController: UIViewController, ChartViewDelegate {
     var timer:NSTimer! = NSTimer.init()
     var timeBetweenPlotUpdates:  Double = 5 // Time in seconds
     var dayToPlot: Int = 0
+    var singleMinuteVals: [Int] = []
+    var doubleMinuteVals: [Int] = []
+    var xvals_str: [String] = []
     
 //    let months = ["Jan" , "Feb", "Mar", "Apr", "May", "June", "July", "August", "Sept", "Oct", "Nov", "Dec"]
     //    let dollars1 = [1453.0,2352,5431,1442,5451,6486,1173,5678,9234,1345,9411,2212]
@@ -76,25 +80,30 @@ class HistoricalGraphViewController: UIViewController, ChartViewDelegate {
         
         print(">>>>> Appearing")
         
+        // Calmlee logo
+        let statusBarHeight = UIApplication.sharedApplication().statusBarFrame.size.height
+        var newFrame = CGRectMake(0, statusBarHeight, self.width, self.height / 10 - statusBarHeight)
+        self.calmleeLogo?.frame = newFrame
+        
         // Load up Historical Stress Section
-        var newFrame = CGRectMake(0, self.height * 16 / 25,
-                                  self.width, self.height * 4 / 25)
+        newFrame = CGRectMake(0, self.height * 16 / 25,
+                              self.width, self.height * 4 / 25)
         self.historicalStressMeters!.frame = newFrame
         self.historicalStressMeters!.stressTodayRatio = (self.delegate?.Sensor.stressToday)! / max_dailyStress
         self.historicalStressMeters!.stressYesterdayRatio = (self.delegate?.Sensor.stressYesterday)! / max_dailyStress
         self.historicalStressMeters!.stressTenDayRatio = (self.delegate?.Sensor.stress10Day)! / max_dailyStress
 
         
-        self.months = self.delegate!.Sensor.calmleeTime_today
-        self.dollars1 = self.delegate!.Sensor.calmleeScore_today
-//        if self.historicalStressMeters!.dayToPlot == 0 {
-//            self.months = self.delegate!.Sensor.calmleeTime_today
-//            self.dollars1 = self.delegate!.Sensor.calmleeScore_today
-//        }
-//        else if self.historicalStressMeters!.dayToPlot == 1 {
-//            self.months = self.delegate!.Sensor.calmleeTime_yesterday
-//            self.dollars1 = self.delegate!.Sensor.calmleeScore_yesterday
-//        }
+//        self.months = self.delegate!.Sensor.calmleeTime_today
+//        self.dollars1 = self.delegate!.Sensor.calmleeScore_today
+        if self.historicalStressMeters!.dayToPlot == 0 {
+            self.months = self.delegate!.Sensor.calmleeTime_today
+            self.dollars1 = self.delegate!.Sensor.calmleeScore_today
+        }
+        else if self.historicalStressMeters!.dayToPlot == 1 {
+            self.months = self.delegate!.Sensor.calmleeTime_yesterday
+            self.dollars1 = self.delegate!.Sensor.calmleeScore_yesterday
+        }
 //        self.months = [1.1,2.1,3.1,4.1,5.1,6.1,7.1,8.1]
 //        self.dollars1 = [100,100,95,91,90,89,90,85]
         
@@ -139,12 +148,26 @@ class HistoricalGraphViewController: UIViewController, ChartViewDelegate {
         self.lineChartView.scaleXEnabled = false
         self.lineChartView.xAxis.axisMinValue = 0
         self.lineChartView.xAxis.axisMaxValue = 24*60*60
+//        if self.singleMinuteVals == [] {
+//            for minute in 0..<10 {
+//                self.singleMinuteVals += [Int](count: 60, repeatedValue: minute)
+//            }
+//            for minute in 10..<60 {
+//                self.doubleMinuteVals += [Int](count: 60, repeatedValue: minute)
+//            }
+////            self.singleMinuteVals += 0..<10
+////            self.doubleMinuteVals += 10..<60
+//            for hour in 0..<24 {
+//                self.xvals_str += self.singleMinuteVals.map {("\(hour):0\($0)")}
+//                self.xvals_str += self.doubleMinuteVals.map {("\(hour):\($0)")}
+//            }
+//        }
         self.lineChartView.leftAxis.labelCount = 5
         self.lineChartView.rightAxis.axisMinValue = self.lineChartView.leftAxis.axisMinValue
         self.lineChartView.rightAxis.axisMaxValue = self.lineChartView.leftAxis.axisMaxValue
         self.lineChartView.rightAxis.labelCount = self.lineChartView.leftAxis.labelCount
         // 2
-        self.lineChartView.descriptionText = "Horizontal Zoom = Enabled"
+        self.lineChartView.descriptionText = ""
         // 3
         self.lineChartView.descriptionTextColor = UIColor.blackColor()
         self.lineChartView.gridBackgroundColor = UIColor.darkGrayColor()
@@ -169,11 +192,12 @@ class HistoricalGraphViewController: UIViewController, ChartViewDelegate {
                                                                 repeats: true)
         }
         else if (self.delay == NSTimeInterval(2)) {
+            setChartData()
             self.timer.invalidate()
             self.delay = NSTimeInterval(self.delegate!.Sensor.timeBetweenStressUpdates / 4)
             self.timer = NSTimer.scheduledTimerWithTimeInterval(self.delay,
                                                                 target: self,
-                                                                selector: #selector(viewDidLoad),
+                                                                selector: #selector(setChartData),
                                                                 userInfo: nil,
                                                                 repeats: true)
         }
@@ -199,8 +223,8 @@ class HistoricalGraphViewController: UIViewController, ChartViewDelegate {
         // 1 - creating an array of data entries
         var yVals1 : [ChartDataEntry] = [ChartDataEntry]()
         for var i = 0; i < self.months.count; i += 1 {
-            yVals1.append(ChartDataEntry(value: Double(self.dollars1[i]), xIndex: i))
-//            print("Values: \(self.dollars1[i]) : \(self.months[i])")
+            yVals1.append(ChartDataEntry(value: Double(self.dollars1[i]), xIndex: Int(self.months[i])))
+//            yVals1.append(ChartDataEntry(value: Double(self.dollars1[i]), xIndex: i))
         }
         
         // 2 - create a data set with our array
@@ -225,15 +249,16 @@ class HistoricalGraphViewController: UIViewController, ChartViewDelegate {
         dataSets.append(set1)
         
         //4 - pass our months in for our x-axis label value along with our dataSets
-        let data: LineChartData = LineChartData(xVals: self.months.map {("\($0)")}, dataSets: dataSets)
+        let data: LineChartData = LineChartData(xVals: self.delegate!.histData.xvals_str, dataSets: dataSets)
+//        let data: LineChartData = LineChartData(xVals: self.months.map {("\($0)")}, dataSets: dataSets)
         data.setValueTextColor(UIColor.clearColor())
         
         //5 - finally set our data
         self.lineChartView.data = data
         
-        print(self.lineChartView.xAxis.values)
+//        print(self.lineChartView.xAxis.values)
         
-        //        self.lineChartView.setNeedsDisplay()
+        self.lineChartView.setNeedsDisplay()
 //        self.view.setNeedsDisplay()
     }
     

@@ -56,7 +56,7 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
     var channelUrl = "1f731.feb2017"
     
     // Messaging-specific
-    @IBOutlet weak var messageTableView:  UITableView!
+    @IBOutlet var messageTableView:  UITableView!
     var messagesArray:  [String] = ["Alpha","Beta","c"]
     @IBOutlet weak var messageToSend:  UITextField!
     
@@ -69,7 +69,6 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
                         let message: SendBirdMessage = tempModel as! SendBirdMessage
                         let msgString: String = message.message!
                         let sndString: String = message.getSenderName()
-                        print(msgString)
                     }
                 }
             }
@@ -89,6 +88,49 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
 //    @IBOutlet weak var imageView: UIImageView!
 //    var picker:UIImagePickerController?=UIImagePickerController()
 //    var popover:UIPopoverController?=nil
+    
+    func login() {
+        // Login to SendBird
+        SendBird.sharedInstance().taskQueue.cancelAllOperations()
+        SendBird.loginWithUserId(self.defaults.stringForKey("username")!, andUserName: self.defaults.stringForKey("firstName")!) // UserId is retained over
+        SendBird.joinChannel(self.channelUrl) // Set a channel to join cycles when disconnect is issued; key section is guestId
+        SendBird.queryMessageListInChannel(SendBird.getChannelUrl()).prevWithMessageTs(Int64.max, andLimit: 50, resultBlock: { (queryResult) -> Void in
+            self.messageSet = NSMutableArray(array: queryResult.reverseObjectEnumerator().allObjects).mutableCopy() as? NSMutableArray
+            
+            var maxMessageTs: Int64 = Int64.min
+            for model in queryResult {
+                if model.isKindOfClass(SendBirdMessage) {
+                    let message: SendBirdMessage = model as! SendBirdMessage
+                    //                    let msgString: String = message.message
+                    //                    let msgPicture:String = message.sender.imageUrl
+                    //                    let msgSender:String = message.sender.name
+                    //                    let msgSenderId:Int64 = message.sender.senderId
+                }
+                self.messageArray?.addSendBirdMessage(model as! SendBirdMessageModel, updateMessageTs: self.updateMessageTs)
+                
+                if maxMessageTs < (model as! SendBirdMessageModel).getMessageTimestamp() {
+                    maxMessageTs = (model as! SendBirdMessageModel).getMessageTimestamp()
+                }
+            }
+            
+            if self.messageTableView != nil {
+                self.messageTableView?.reloadData()
+                
+                // Lets user know more messages can be seen via scrolling
+                self.messageTableView.flashScrollIndicators()
+                
+                if self.messageSet?.count > 0 {
+                    self.messageTableView?.scrollToRowAtIndexPath(NSIndexPath.init(forRow: self.messageSet!.count - 1, inSection: 0), atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
+                }
+            }
+            
+            // Load last 50 messages then connect to SendBird.
+            SendBird.connectWithMessageTs(maxMessageTs)
+            //            SendBird.connect()
+            }, endBlock: { (error) -> Void in
+        })
+        self.SendBird_init()
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -131,22 +173,15 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
         
         
         // Login to SendBird
-        //        let id = SendBird.deviceUniqueID()
-        SendBird.sharedInstance().taskQueue.cancelAllOperations()
-        SendBird.loginWithUserId(self.defaults.stringForKey("username")!, andUserName: self.defaults.stringForKey("firstName")!) // UserId is retained over
-        SendBird.joinChannel(self.channelUrl) // Set a channel to join cycles when disconnect is issued; key section is guestId
+//        SendBird.sharedInstance().taskQueue.cancelAllOperations()
+//        SendBird.loginWithUserId(self.defaults.stringForKey("username")!, andUserName: self.defaults.stringForKey("firstName")!) // UserId is retained over
+//        SendBird.joinChannel(self.channelUrl) // Set a channel to join cycles when disconnect is issued; key section is guestId
         
 //        SendBird.loginWithUserName("Jamie", andUserImageUrl: "https://sendbird-upload.s3-ap-northeast-1.amazonaws.com/9768c729191246c7b04369de63ec1f96.jpg")
 //        SendBird.connect()
         
 //        self.initChannelList()
 //        self.loadChannels()
-        
-//        print("ChannelListQuery:")
-//        print(self.channelListQuery)
-//        print("Channels:")
-//        print(self.channels)
-        
         
         SendBird.queryMessageListInChannel(SendBird.getChannelUrl()).prevWithMessageTs(Int64.max, andLimit: 50, resultBlock: { (queryResult) -> Void in
             self.messageSet = NSMutableArray(array: queryResult.reverseObjectEnumerator().allObjects).mutableCopy() as? NSMutableArray
@@ -155,10 +190,10 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
             for model in queryResult {
                 if model.isKindOfClass(SendBirdMessage) {
                     let message: SendBirdMessage = model as! SendBirdMessage
-//                    let msgString: String = message.message
-//                    let msgPicture:String = message.sender.imageUrl
-//                    let msgSender:String = message.sender.name
-//                    let msgSenderId:Int64 = message.sender.senderId
+                    //                    let msgString: String = message.message
+                    //                    let msgPicture:String = message.sender.imageUrl
+                    //                    let msgSender:String = message.sender.name
+                    //                    let msgSenderId:Int64 = message.sender.senderId
                 }
                 self.messageArray?.addSendBirdMessage(model as! SendBirdMessageModel, updateMessageTs: self.updateMessageTs)
                 
@@ -167,24 +202,58 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
                 }
             }
             
-            self.messageTableView?.reloadData()
-            
-            // Lets user know more messages can be seen via scrolling
-            self.messageTableView.flashScrollIndicators()
-            
-            if self.messageSet?.count > 0 {
-                self.messageTableView?.scrollToRowAtIndexPath(NSIndexPath.init(forRow: self.messageSet!.count - 1, inSection: 0), atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
+            if self.messageTableView != nil {
+                self.messageTableView?.reloadData()
+                
+                // Lets user know more messages can be seen via scrolling
+                self.messageTableView.flashScrollIndicators()
+                
+                if self.messageSet?.count > 0 {
+                    self.messageTableView?.scrollToRowAtIndexPath(NSIndexPath.init(forRow: self.messageSet!.count - 1, inSection: 0), atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
+                }
             }
-
             
             // Load last 50 messages then connect to SendBird.
             SendBird.connectWithMessageTs(maxMessageTs)
-//            SendBird.connect()
+            //            SendBird.connect()
             }, endBlock: { (error) -> Void in
         })
-        self.SendBird_init()
+//        SendBird.queryMessageListInChannel(SendBird.getChannelUrl()).prevWithMessageTs(Int64.max, andLimit: 50, resultBlock: { (queryResult) -> Void in
+//            self.messageSet = NSMutableArray(array: queryResult.reverseObjectEnumerator().allObjects).mutableCopy() as? NSMutableArray
+//            
+//            var maxMessageTs: Int64 = Int64.min
+//            for model in queryResult {
+//                if model.isKindOfClass(SendBirdMessage) {
+//                    let message: SendBirdMessage = model as! SendBirdMessage
+////                    let msgString: String = message.message
+////                    let msgPicture:String = message.sender.imageUrl
+////                    let msgSender:String = message.sender.name
+////                    let msgSenderId:Int64 = message.sender.senderId
+//                }
+//                self.messageArray?.addSendBirdMessage(model as! SendBirdMessageModel, updateMessageTs: self.updateMessageTs)
+//                
+//                if maxMessageTs < (model as! SendBirdMessageModel).getMessageTimestamp() {
+//                    maxMessageTs = (model as! SendBirdMessageModel).getMessageTimestamp()
+//                }
+//            }
+//            
+//            self.messageTableView?.reloadData()
+//            
+//            // Lets user know more messages can be seen via scrolling
+//            self.messageTableView.flashScrollIndicators()
+//            
+//            if self.messageSet?.count > 0 {
+//                self.messageTableView?.scrollToRowAtIndexPath(NSIndexPath.init(forRow: self.messageSet!.count - 1, inSection: 0), atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
+//            }
+//
+//            
+//            // Load last 50 messages then connect to SendBird.
+//            SendBird.connectWithMessageTs(maxMessageTs)
+////            SendBird.connect()
+//            }, endBlock: { (error) -> Void in
+//        })
+//        self.SendBird_init()
 //        SendBird.typeStart()
-//        print("alpha5")
 //        let delay: NSTimeInterval = NSTimeInterval(5) // Time until connection retry
 //        self.timer = NSTimer.scheduledTimerWithTimeInterval(delay,
 //                                                            target: self,
@@ -282,7 +351,7 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
     override func viewWillDisappear(animated: Bool) {
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillShowNotification, object: self.view.window)
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillHideNotification, object: self.view.window)
-        SendBird.disconnect()
+//        SendBird.disconnect()
     }
     
     func keyboardWillShow(sender: NSNotification) {
@@ -470,7 +539,6 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
 //        SendBird.sendMessage("TEST3\nTest_line2\nline3", withTempId: messageId)
         SendBird.sendMessage(message)
         SendBird.typeEnd()
-//        print(">>>\nMessage sent")
     }
     
     func initChannelList() {
@@ -498,10 +566,8 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func textFieldShouldReturn(textfield: UITextField) -> Bool {
-        print("return pressed")
         self.scrollToBottomWithReloading(false, force: true, animated: false)
         if (textfield == self.messageToSend) && (textfield.text!.characters.count > 0) {
-            print("message sent")
             let messageId: String = NSUUID.init().UUIDString
             SendBird.sendMessage(textfield.text!, withTempId: messageId)
             textfield.text = nil
@@ -661,8 +727,7 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
 //        imageView.image = imagePicked
 //        var imageToUse: UIImage?
 ////        let imageFileData: NSData = UIImagePNGRepresentation(imagePicked!)!
-//        
-//        print("Uploading...")
+//
 //        
 //        
 //        let editedImage = info[UIImagePickerControllerEditedImage] as? UIImage
@@ -699,17 +764,13 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
 //                            type: "image/png",
 //                            hasSizeOfFile: UInt(imageFileData.length),
 //                            withCustomField: "") { (fileInfo, error) in
-//                                print("Sending...")
 //                                SendBird.sendFile(fileInfo)
-//                                print("Sent")
-//                                print(fileInfo.url)
 //        }
 //        
 //    }
 //    
 //    func imagePickerControllerDidCancel(picker: UIImagePickerController)
 //    {
-//        print("picker cancel.")
 //    }
 
     /*

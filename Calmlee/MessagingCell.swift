@@ -76,7 +76,7 @@ class MessagingCell: UITableViewCell {
     }
     
     override func drawRect(rect: CGRect) {
-        print(self.hiddenEmailField.text)
+//        print(self.hiddenEmailField.text)
         self.width = self.bounds.width
         self.height = self.bounds.height
         

@@ -17,6 +17,7 @@ class MeditationViewController: UIViewController {
     @IBOutlet weak var audioMeter: AudioMeter?//! = AudioMeter()
 
     @IBOutlet var navigationBar:  NavigationBar? =  NavigationBar()
+    @IBOutlet weak var calmleeLogo: UIImageView?
     
     var width:  CGFloat = 0
     var height:  CGFloat = 0
@@ -165,12 +166,17 @@ class MeditationViewController: UIViewController {
         
         self.view.backgroundColor = UIColor.whiteColor()
         
+        // Calmlee logo
+        let statusBarHeight = UIApplication.sharedApplication().statusBarFrame.size.height
+        var newFrame = CGRectMake(0, statusBarHeight, self.width, self.height / 10 - statusBarHeight)
+        self.calmleeLogo?.frame = newFrame
+        
         // NavigationBar subview
         let entire_uiview = UIScreen.mainScreen().bounds
-        var newFrame = CGRectMake(0,
-                                  entire_uiview.height * 0.9,
-                                  entire_uiview.width,
-                                  entire_uiview.height * 0.1)
+        newFrame = CGRectMake(0,
+                              entire_uiview.height * 0.9,
+                              entire_uiview.width,
+                              entire_uiview.height * 0.1)
         self.navigationBar!.frame = newFrame
         
         // Menu Button

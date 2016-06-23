@@ -134,7 +134,7 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
     
     // Logging variables
     var deleteCalmleeScore_rev = 6
-    var deleteStress_rev = 2
+    var deleteStress_rev = 4
     var headerWritten = 0
     var stressHeaderWritten = 0
     var quitTesting = 0
@@ -450,15 +450,16 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
                 self.initializeYesterdayStress()
                 
                 if (Int(24*60*60 / timeBetweenStressUpdates) < (self.cStress_time.count-1)) {
+                    print("Section 1")
                     print(self.cStress_time.count)
                     self.cStress_time = Array(self.cStress_time[Int(24*60*60 / timeBetweenStressUpdates)...self.cStress_time.count-1])
                     self.cStress_stress_t = Array(self.cStress_stress_t[Int(24*60*60 / timeBetweenStressUpdates)...self.cStress_stress_t.count-1])
                     print(NSDate().timeIntervalSince1970 - time)
                     print(self.cStress_time.count)
-                    self.writeStressFile(0, initialize: true)
+                    self.writeStressFile(1, initialize: true)
                 }
                 
-                print("Section 1")
+                print("Section 2")
                 print(NSDate().timeIntervalSince1970 - time)
             }
             else {
@@ -570,10 +571,7 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
         let os:  NSOutputStream = NSOutputStream(toFileAtPath: self.cumulativeStressPath,
                                                  append: initialize == false)!
         os.open()
-        if (initialize == true) {
-            loggingString = "time,stressTime\n"
-        }
-        else if (closing == 1) {
+        if (closing == 1) {
             loggingString = "time,stressTime\n"
             self.cStress_stress_t = dot_stressValuesToWrite_uponClose(self.cStress_time,
                                                                       minTime: CGFloat(time) - self.hourlyStressFileTimeToKeep,
@@ -848,12 +846,12 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
     
     func stopSensors() {
         if let client = self.client {
-            try! client.sensorManager.stopBandContactUpdatesErrorRef()
-            try! client.sensorManager.stopBarometerUpdatesErrorRef()
-            try! client.sensorManager.stopDistanceUpdatesErrorRef()
-            try! client.sensorManager.stopGSRUpdatesErrorRef()
-            try! client.sensorManager.stopHeartRateUpdatesErrorRef()
-            try! client.sensorManager.stopSkinTempUpdatesErrorRef()
+            try? client.sensorManager.stopBandContactUpdatesErrorRef()
+            try? client.sensorManager.stopBarometerUpdatesErrorRef()
+            try? client.sensorManager.stopDistanceUpdatesErrorRef()
+            try? client.sensorManager.stopGSRUpdatesErrorRef()
+            try? client.sensorManager.stopHeartRateUpdatesErrorRef()
+            try? client.sensorManager.stopSkinTempUpdatesErrorRef()
         }
     }
     

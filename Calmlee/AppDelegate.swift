@@ -15,11 +15,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var Sensor: sensorComms! = sensorComms()
     let app_notifications = notifications()
+    var MessageCont:  MessagingViewController! = MessagingViewController()
     var previousPage: Int = 0
     let sQ = serverQuery()
     let aM = AudioMeter()
     let defaults = NSUserDefaults.standardUserDefaults()
     let nav = UINavigationController()
+    let histData = HistoricalGraphData()
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
@@ -33,6 +35,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.Sensor.readStressFile()
             print("--> Loading Audio File")
             self.aM.loadAudio()
+            
+            // Consider moving this  around because of the time to initialize
+            let APP_ID: String = "2857873A-3D5C-46AB-8681-E2C8EB52EA7E"
+            SendBird.initAppId(APP_ID)
+            self.MessageCont.login()
         }
         
         
@@ -44,11 +51,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Sensor.startTesting()
         
 //        Sensor!.determineBandDisconnect()
-        
-        // Consider moving this  around because of the time to initialize
-        let APP_ID: String = "2857873A-3D5C-46AB-8681-E2C8EB52EA7E"
-        SendBird.initAppId(APP_ID)
-        
         if let settings = UIApplication.sharedApplication().currentUserNotificationSettings()
         {
             print(settings.types.contains(.Alert))
@@ -109,10 +111,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          We should send notifications to users that are terminating their app in this manner.
         */
         
-        Sensor!.writeStressFile(1,initialize: false)
+        Sensor!.writeStressFile(1,initialize: true)
         Sensor!.writeCalmleeScoreFile(false, closing: true, time: 0, avg: 0, min: 0, max: 0)
         try! Sensor!.stopSensors()
         Sensor!.sendFile()
+        SendBird.disconnect()
     }
 
 }
