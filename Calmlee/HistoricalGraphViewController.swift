@@ -81,8 +81,8 @@ class HistoricalGraphViewController: UIViewController, ChartViewDelegate {
         print(">>>>> Appearing")
         
         // Calmlee logo
-        let statusBarHeight = UIApplication.sharedApplication().statusBarFrame.size.height
-        var newFrame = CGRectMake(0, statusBarHeight, self.width, self.height / 10 - statusBarHeight)
+        var newFrame = CGRectMake(0, self.height / 30, self.width, self.height / 10)
+        self.calmleeLogo?.frame = newFrame
         self.calmleeLogo?.frame = newFrame
         
         // Load up Historical Stress Section

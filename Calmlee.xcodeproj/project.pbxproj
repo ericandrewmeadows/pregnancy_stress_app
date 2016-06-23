@@ -69,6 +69,7 @@
 		53B7F9251CFBB2BD001E07C1 /* MeditationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53B7F9241CFBB2BD001E07C1 /* MeditationViewController.swift */; };
 		53B7F92D1CFBB3C7001E07C1 /* MessagingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53B7F92C1CFBB3C7001E07C1 /* MessagingViewController.swift */; };
 		53B7F92F1CFBB3EA001E07C1 /* HistoricalGraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53B7F92E1CFBB3EA001E07C1 /* HistoricalGraphViewController.swift */; };
+		53BF15191D1BB8BC007E3615 /* HistoricalGraphData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BF15181D1BB8BC007E3615 /* HistoricalGraphData.swift */; };
 		53EF96BC1D009AC80037A404 /* MessagingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EF96BB1D009AC80037A404 /* MessagingCell.swift */; };
 		53EF96C51D063ECB0037A404 /* serverQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EF96C41D063ECB0037A404 /* serverQuery.swift */; };
 		53EF96C71D06418D0037A404 /* userInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EF96C61D06418D0037A404 /* userInfo.swift */; };
@@ -166,6 +167,7 @@
 		53B7F9241CFBB2BD001E07C1 /* MeditationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeditationViewController.swift; sourceTree = "<group>"; };
 		53B7F92C1CFBB3C7001E07C1 /* MessagingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagingViewController.swift; sourceTree = "<group>"; };
 		53B7F92E1CFBB3EA001E07C1 /* HistoricalGraphViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoricalGraphViewController.swift; sourceTree = "<group>"; };
+		53BF15181D1BB8BC007E3615 /* HistoricalGraphData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoricalGraphData.swift; sourceTree = "<group>"; };
 		53EF96BB1D009AC80037A404 /* MessagingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagingCell.swift; sourceTree = "<group>"; };
 		53EF96C41D063ECB0037A404 /* serverQuery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = serverQuery.swift; sourceTree = "<group>"; };
 		53EF96C61D06418D0037A404 /* userInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = userInfo.swift; sourceTree = "<group>"; };
@@ -391,6 +393,7 @@
 			children = (
 				53B7F92E1CFBB3EA001E07C1 /* HistoricalGraphViewController.swift */,
 				5385C7031D19BD1B006C86AD /* HistoricalStressLevelMeters.swift */,
+				53BF15181D1BB8BC007E3615 /* HistoricalGraphData.swift */,
 			);
 			name = HistoricalGraph;
 			sourceTree = "<group>";
@@ -761,6 +764,7 @@
 				539B8D5D1CFE3E1A00B93F85 /* MessagingSystemMessageTableViewCell.swift in Sources */,
 				53B7F9201CF8D797001E07C1 /* WalkthroughQuipSection.swift in Sources */,
 				539B8D441CFE3DEA00B93F85 /* MessageTableViewCell.swift in Sources */,
+				53BF15191D1BB8BC007E3615 /* HistoricalGraphData.swift in Sources */,
 				53B7F9251CFBB2BD001E07C1 /* MeditationViewController.swift in Sources */,
 				537D38791D0D34BF00749B05 /* GenderRadioButton.swift in Sources */,
 				538AEDA01CF6793000E4A29D /* LoginCommunications.swift in Sources */,

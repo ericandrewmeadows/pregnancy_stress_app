@@ -237,13 +237,6 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Historical Graph" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="t6K-4s-Q0y">
-                                <rect key="frame" x="98" y="49" width="124" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <view contentMode="scaleToFill" id="lyn-5y-1aX" customClass="HistoricalStressLevelMeters" customModule="Calmlee" customModuleProvider="target">
                                 <rect key="frame" x="10" y="393" width="300" height="112"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -285,10 +278,15 @@
                                     <outlet property="yesterdayButton" destination="3C3-gt-3ld" id="nSE-0u-Kpc"/>
                                 </connections>
                             </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo" id="erd-4y-azU">
+                                <rect key="frame" x="118" y="20" width="84" height="41"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <connections>
+                        <outlet property="calmleeLogo" destination="erd-4y-azU" id="WBY-xD-eRg"/>
                         <outlet property="historicalStressMeters" destination="lyn-5y-1aX" id="tPz-xI-s2H"/>
                         <outlet property="lineChartView" destination="mEv-Tm-t7z" id="NXt-Ms-sge"/>
                         <outlet property="menuButton" destination="Mqc-uI-LsC" id="4cD-nD-DZs"/>
@@ -900,11 +898,16 @@ mins</string>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo" id="7Rd-zR-bfs">
+                                <rect key="frame" x="118" y="20" width="84" height="41"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <connections>
                         <outlet property="audioMeter" destination="r4G-RN-jNq" id="8Uv-uU-idT"/>
+                        <outlet property="calmleeLogo" destination="7Rd-zR-bfs" id="2Yi-Ld-paw"/>
                         <outlet property="menuButton" destination="wZ1-vu-WDY" id="mRy-fm-R7b"/>
                         <outlet property="navigationBar" destination="KU6-O8-0GW" id="1EE-Tg-hJV"/>
                         <outlet property="timeLabel" destination="bf2-Fp-zea" id="u36-zC-2g2"/>
@@ -1102,10 +1105,10 @@ mins</string>
         <image name="warningIcon" width="72" height="64"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="bSv-3Z-fdS"/>
-        <segue reference="znj-tc-EOv"/>
-        <segue reference="GQI-Lk-gJ9"/>
-        <segue reference="DuW-Nf-yCj"/>
-        <segue reference="99C-Ug-Gc5"/>
+        <segue reference="5tf-Jq-c8G"/>
+        <segue reference="pR1-t5-bxJ"/>
+        <segue reference="lGP-YS-nFX"/>
+        <segue reference="9hP-Ua-RRU"/>
+        <segue reference="SqM-Jm-HkB"/>
     </inferredMetricsTieBreakers>
 </document>
