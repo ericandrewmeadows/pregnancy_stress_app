@@ -13,7 +13,7 @@ import SendBirdSDK
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var Sensor: sensorComms! = sensorComms()
+    var Sensor: sensorComms?
     let app_notifications = notifications()
     var MessageCont:  MessagingViewController! = MessagingViewController()
     var previousPage: Int = 0
@@ -21,18 +21,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let aM = AudioMeter()
     let defaults = NSUserDefaults.standardUserDefaults()
     let nav = UINavigationController()
-    let histData = HistoricalGraphData()
+    var histData: HistoricalGraphData?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        
+        self.histData = HistoricalGraphData()
+        self.Sensor = sensorComms()
         
         // Reads historical stress from existing storage.  Async due to read-time.
         let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
         dispatch_async(dispatch_get_global_queue(priority, 0)) {
             print("--> Reading CalmleeScore File")
-            self.Sensor.readCalmleeScoreFile()
+            self.Sensor!.readCalmleeScoreFile()
             print("--> Reading Stress File")
-            self.Sensor.readStressFile()
+            self.Sensor!.readStressFile()
             print("--> Loading Audio File")
             self.aM.loadAudio()
             
@@ -45,10 +48,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
         // Launch tile onto Band
-        Sensor.createTile()
+        Sensor!.createTile()
         
-        Sensor.start()
-        Sensor.startTesting()
+        Sensor!.start()
+        Sensor!.startTesting()
         
 //        Sensor!.determineBandDisconnect()
         if let settings = UIApplication.sharedApplication().currentUserNotificationSettings()
@@ -77,7 +80,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
         case "Incorrect":
             print("Incorrect selected")
-            Sensor.reportIncorrectStress(nil)
+            Sensor!.reportIncorrectStress(nil)
         default:
             print("Meditate selected")
         }
@@ -87,6 +90,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+        print("End1")
     }
 
     func applicationDidEnterBackground(application: UIApplication) {
@@ -94,14 +98,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         
         self.window?.endEditing(true)
+        print("End2")
     }
 
     func applicationWillEnterForeground(application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+        print("Start1")
     }
 
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        print("Start2")
     }
 
     func applicationWillTerminate(application: UIApplication) {
@@ -116,6 +123,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         try! Sensor!.stopSensors()
         Sensor!.sendFile()
         SendBird.disconnect()
+        print("End3")
     }
 
 }

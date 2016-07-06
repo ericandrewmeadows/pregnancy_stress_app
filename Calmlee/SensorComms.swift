@@ -49,6 +49,9 @@ func ** (num: CGFloat, power: CGFloat) -> CGFloat{
 }
 
 class sensorComms: NSObject, MSBClientManagerDelegate {
+    
+    // App Delegate
+    let delegate = UIApplication.sharedApplication().delegate as? AppDelegate
 
     // User defaults
     let defaults = NSUserDefaults.standardUserDefaults()
@@ -312,6 +315,11 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
     
     // Historical Calmlee Score functions
     func readCalmleeScoreFile() {
+        print("SOT:  \(self.startOfToday)")
+        print("EOT:  \(self.endOfToday)\n")
+        print("SOY:  \(self.startOfYesterday)")
+        print("EOY:  \(self.endOfYesterday)\n")
+        
         print("Reading CalmleeScore File")
         if let delete: Bool? = self.defaults.integerForKey("deleteData_rev") == self.deleteCalmleeScore_rev {
             print("keyExists")
@@ -360,13 +368,16 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
                 
                 // Yesterday
                 self.calmleeScore_yesterday = self.dot_valuesBetweenDates(self.calmleeScores_time, minTime: CGFloat(self.startOfYesterday), maxTime: CGFloat(self.endOfYesterday), arrayVariable: self.calmleeScores_avg)
+                print("Rabbit - 1a: \(self.calmleeScore_yesterday.count)")
                 self.calmleeTime_yesterday = self.dot_valuesBetweenDates(self.calmleeScores_time, minTime: CGFloat(self.startOfYesterday), maxTime: CGFloat(self.endOfYesterday), arrayVariable: self.calmleeScores_time)
-                self.calmleeTime_yesterday = self.dot_subtract(self.calmleeTime_yesterday, b: [CGFloat](count: self.calmleeTime_today.count, repeatedValue: CGFloat(self.startOfYesterday)))
+                self.calmleeTime_yesterday = self.dot_subtract(self.calmleeTime_yesterday, b: [CGFloat](count: self.calmleeTime_yesterday.count, repeatedValue: CGFloat(self.startOfYesterday)))
+                self.delegate!.histData!.prepGraphData_yesterday()
                 
                 // Today
                 self.calmleeScore_today = self.dot_valuesBetweenDates(self.calmleeScores_time, minTime: CGFloat(self.startOfToday), maxTime: CGFloat(self.endOfToday), arrayVariable: self.calmleeScores_avg)
                 self.calmleeTime_today = self.dot_valuesBetweenDates(self.calmleeScores_time, minTime: CGFloat(self.startOfToday), maxTime: CGFloat(self.endOfToday), arrayVariable: self.calmleeScores_time)
                 self.calmleeTime_today = self.dot_subtract(self.calmleeTime_today, b: [CGFloat](count: self.calmleeTime_today.count, repeatedValue: CGFloat(self.startOfToday)))
+                self.delegate!.histData!.prepGraphData_today()
                 
                 if (Int(24*60*60 / timeBetweenStressUpdates) < (self.calmleeScores_time.count-1)) {
                     print(self.calmleeScores_time.count)
@@ -1164,7 +1175,9 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
                 if time > self.endOfToday {
                     // Array re-assignment
                     self.calmleeScore_yesterday = self.calmleeScore_today
+                    print("Rabbit - 1b: \(self.calmleeScore_yesterday.count)")
                     self.calmleeTime_yesterday = self.calmleeTime_today
+                    self.delegate!.histData!.yVals_yesterday = self.delegate!.histData!.yVals_today
                     self.calmleeScore_today = []
                     self.calmleeTime_today = []
                     self.stressYesterday = self.stressToday
@@ -1182,7 +1195,9 @@ class sensorComms: NSObject, MSBClientManagerDelegate {
                 }
                 // Normal update process
                 self.calmleeScore_today.append(calmleeScores_tmp_avg)
-                self.calmleeTime_today.append(CGFloat(time) - CGFloat(self.startOfToday))
+                let timeValue = CGFloat(time) - CGFloat(self.startOfToday)
+                self.calmleeTime_today.append(timeValue)
+                self.delegate!.histData!.appendData_today(calmleeScores_tmp_avg, time: timeValue)
                 self.stressToday += self.cumulativeStressTime_inPeriod
                 
                 // Reset Intermediate Values

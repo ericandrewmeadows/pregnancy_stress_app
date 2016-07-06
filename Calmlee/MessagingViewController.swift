@@ -58,7 +58,7 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
     // Messaging-specific
     @IBOutlet var messageTableView:  UITableView!
     var messagesArray:  [String] = ["Alpha","Beta","c"]
-    @IBOutlet weak var messageToSend:  UITextField!
+    @IBOutlet var messageToSend:  UITextField!
     
     @IBAction func handleLongPress(sender: UILongPressGestureRecognizer?) {
         if sender!.state == UIGestureRecognizerState.Began {
@@ -91,50 +91,52 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func login() {
         // Login to SendBird
-        SendBird.sharedInstance().taskQueue.cancelAllOperations()
-        SendBird.loginWithUserId(self.defaults.stringForKey("username")!, andUserName: self.defaults.stringForKey("firstName")!) // UserId is retained over
-        SendBird.joinChannel(self.channelUrl) // Set a channel to join cycles when disconnect is issued; key section is guestId
-        SendBird.queryMessageListInChannel(SendBird.getChannelUrl()).prevWithMessageTs(Int64.max, andLimit: 50, resultBlock: { (queryResult) -> Void in
-            self.messageSet = NSMutableArray(array: queryResult.reverseObjectEnumerator().allObjects).mutableCopy() as? NSMutableArray
-            
-            var maxMessageTs: Int64 = Int64.min
-            for model in queryResult {
-                if model.isKindOfClass(SendBirdMessage) {
-                    let message: SendBirdMessage = model as! SendBirdMessage
-                    //                    let msgString: String = message.message
-                    //                    let msgPicture:String = message.sender.imageUrl
-                    //                    let msgSender:String = message.sender.name
-                    //                    let msgSenderId:Int64 = message.sender.senderId
-                }
-                self.messageArray?.addSendBirdMessage(model as! SendBirdMessageModel, updateMessageTs: self.updateMessageTs)
+        if (self.defaults.stringForKey("username") != nil) && (defaults.stringForKey("firstName") != nil) {
+            SendBird.sharedInstance().taskQueue.cancelAllOperations()
+            SendBird.loginWithUserId(self.defaults.stringForKey("username")!, andUserName: self.defaults.stringForKey("firstName")!) // UserId is retained over
+            SendBird.joinChannel(self.channelUrl) // Set a channel to join cycles when disconnect is issued; key section is guestId
+            SendBird.queryMessageListInChannel(SendBird.getChannelUrl()).prevWithMessageTs(Int64.max, andLimit: 50, resultBlock: { (queryResult) -> Void in
+                self.messageSet = NSMutableArray(array: queryResult.reverseObjectEnumerator().allObjects).mutableCopy() as? NSMutableArray
                 
-                if maxMessageTs < (model as! SendBirdMessageModel).getMessageTimestamp() {
-                    maxMessageTs = (model as! SendBirdMessageModel).getMessageTimestamp()
+                var maxMessageTs: Int64 = Int64.min
+                for model in queryResult {
+                    if model.isKindOfClass(SendBirdMessage) {
+                        let message: SendBirdMessage = model as! SendBirdMessage
+                        //                    let msgString: String = message.message
+                        //                    let msgPicture:String = message.sender.imageUrl
+                        //                    let msgSender:String = message.sender.name
+                        //                    let msgSenderId:Int64 = message.sender.senderId
+                    }
+                    self.messageArray?.addSendBirdMessage(model as! SendBirdMessageModel, updateMessageTs: self.updateMessageTs)
+                    
+                    if maxMessageTs < (model as! SendBirdMessageModel).getMessageTimestamp() {
+                        maxMessageTs = (model as! SendBirdMessageModel).getMessageTimestamp()
+                    }
                 }
-            }
-            
-            if self.messageTableView != nil {
-                self.messageTableView?.reloadData()
                 
-                // Lets user know more messages can be seen via scrolling
-                self.messageTableView.flashScrollIndicators()
-                
-                if self.messageSet?.count > 0 {
-                    self.messageTableView?.scrollToRowAtIndexPath(NSIndexPath.init(forRow: self.messageSet!.count - 1, inSection: 0), atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
+                if self.messageTableView != nil {
+                    self.messageTableView?.reloadData()
+                    
+                    // Lets user know more messages can be seen via scrolling
+                    self.messageTableView.flashScrollIndicators()
+                    
+                    if self.messageSet?.count > 0 {
+                        self.messageTableView?.scrollToRowAtIndexPath(NSIndexPath.init(forRow: self.messageSet!.count - 1, inSection: 0), atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
+                    }
                 }
-            }
-            
-            // Load last 50 messages then connect to SendBird.
-            SendBird.connectWithMessageTs(maxMessageTs)
-            //            SendBird.connect()
-            }, endBlock: { (error) -> Void in
-        })
-        self.SendBird_init()
+                
+                // Load last 50 messages then connect to SendBird.
+                SendBird.connectWithMessageTs(maxMessageTs)
+                //            SendBird.connect()
+                }, endBlock: { (error) -> Void in
+            })
+        }
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.SendBird_init()
         // Do any additional setup after loading the view.
         
         self.width = self.view.frame.size.width
@@ -310,7 +312,35 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
         // Keyboard show and Hide functions
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MessagingViewController.keyboardWillShow(_:)), name:UIKeyboardWillShowNotification, object: self.view.window)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MessagingViewController.keyboardWillHide(_:)), name:UIKeyboardWillHideNotification, object: self.view.window)
+//        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("goToBackground"), name:UIApplicationWillResignActiveNotification, object: nil)
+//        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("killAll"), name:UIApplicationWillTerminateNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("reloadView:"), name:UIApplicationWillEnterForegroundNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("reloadView:"), name:UIApplicationDidBecomeActiveNotification, object: nil)
     }
+    
+//    func goToBackground(sender: NSNotification?) {
+//        print("<<<<< Disappearing")
+//        if self.timer != nil {
+//            self.timer.invalidate()
+//            self.timer = NSTimer()
+//        }
+//        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationWillResignActiveNotification, object: nil)
+//    }
+//    
+//    func killAll(sender: NSNotification?) {
+//        self.goToBackground(nil)
+//        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationWillTerminateNotification, object: nil)
+//        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationWillEnterForegroundNotification, object: nil)
+//    }
+    
+    func reloadView(sender: NSNotification?) {
+        self.viewDidLoad()
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationWillResignActiveNotification, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationWillTerminateNotification, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationWillEnterForegroundNotification, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationDidBecomeActiveNotification, object: nil)
+    }
+
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -351,6 +381,7 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
     override func viewWillDisappear(animated: Bool) {
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillShowNotification, object: self.view.window)
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillHideNotification, object: self.view.window)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name:UIApplicationWillEnterForegroundNotification, object: nil)
 //        SendBird.disconnect()
     }
     
@@ -428,6 +459,7 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
                 cell.timeLabel!.hidden = true
                 cell.hiddenEmailField!.hidden = true
                 cell.senderLabel!.hidden = false
+                cell.sizeToFit()
             }
         }
         

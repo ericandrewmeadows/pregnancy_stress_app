@@ -63,7 +63,7 @@ class ViewController: UIViewController {
     var destinationPath: String! = NSTemporaryDirectory() + "tempSensorDump.txt"
     
     // Timer elements
-    var timer:NSTimer! = NSTimer.init()
+    var timer: NSTimer?
     
     // Navigation elements
     // Background Images
@@ -86,8 +86,11 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("killTimers:"), name:UIApplicationWillResignActiveNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("killTimers:"), name:UIApplicationWillTerminateNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("goToBackground:"), name:UIApplicationWillResignActiveNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("killAll:"), name:UIApplicationWillTerminateNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("reloadView:"), name:UIApplicationWillEnterForegroundNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("reloadView:"), name:UIApplicationDidBecomeActiveNotification, object: nil)
+
         
         // Do any additional setup after loading the view, typically from a nib.
         self.width = self.view.frame.size.width
@@ -132,47 +135,63 @@ class ViewController: UIViewController {
         self.navigationBar!.hG_button.setImage(self.hG_desel, forState: .Normal)
         self.navigationBar!.hG_button.setImage(self.hG_sel, forState: .Highlighted)
         
-        let actualStress = delegate!.Sensor.calmleeScore
+        let actualStress = delegate!.Sensor!.calmleeScore
         stressMeter?.stressIndex = actualStress
         stressMeter?.stressIndex_number.text = String(format: "%0.0f",actualStress)
         updateCalmleeQuip(actualStress)
 
         
         let delay: NSTimeInterval = NSTimeInterval(timeBetweenUpdates)
-        self.timer = NSTimer.scheduledTimerWithTimeInterval(delay,
-                                                            target: self,
-                                                            selector: #selector(self.updateStressMeter),
-                                                            userInfo: nil,
-                                                            repeats: true)
+        if self.timer == nil {
+            self.timer = NSTimer.scheduledTimerWithTimeInterval(delay,
+                                                                target: self,
+                                                                selector: #selector(self.updateStressMeter),
+                                                                userInfo: nil,
+                                                                repeats: true)
+        }
     }
     
     override func viewWillDisappear(animated: Bool) {
-        killTimers(nil)
+//        killTimers(nil)
     }
     
-    func killTimers(sender: NSNotification?) {
+    func goToBackground(sender: NSNotification?) {
         print("<<<<< Disappearing")
         if self.timer != nil {
-            self.timer.invalidate()
-            self.timer = NSTimer()
+            self.timer!.invalidate()
+            self.timer = nil
         }
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationWillResignActiveNotification, object: nil)
+    }
+    
+    func killAll(sender: NSNotification?) {
+        self.goToBackground(nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationWillTerminateNotification, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationWillEnterForegroundNotification, object: nil)
+    }
+    
+    func reloadView(sender: NSNotification?) {
+        self.viewDidLoad()
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationWillResignActiveNotification, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationWillTerminateNotification, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationWillEnterForegroundNotification, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationDidBecomeActiveNotification, object: nil)
     }
 
     
     @IBAction func sendData(sender: UIButton!) {
-        delegate!.Sensor.reportIncorrectStress(sender)
+        delegate!.Sensor!.reportIncorrectStress(sender)
     }
 
     func updateStressMeter() {
 //        stressMeter?.stressIndex_today += 0.1 // Replace with  "= delegate!.Sensor.dailyCalmleeScore"
-        let actualStress = delegate!.Sensor.calmleeScore
+        let actualStress = delegate!.Sensor!.calmleeScore
         let time = NSDate().timeIntervalSince1970
         if ((time - self.lastUpdateTime) > self.timeBetweenUpdates) {
             self.lastUpdateTime = NSDate().timeIntervalSince1970
             stressMeter?.stressIndex = actualStress
             stressMeter?.stressIndex_number.text = String(format: "%0.0f",actualStress)
-            stressMeter?.stressIndex_today = delegate!.Sensor.stressToday // Old for average / delegate!.Sensor.measurementsRecorded
+            stressMeter?.stressIndex_today = delegate!.Sensor!.stressToday // Old for average / delegate!.Sensor.measurementsRecorded
             updateCalmleeQuip(actualStress)
         }
     }

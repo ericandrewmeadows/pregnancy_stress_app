@@ -10,6 +10,8 @@ import UIKit
 
 @IBDesignable class LoginView: UIViewController, UITextFieldDelegate {
     
+    let delegate = UIApplication.sharedApplication().delegate as? AppDelegate
+    
     @IBOutlet weak var calmleeLogo: UIImageView?
     @IBOutlet weak var loginDetails: LoginDetails?
     weak var loginInfo:  loginCommunications?
@@ -97,6 +99,10 @@ import UIKit
         self.passWord = getPassword()
         print(proceed)
         if proceed {
+            let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+            dispatch_async(dispatch_get_global_queue(priority, 0)) {
+                self.delegate!.MessageCont.login()
+            }
             self.goTo_calmleeScore(nil)
         }
     }

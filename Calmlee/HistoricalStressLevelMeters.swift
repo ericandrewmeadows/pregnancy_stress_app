@@ -20,19 +20,6 @@ class HistoricalStressLevelMeters: UIView {
     @IBOutlet weak var todayButton:  UIButton!
     @IBOutlet weak var yesterdayButton:  UIButton!
     @IBOutlet weak var tenDayButton:  UIButton!
-    var dayToPlot:  Int = 0
-    
-    @IBAction func changePlotDay(sender: UIButton) {
-        switch sender {
-        case todayButton:
-            self.dayToPlot = 0
-        case yesterdayButton:
-            self.dayToPlot = 1
-        default:
-            print("uh oh")
-        }
-    
-    }
     
     var stressTodayRatio:  CGFloat = 0.0 {
         didSet {
@@ -53,6 +40,10 @@ class HistoricalStressLevelMeters: UIView {
     }
 
     override func drawRect(rect: CGRect) {
+        
+        self.layer.borderWidth = 1
+        self.layer.borderColor = UIColor.whiteColor().CGColor
+
         let entire_uiview = UIScreen.mainScreen().bounds
         
         print("TodayStart:  \(entire_uiview.width * 6 / 15)")
@@ -73,6 +64,11 @@ class HistoricalStressLevelMeters: UIView {
         todayBackground.lineCapStyle = CGLineCap.Round
         self.stressMeter_background.setStroke()
         todayBackground.stroke()
+        // Button
+        self.todayButton!.titleLabel!.font = UIFont(name: "Avenir Book",
+                                                    size: entire_uiview.height / 40)!
+        var newFrame = CGRectMake(entire_uiview.width * 7 / 75, vertAnchor1 - entire_uiview.height / 80, entire_uiview.width * (1 / 3 - 7 / 75), entire_uiview.height / 40)
+        self.todayButton.frame = newFrame
         
         // Actual Stress
         let todayStress = UIBezierPath()
@@ -97,6 +93,8 @@ class HistoricalStressLevelMeters: UIView {
         yesterdayBackground.lineCapStyle = CGLineCap.Round
         self.stressMeter_background.setStroke()
         yesterdayBackground.stroke()
+        newFrame = CGRectMake(entire_uiview.width * 7 / 75, vertAnchor2 - entire_uiview.height / 80, entire_uiview.width * (1 / 3 - 7 / 75), entire_uiview.height / 40)
+        self.yesterdayButton.frame = newFrame
         
         // Actual Stress
         let yesterdayStress = UIBezierPath()
@@ -121,6 +119,8 @@ class HistoricalStressLevelMeters: UIView {
         tenDayBackground.lineCapStyle = CGLineCap.Round
         self.stressMeter_background.setStroke()
         tenDayBackground.stroke()
+        newFrame = CGRectMake(entire_uiview.width * 7 / 75, vertAnchor3 - entire_uiview.height / 80, entire_uiview.width * (1 / 3 - 7 / 75), entire_uiview.height / 40)
+        self.tenDayButton.frame = newFrame
         
         // Actual Stress
         let tenDayStress = UIBezierPath()

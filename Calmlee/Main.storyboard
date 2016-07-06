@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="x1s-Ka-1iZ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="mtR-ns-gdC">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -241,33 +241,34 @@
                                 <rect key="frame" x="10" y="393" width="300" height="112"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Ckl-ua-TJS">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Ckl-ua-TJS">
                                         <rect key="frame" x="34" y="5" width="66" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
                                         <state key="normal" title="Today">
                                             <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
                                             <action selector="changeDays:" destination="x1s-Ka-1iZ" eventType="touchUpInside" id="2Ii-5O-d14"/>
-                                            <action selector="changePlotDay:" destination="lyn-5y-1aX" eventType="touchUpInside" id="ey6-7X-f5Z"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="AyC-sd-Nbk">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="AyC-sd-Nbk">
                                         <rect key="frame" x="34" y="77" width="66" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
                                         <state key="normal" title="10-Day">
                                             <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="3C3-gt-3ld">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="3C3-gt-3ld">
                                         <rect key="frame" x="33" y="41" width="68" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
                                         <state key="normal" title="Yesterday">
                                             <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
                                             <action selector="changeDays:" destination="x1s-Ka-1iZ" eventType="touchUpInside" id="BPt-RG-l7c"/>
-                                            <action selector="changePlotDay:" destination="lyn-5y-1aX" eventType="touchUpInside" id="pKc-2s-VhK"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -932,7 +933,7 @@ mins</string>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="owX-VA-SpL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-702.93333333333328" y="39.759999999999998"/>
+            <point key="canvasLocation" x="-1071" y="-305"/>
         </scene>
         <!--Login View-->
         <scene sceneID="4m9-t9-nYf">
@@ -1029,7 +1030,7 @@ mins</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4tm-ed-eW2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-309" y="404"/>
+            <point key="canvasLocation" x="-677" y="276"/>
         </scene>
         <!--Walkthrough View Controller-->
         <scene sceneID="eYA-sh-GUm">
@@ -1089,7 +1090,7 @@ mins</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ivn-eS-ude" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-308.80000000000001" y="1034.7066666666667"/>
+            <point key="canvasLocation" x="-677" y="914"/>
         </scene>
     </scenes>
     <resources>
@@ -1105,10 +1106,10 @@ mins</string>
         <image name="warningIcon" width="72" height="64"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="5tf-Jq-c8G"/>
-        <segue reference="pR1-t5-bxJ"/>
-        <segue reference="lGP-YS-nFX"/>
-        <segue reference="9hP-Ua-RRU"/>
-        <segue reference="SqM-Jm-HkB"/>
+        <segue reference="mk2-Uc-6M5"/>
+        <segue reference="vbA-wz-vPb"/>
+        <segue reference="DuW-Nf-yCj"/>
+        <segue reference="bSv-3Z-fdS"/>
+        <segue reference="99C-Ug-Gc5"/>
     </inferredMetricsTieBreakers>
 </document>

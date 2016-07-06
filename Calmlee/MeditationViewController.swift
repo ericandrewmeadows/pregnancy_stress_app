@@ -43,7 +43,7 @@ class MeditationViewController: UIViewController {
     // Media Player elements
     var audioPlayer: AVAudioPlayer?
     var isPlaying = false
-    var timer:NSTimer! = NSTimer.init()
+    var timer: NSTimer?
     var playTimer = NSTimer()
     var updateTimer = NSTimer()
     @IBOutlet var timeLabel:  UILabel?
@@ -112,17 +112,32 @@ class MeditationViewController: UIViewController {
     }
     
     override func viewWillDisappear(animated: Bool) {
-        killTimers(nil)
+//        killTimers(nil)
     }
     
-    func killTimers(sender: NSNotification?) {
+    func goToBackground(sender: NSNotification?) {
         print("<<<<< Disappearing")
         if self.timer != nil {
-            self.timer.invalidate()
+            self.timer!.invalidate()
             self.timer = NSTimer()
         }
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationWillResignActiveNotification, object: nil)
     }
+    
+    func killAll(sender: NSNotification?) {
+        self.goToBackground(nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationWillTerminateNotification, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationWillEnterForegroundNotification, object: nil)
+    }
+    
+    func reloadView(sender: NSNotification?) {
+        self.viewDidLoad()
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationWillResignActiveNotification, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationWillTerminateNotification, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationWillEnterForegroundNotification, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationDidBecomeActiveNotification, object: nil)
+    }
+
     
 //    override func viewWillDisappear(animated: Bool) {
 //        self.updateTimer.invalidate()
@@ -157,8 +172,11 @@ class MeditationViewController: UIViewController {
         super.viewDidLoad()
         
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("killTimers:"), name:UIApplicationWillResignActiveNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("killTimers:"), name:UIApplicationWillTerminateNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("goToBackground:"), name:UIApplicationWillResignActiveNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("killAll:"), name:UIApplicationWillTerminateNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("reloadView:"), name:UIApplicationWillEnterForegroundNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("reloadView:"), name:UIApplicationDidBecomeActiveNotification, object: nil)
+
         
         // Do any additional setup after loading the view.
         self.width = self.view.frame.size.width
